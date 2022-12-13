@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for file in files %}
+            <a href="files/{{file.files}}">{{file.files}}</a><br>
+    {% endfor %}
+    <form action="{% url 'processo:upload' %}" method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <input type="file" name="file" id="">
+        <input type="file" name="file1" id="">
+
+        <input type="text" name="nome">
+        <button type="submit">Enviar</button>
+
+    </form>
+    
+</body>
+</html>
