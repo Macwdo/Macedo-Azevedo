@@ -1,16 +1,12 @@
 from django.urls import path
-from .views import indexview, postfiles
-from django.conf import settings
-from django.conf.urls.static import static
+from .views import criarprocesso
+
 
 app_name = "processo"
 
 urlpatterns = [
-    path('', indexview.as_view(), name="home"),
-    path('upload/', postfiles, name="upload"),
-
+    path("criar/", criarprocesso, name="Criando")
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

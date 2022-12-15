@@ -1,7 +1,10 @@
 from django.contrib import admin
-from .models import ArquivoModels
-# Register your models here.
+from .models import Processos, ProcessosArquivos
 
-@admin.register(ArquivoModels)
-class ArquivoModels(admin.ModelAdmin):
+@admin.register(Processos)
+class Processos_admin(admin.ModelAdmin):
+    ...
+
+@admin.register(ProcessosArquivos)
+class Processos_admin_arquivos(admin.ModelAdmin):
     ...

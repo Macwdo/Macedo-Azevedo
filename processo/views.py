@@ -1,22 +1,29 @@
-from django.views.generic import TemplateView
-from django.shortcuts import render, redirect
+from random import randint
+
+from django.http import Http404
+from django.shortcuts import redirect, render
 from django.urls import reverse
-from .models import ArquivoModels
-import os
+
+from advogado.models import Advogado
+from cliente.models import Cliente, ParteADV
+
+from .models import Processos, ProcessosArquivos
 
 
-class indexview(TemplateView):
-    template_name = 'index.html'
-
-    def get_context_data(self):
-        files = ArquivoModels.objects.all()
-        return {'files': files}
+def criarprocesso(request):
+    # Processos.objects.create(
+    #     codigo_processo = f"{randint(0, 1000)} {randint(0, 1000)}",
+    #     advogado_responsavel = Advogado.objects.get(pk=1),
+    #     parte_adversa = Cliente.objects.get(pk=1),
+    #     cliente = ParteADV.objects.get(pk=2),
+    #     posicao = "Autor",
+    #     assunto = "Civil",
+    #     municipio = "Rio de janeiro",
+    #     estado = "RJ",
+    #     n_vara = "40",
+    #     vara = "Vara do trabalho",
+    # )
+    processos = Processos.objects.all()
+    print(ProcessosArquivos.objects.all()[0].arquivos)
+    return render(request,"index.html",{"processos": processos})
     
-
-def postfiles(request):
-    dados = request.FILES.get('file', None)
-    if request.method == "POST" and dados is not None:
-        for file in request.FILES.values():
-            ArquivoModels.objects.create(files=file, nome=request.POST["nome"])
-        print(request.FILES)
-    return redirect(reverse('processo:home'))
