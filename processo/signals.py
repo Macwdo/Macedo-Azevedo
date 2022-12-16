@@ -15,13 +15,13 @@ def delete_file(instance, **kwargs):
     if many:
         try:
             for files in instance.arquivos.all():
-                os.remove(files.arquivos.path)
+                os.remove(files.arquivo.path)
             delete_empty_folders("./files")
         except(ValueError, FileNotFoundError):
             print("Error many")
     else:
         try:
-            os.remove(instance.arquivos.path)
+            os.remove(instance.arquivo.path)
             delete_empty_folders("./files")
         except(ValueError, FileNotFoundError):
             print("Error")

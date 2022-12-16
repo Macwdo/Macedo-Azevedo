@@ -1,11 +1,17 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.timezone import now
+import datetime
 
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
 
 # Create your models here.
+
+
+def dir_files_processo(instance, file):
+    return f"{instance.processo}-/{file}"
+
 
 class Processos(models.Model):
 
@@ -30,29 +36,25 @@ class Processos(models.Model):
     estado = models.CharField(max_length=2)
     n_vara = models.CharField(max_length=10)
     vara = models.CharField(max_length=50)
-    iniciado = models.DateField(default=now)
+    iniciado = models.DateField(default=datetime.date.today)
     finalizado = models.DateTimeField(blank=True, null=True)
-    arquivos = models.ManyToManyField('ProcessosArquivos', blank=True)
-
+    arquivos = models.FileField(upload_to=dir_files_processo, default="", blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.cliente.nome} X {self.parte_adversa.nome} - {self.codigo_processo}"
+
 
     class Meta:
         verbose_name_plural = 'Processos'
 
 
 
-def dir_files_processo(instance, file):
-    return f"{instance.processo}-cod={instance.processo.codigo_processo}/{file}"
-
-
 class ProcessosArquivos(models.Model):
-    processo = models.ForeignKey(Processos, on_delete=models.CASCADE)
-    arquivos = models.FileField(upload_to=dir_files_processo)
+    processo = models.ForeignKey(Processos, on_delete=models.CASCADE, related_name="processos")
+    arquivo = models.FileField(upload_to=dir_files_processo, default="", blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"{self.pk} {self.arquivos}"
+        return f"{self.pk} {self.arquivo}"
 
     class Meta:
         verbose_name_plural = 'Processos Arquivos'
