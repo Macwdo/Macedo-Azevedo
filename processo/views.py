@@ -14,8 +14,8 @@ def criarprocesso(request):
     # Processos.objects.create(
     #     codigo_processo = f"{randint(0, 1000)} {randint(0, 1000)}",
     #     advogado_responsavel = Advogado.objects.get(pk=1),
-    #     parte_adversa = Cliente.objects.get(pk=1),
-    #     cliente = ParteADV.objects.get(pk=2),
+    #     parte_adversa = ParteADV.objects.get(pk=1),
+    #     cliente = Cliente.objects.get(pk=1),
     #     posicao = "Autor",
     #     assunto = "Civil",
     #     municipio = "Rio de janeiro",
@@ -23,7 +23,10 @@ def criarprocesso(request):
     #     n_vara = "40",
     #     vara = "Vara do trabalho",
     # )
-    processos = Processos.objects.all()
-    print(ProcessosArquivos.objects.all()[0].arquivos)
-    return render(request,"index.html",{"processos": processos})
+    
+    
+    
+
+
+    return render(request,"index.html")
     

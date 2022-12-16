@@ -36,7 +36,7 @@ class Processos(models.Model):
 
 
     def __str__(self) -> str:
-        return f"{self.cliente.nome} X {self.parte_adversa.nome}"
+        return f"{self.cliente.nome} X {self.parte_adversa.nome} - {self.codigo_processo}"
 
     class Meta:
         verbose_name_plural = 'Processos'
