@@ -10,7 +10,7 @@ from cliente.models import Cliente, ParteADV
 
 
 def dir_files_processo(instance, file):
-    return f"{instance.processo}-/{file}"
+    return f"{instance.processo}/{file}"
 
 
 class Processos(models.Model):
@@ -23,7 +23,7 @@ class Processos(models.Model):
         ("Civil", "Direito Civil")
     ]
 
-    codigo_processo = models.CharField(max_length=25)
+    codigo_processo = models.CharField(max_length=25, unique=True)
     advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, related_name="advogado_responsavel")
     parte_adversa = models.ForeignKey(ParteADV, on_delete=models.SET_NULL, null=True, related_name="parte_adversa")
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, related_name="clientes")
