@@ -54,6 +54,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
+        validated_data.pop("finalizar")
         if validated_data.get("uploaded_arquivos"):
             uploaded_arquivos = validated_data.pop("uploaded_arquivos")
             processo = Processos.objects.create(**validated_data)

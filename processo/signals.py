@@ -11,20 +11,12 @@ def delete_empty_folders(path):
             os.rmdir(folder[0])
 
 def delete_file(instance, **kwargs):
-    many = kwargs.get("many", None)
-    if many:
-        try:
-            for files in instance.arquivos.all():
-                os.remove(files.arquivo.path)
-            delete_empty_folders("./files")
-        except(ValueError, FileNotFoundError):
-            print("Error many")
-    else:
-        try:
-            os.remove(instance.arquivo.path)
-            delete_empty_folders("./files")
-        except(ValueError, FileNotFoundError):
-            print("Error")
+
+    try:
+        os.remove(instance.arquivo.path)
+        delete_empty_folders("./files")
+    except(ValueError, FileNotFoundError):
+        print("Error")
 
 
 @receiver(pre_delete, sender=ProcessosArquivos)
@@ -33,10 +25,6 @@ def processoArquivos_delete(sender, instance, *args, **kwargs):
     delete_file(old_instance)
 
 
-@receiver(pre_delete, sender=Processos)
-def processo_delete(sender, instance, *args, **kwargs):
-    old_instance = Processos.objects.get(pk=instance.pk)
-    delete_file(old_instance, many=True)
 
 
 
