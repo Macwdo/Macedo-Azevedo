@@ -6,12 +6,13 @@ from rest_framework.permissions import IsAuthenticated
 class ProcessosViewSet(ModelViewSet):
     queryset = Processos.objects.all()
     serializer_class = ProcessosSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
 
 class ProcessosArquivosViewSet(ModelViewSet):
     queryset = ProcessosArquivos.objects.all()
     serializer_class = ProcessosArquivosSerializer
+    permission_classes = [IsAuthenticated]
 
 
 
