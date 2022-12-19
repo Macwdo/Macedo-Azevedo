@@ -1,9 +1,8 @@
 from rest_framework import serializers
 from .models import Processos, ProcessosArquivos
-from cliente.models import Cliente, ParteADV
+from cliente.serializers import ClienteSerializer, ParteADVSerializer
 from advogado.models import Advogado
-import datetime
-
+from processo.utils import get_current_time
 
 
 class ProcessosArquivosSerializer(serializers.ModelSerializer):
@@ -11,7 +10,6 @@ class ProcessosArquivosSerializer(serializers.ModelSerializer):
     nome_processo = serializers.StringRelatedField(source="processo", read_only=True)
     processo = serializers.PrimaryKeyRelatedField(queryset=Processos.objects.all(), write_only=True)
 
-    
     class Meta:
         model = ProcessosArquivos
         fields = ("id", "processo", "nome_processo", "arquivo")
@@ -19,14 +17,13 @@ class ProcessosArquivosSerializer(serializers.ModelSerializer):
 class ProcessosSerializer(serializers.ModelSerializer):
 
     finalizar = serializers.BooleanField(default=False, write_only=True, required=False)
-
     nome_cliente = serializers.StringRelatedField(source="cliente", read_only=True)
     nome_parte = serializers.StringRelatedField(source="parte_adversa", read_only=True)
     advogado = serializers.StringRelatedField(source="advogado_responsavel", read_only=True)
     advogado_colaborador = serializers.StringRelatedField(source="colaborador", read_only=True)
 
-    cliente = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all(), write_only=True)
-    parte_adversa = serializers.PrimaryKeyRelatedField(queryset=ParteADV.objects.all(), write_only=True)
+    cliente = ClienteSerializer(read_only=True, many=False)
+    parte_adversa = ParteADVSerializer(read_only=True, many=False)
     advogado_responsavel = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
     colaborador = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True, required=False)
 
@@ -64,9 +61,13 @@ class ProcessosSerializer(serializers.ModelSerializer):
         processo = Processos.objects.create(**validated_data)
         return processo
     
-        
-
     def update(self, instance, validated_data):
-        if validated_data["finalizar"] == True:
-            validated_data["finalizado"] = datetime.datetime.today()
+        validated_data.get("finalizar", None)
+        if validated_data and instance.finalizado is None:
+            validated_data["finalizado"] = get_current_time()
+            advogado_responsavel = Advogado.objects.get(pk=instance.advogado_responsavel.id)
+            advogado_responsavel.honorarios += instance.honorarios
+            advogado_responsavel.save()
+
         return super().update(instance, validated_data)
+        

@@ -6,13 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+
+    }
+    body{
+    }
+    .centro{
+        background: red;
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
+        justify-content: center;
+        text-align: center;
+        padding-top: 50px;
+    }
+
+    .botao{
+        font-size: 100px;
+        margin: 0 auto;
+    }
+
+
+</style>
+
 <body>
 
-    <form action="" method="post"></form>
+    
+    <div class="centro">
+           <input class="botao" onclick="get_jwt()" type="button" value="Token"><br>
+           <input class="botao" onclick="criar_advogado()" type="button" value="Criar"><br>
+           <input class="botao" onclick="listar_advogado()" type="button" value="Listar">
+
+    </div>
+    <form action="">
+        <input type="text">
+
+    </form>
+    <br>
+    <hr>
+    <ul>
+        <li id="dados"></li>
+    </ul>
 
 
 </body>
-<script>
-    fetch(,"127.0.0.1:8000/processo/api/v1/")
-</script>
+<script src="scripts.js"></script>
 </html>

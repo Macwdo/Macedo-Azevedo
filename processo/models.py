@@ -24,8 +24,8 @@ class Processos(models.Model):
     ]
 
     codigo_processo = models.CharField(max_length=25, unique=True)
-    advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, related_name="advogado_responsavel")
-    parte_adversa = models.ForeignKey(ParteADV, on_delete=models.SET_NULL, null=True, related_name="parte_adversa")
+    advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, related_name="advogado_responsavel", default="Não Informado")
+    parte_adversa = models.ForeignKey(ParteADV, on_delete=models.SET_NULL, null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, related_name="clientes")
     posicao = models.CharField(max_length=5, choices=posicao_choice)
     colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborador")
