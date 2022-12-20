@@ -6,8 +6,8 @@ app_name = "processo"
 
 router = routers.SimpleRouter()
 
-router.register(r'processos', ProcessosViewSet)
-router.register(r'arquivos', ProcessosArquivosViewSet)
+router.register(r'processo', ProcessosViewSet)
+router.register(r'arquivo', ProcessosArquivosViewSet)
 
 
 urlpatterns = [

@@ -7,9 +7,41 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>oi</h1>
-    {% for processo in processos %}
-        <h1>{{ processo }}</h1>
-    {% endfor %}
+    <h1>
+        Urls
+    </h1>
+    <ul>
+        <li>
+            api/token/ | Pegar o token
+        </li>
+        <li>
+            api/refresh/ | refresh o token
+        </li>
+        </ul>
+        <h2>
+            O Token Tem Refresh de 1 Dia e Access de 5 minutos
+        </h2>
+        <ul>
+        <li>
+            api/v1/processo 
+        </li>
+        <p>
+            Quando enviar o Patch com {"finalizar": True} o estado de {"finalizado"} pega a hora local <br>
+            Fazer o FORM retornar todos os dados para fazer um PUT 
+        </p>
+        <li>
+            api/v1/arquivo Só aceita GET e DELETE Apagar Pelo ID
+        </li>
+        <li>
+            api/v1/advogado
+        </li>
+        <li>
+            api/v1/cliente
+        </li>
+        <li>
+            api/v1/parteadv
+        </li>
+
+    </ul>
 </body>
 </html>
