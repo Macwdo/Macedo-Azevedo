@@ -6,8 +6,8 @@ async function get_jwt() {
     };
 
     const body = JSON.stringify({
-        "username": "macwdo",
-        "password": "123"
+        "username": "",
+        "password": ""
     })
 
     const config = {
@@ -16,12 +16,13 @@ async function get_jwt() {
         body: body
     }
 
-    const response = await fetch('http://127.0.0.1:8000/api/token/', config).then(
+    const response = await fetch('https://gordinho.macedoweb.com.br/api/token/', config).then(
         objects => {
             return objects.json()
         }
     )
     console.log(response.access)
+    console.log(response)
     return response.access
 }
 
@@ -32,8 +33,8 @@ async function listar_advogado() {
         };
     
         const body = JSON.stringify({
-            "username": "macwdo",
-            "password": "123"
+            "username": "",
+            "password": ""
         })
     
         const config_token = {
@@ -75,9 +76,9 @@ async function criar_advogado() {
     };
 
     const body = JSON.stringify({
-        "nome": "macwdo",
-        "email": "emiasdas@gmal.com",
-        "numero": "123123123"
+        "nome": "",
+        "email": "",
+        "numero": ""
     })
 
     const config = {
