@@ -9,3 +9,10 @@ class CustosViewSet(ModelViewSet):
     queryset = Custos.objects.all()
     serializer_class = CustosSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        fields = {}
+        for k, v in self.request.query_params.items():
+            fields[k + "__icontains"] = v
+        qs = Custos.objects.filter(**fields)
+        return qs

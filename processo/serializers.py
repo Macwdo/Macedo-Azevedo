@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Processos, ProcessosArquivos
 from cliente.serializers import ClienteSerializer, ParteADVSerializer
 from advogado.models import Advogado
+from cliente.models import Cliente, ParteADV
 from processo.utils import get_current_time
 
 
@@ -22,8 +23,10 @@ class ProcessosSerializer(serializers.ModelSerializer):
     advogado = serializers.StringRelatedField(source="advogado_responsavel", read_only=True)
     advogado_colaborador = serializers.StringRelatedField(source="colaborador", read_only=True)
 
-    cliente = ClienteSerializer(read_only=True, many=False)
-    parte_adversa = ParteADVSerializer(read_only=True, many=False)
+    cliente = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all(), write_only=True)
+    parte_adversa = serializers.PrimaryKeyRelatedField(queryset=ParteADV.objects.all(), write_only=True)
+
+
     advogado_responsavel = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
     colaborador = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True, required=False)
 
@@ -40,7 +43,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Processos
         fields = (
-            "id", "uploaded_arquivos", "advogado",
+            "id", "uploaded_arquivos", "advogado","cliente",
             "nome_cliente", "nome_parte", "advogado_colaborador",
             "codigo_processo","advogado_responsavel", "parte_adversa",
             "cliente","posicao","colaborador",

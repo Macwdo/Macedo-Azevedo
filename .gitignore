@@ -1,6 +1,8 @@
 #Project Folders#
 files/
-
+#Project Files
+index.html
+scripts.js
 # Django #
 *.log
 *.pot

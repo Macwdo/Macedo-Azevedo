@@ -10,17 +10,12 @@ class ClienteViewSet(ModelViewSet):
     serializer_class = ClienteSerializer
     permission_classes = [IsAuthenticated]
 
-
     def get_queryset(self):
-        queryparams = self.request.query_params
-        queryset = Cliente.objects.all()
-        pf, pj = queryparams.get("pf", False), queryparams.get("pj", False)
-        if pj:
-            queryset = Cliente.objects.filter(tipo="PJ")
-        elif pf:
-            queryset = Cliente.objects.filter(tipo="PF")
-        return queryset
-
+        fields = {}
+        for k, v in self.request.query_params.items():
+            fields[k + "__icontains"] = v
+        qs = Cliente.objects.filter(**fields)
+        return qs
 
 
 class ParteADVViewSet(ModelViewSet):
@@ -30,12 +25,9 @@ class ParteADVViewSet(ModelViewSet):
 
 
     def get_queryset(self):
-        queryparams = self.request.query_params
-        queryset = ParteADV.objects.all()
-        pf, pj = queryparams.get("pf", False), queryparams.get("pj", False)
-        if pj:
-            queryset = ParteADV.objects.filter(tipo="PJ")
-        elif pf:
-            queryset = ParteADV.objects.filter(tipo="PF")
-        return queryset
+        fields = {}
+        for k, v in self.request.query_params.items():
+            fields[k + "__icontains"] = v
+        qs = ParteADV.objects.filter(**fields)
+        return qs
 
