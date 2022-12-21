@@ -1,13 +1,12 @@
-async function get_jwt() {
-    console.clear()
+async function get_jwt(username, password) {
 
     const headers = {
     'Content-Type': 'application/json'
     };
 
     const body = JSON.stringify({
-        "username": "",
-        "password": ""
+        "username": `${username}`,
+        "password": `${password}`
     })
 
     const config = {
@@ -16,61 +15,45 @@ async function get_jwt() {
         body: body
     }
 
-    const response = await fetch('https://gordinho.macedoweb.com.br/api/token/', config).then(
+    const token = await fetch('https://gordinho.macedoweb.com.br/api/token/', config).then(
         objects => {
             return objects.json()
         }
-    )
-    console.log(response.access)
-    console.log(response)
-    return response.access
+    )    
+    return token
 }
 
-async function listar_advogado() {
+async function listar() {
 
-    const headers_token = {
-        'Content-Type': 'application/json'
-        };
-    
-        const body = JSON.stringify({
-            "username": "",
-            "password": ""
-        })
-    
-        const config_token = {
-            method: 'POST',
-            headers: headers_token,
-            body: body
-        }
-    
-        const response_token = await fetch('http://127.0.0.1:8000/api/token/', config_token).then(
-            objects => {
-                return objects.json()
-            }
-        )
+    const campo = "parteadv"
 
+    const token = await get_jwt("", "")
 
     const headers = {
-    'authorization':`Bearer ${response_token.access}`
-    }
-
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.access}`
+    };
+    
     const config = {
         method: 'GET',
-        headers: headers,
+        headers: headers
     }
 
-
-    const response = await fetch('http://127.0.0.1:8000/api/v1/processos/', config).then(
-        objects => {
-            return objects.json()
+    const data = await fetch(`https://gordinho.macedoweb.com.br/api/v1/${campo}/`, config).then(
+        response => {
+            return response.json()
         }
     )
-    console.log(response, response.length)
+    
+    console.log(data)
+    return data
+
 
 }
 
 
-async function criar_advogado() {
+
+async function criar() {
     const headers = {
     'Content-Type': 'application/json',
     };
@@ -99,5 +82,4 @@ async function criar_advogado() {
 
 function pegardado() {
 
-    document.getElementById
 }

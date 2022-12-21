@@ -13,7 +13,7 @@ class ProcessosViewSet(ModelViewSet):
 class ProcessosArquivosViewSet(ModelViewSet):
     queryset = ProcessosArquivos.objects.all()
     serializer_class = ProcessosArquivosSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
 class renderPage(TemplateView):
     template_name = "index.html"
