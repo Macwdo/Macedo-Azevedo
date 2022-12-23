@@ -1,4 +1,7 @@
-async function get_jwt(username, password) {
+async function get_jwt() {
+
+    const password = ""
+    const username = ""
 
     const headers = {
     'Content-Type': 'application/json'
@@ -20,12 +23,13 @@ async function get_jwt(username, password) {
             return objects.json()
         }
     )    
+    console.log(token.access)
     return token
 }
 
 async function listar() {
 
-    const campo = "parteadv"
+    const campo = ""
 
     const token = await get_jwt("", "")
 
@@ -54,26 +58,38 @@ async function listar() {
 
 
 async function criar() {
+
+    const campo = ""
+    const token = await get_jwt("", "")
+
     const headers = {
-    'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.access}`
     };
 
     const body = JSON.stringify({
-        "nome": "",
-        "email": "",
-        "numero": ""
-    })
+        'nome': 'dsasadasd',
+        'email': 'dada@gmca',
+        'numero': '2132131231',
+        'cpf_cnpj': '9231019322',
+        'registro': '2022-12-20',
+        'tipo': 'PJ'
+        })
 
     const config = {
         method: 'POST',
         headers: headers,
-        body: body,
+        body: body
     }
 
 
-    const response = await fetch('http://127.0.0.1:8000/api/v1/advogados/', config)
-    const json = response.json()
-    console.log(json)
+    const response = await fetch(`https://gordinho.macedoweb.com.br/api/v1/${campo}/`, config).then(
+        object => {
+            return object.json()
+        }
+    )
+
+    console.log(response)
     console.log(response.status)
 
 }

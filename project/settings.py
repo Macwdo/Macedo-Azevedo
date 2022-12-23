@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'escritorio',
     'rest_framework',
     'rest_framework_simplejwt',
-    'corsheaders'
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +146,20 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10
 }
+
+#AWS CONFIG
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
+
+AWS_SECRET_KEY_ID = os.getenv('AWS_SECRET_KEY')
+
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAUT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+ 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

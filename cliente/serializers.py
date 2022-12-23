@@ -3,8 +3,6 @@ from .models import ParteADV, Cliente
 
 
 class ClienteSerializer(serializers.ModelSerializer):
-    cpf = serializers.CharField(default=None, write_only=True, required=False)
-    cnpj = serializers.CharField(default=None, write_only=True, required=False)
 
     class Meta:
         model = Cliente
@@ -13,10 +11,7 @@ class ClienteSerializer(serializers.ModelSerializer):
 
 
 class ParteADVSerializer(serializers.ModelSerializer):
-    cpf = serializers.CharField(default=None, write_only=True, required=False)
-    cnpj = serializers.CharField(default=None, write_only=True, required=False)
 
     class Meta:
         model = ParteADV
         fields = "__all__"
-
