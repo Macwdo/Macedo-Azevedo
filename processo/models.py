@@ -14,9 +14,7 @@ def dir_files_processo(instance, file):
 
 
 class Processos(models.Model):
-
-    posicao_choice = [("Autor","Autor"),("Réu","Réu")]
-
+    
     assunto_choices = [
         ("Trabalhista", "Direito Trabalhista"),
         ("Previdenciário", "Direito Previdenciário"),
@@ -27,7 +25,7 @@ class Processos(models.Model):
     advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, related_name="advogado_responsavel", default="Não Informado")
     parte_adversa = models.ForeignKey(ParteADV, on_delete=models.SET_NULL, null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, related_name="clientes")
-    posicao = models.CharField(max_length=5, choices=posicao_choice)
+    posicao = models.BooleanField(default=False)
     colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborador")
     assunto = models.CharField(choices=assunto_choices, max_length=15)
     observacoes = models.CharField(max_length=255, default="Sem observações", null=True, blank=True)

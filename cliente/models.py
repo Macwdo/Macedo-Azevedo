@@ -14,6 +14,7 @@ class Cliente(models.Model):
     registro = models.DateField(auto_now_add=True)
     tipo = models.CharField(choices=choice_tipo, max_length=2)
 
+
     def __str__(self) -> str:
         return f"{self.nome}"
     

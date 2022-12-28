@@ -15,10 +15,10 @@ class ProcessosViewSet(ModelViewSet):
     def get_queryset(self):
         fields = {}
         fk_fields = {  
-            "cliente":Cliente,
-            "parte_adversa":ParteADV,
-            "advogado_responsavel":Advogado,
-            "colaborador":Advogado
+            "cliente": Cliente,
+            "parte_adversa": ParteADV,
+            "advogado_responsavel": Advogado,
+            "colaborador": Advogado
         }
 
         for k, v in self.request.query_params.items():

@@ -17,7 +17,8 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token'),
     path('api/refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('api/v1/', include(all_routers)),
-    path('', renderPage.as_view())
+    path('', renderPage.as_view()),
+    path('api/data/', include("escritorio.urls"))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
