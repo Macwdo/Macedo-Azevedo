@@ -6,6 +6,7 @@ from escritorio.serializers import CustosSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
+from rest_framework.exceptions import AuthenticationFailed
 
 class CustosViewSet(ModelViewSet):
     queryset = Custos.objects.all()
@@ -22,21 +23,52 @@ class CustosViewSet(ModelViewSet):
 
 @api_view(["GET"])
 def sofHonorarios(request):
+    if request.user.is_anonymous:
+        raise AuthenticationFailed()
     advogados = Advogado.objects.all()
     advdict = {}
+    total = 0
     for adv in advogados:
         advdict[adv.nome] = adv.honorarios
-
-    advdict["total"] = sum(advdict.values())
-    return JsonResponse(advdict, safe=True, status=200)
+        total += adv.honorarios
+    hondict ={}
+    hondict["total"] = sum(advdict.values())
+    hondict["advogados"] = advdict
+    return JsonResponse(hondict, safe=True, status=200)
         
 @api_view(["GET"])
 def sofProcessos(request):
+    if request.user.is_anonymous:
+        raise AuthenticationFailed()
     advogados = Advogado.objects.all()
     prcsdict = {}
     for adv in advogados:
         prcsdict[adv.nome] = len(Processos.objects.filter(advogado_responsavel=adv.pk))
 
     return JsonResponse(prcsdict, safe=True, status=200)
+
+@api_view(["GET"])
+def sofCustos(request):
+    if request.user.is_anonymous:
+        raise AuthenticationFailed()
+    custos = Custos.objects.all()
+    custdict_pago = {}
+    custdict_npago = {}
+    total = 0
+    for custo in custos:
+        if custo.pago:
+            custdict_pago[custo.nome_custo] = custo.custo
+        else:
+            custdict_npago[custo.nome_custo] = custo.custo
+        total += custo.custo
+
+    custosdict = {"total":total}
+    custosdict["pago"] = custdict_pago
+    custosdict["nao_pago"] = custdict_npago
+
+    return JsonResponse(custosdict, safe=True, status=200)
+
+
+#sof Receita e Lucro
 
 

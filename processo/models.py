@@ -1,6 +1,5 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils.timezone import now
 import datetime
 
 from advogado.models import Advogado
@@ -10,7 +9,7 @@ from cliente.models import Cliente, ParteADV
 
 
 def dir_files_processo(instance, file):
-    return f"{instance.processo}/{file}"
+    return f"{instance}/{file}"
 
 
 class Processos(models.Model):
@@ -21,11 +20,16 @@ class Processos(models.Model):
         ("Civil", "Direito Civil")
     ]
 
+    posicao_choice = [
+        ("Autor", "Autor"),
+        ("Réu", "Réu")
+    ]
+
     codigo_processo = models.CharField(max_length=25, unique=True)
     advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, related_name="advogado_responsavel", default="Não Informado")
     parte_adversa = models.ForeignKey(ParteADV, on_delete=models.SET_NULL, null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, related_name="clientes")
-    posicao = models.BooleanField(default=False)
+    posicao = models.CharField(choices=posicao_choice, max_length=5)
     colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborador")
     assunto = models.CharField(choices=assunto_choices, max_length=15)
     observacoes = models.CharField(max_length=255, default="Sem observações", null=True, blank=True)

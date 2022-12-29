@@ -9,6 +9,7 @@ from django.conf.urls.static import static
 from processo.urls import router as processo_router
 from cliente.urls import router as cliente_router
 from advogado.urls import router as advogado_router
+
 from processo.views import renderPage
 all_routers = processo_router.urls + cliente_router.urls + advogado_router.urls
 
