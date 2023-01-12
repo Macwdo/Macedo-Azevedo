@@ -1,0 +1,319 @@
+body { /*body da página de login
+dificil resolver isso aqui
+*/
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(https://images-ext-2.discordapp.net/external/RD50YTT4tzSUzHSjGi0K8PON0UGfOfYsyhORJel3yAQ/https/shtheme.org/preview/mcgill/img/bg.jpg?width=710&height=473);
+  background-repeat: no-repeat;
+  background-size: 100%, 100%;
+}
+.link {
+  text-decoration: none;
+  color: #fff;
+}
+.container {
+  width: 100%;
+}
+.barraLateral {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 16vh;
+  z-index: 1;
+  position: fixed;
+  padding: 2vh 2vh;
+  background-color: #14272C;
+  align-items: center;
+  left: 0;
+  top: 0;
+}
+.barraLateral .logo {
+  background-color: #000;
+  border-radius: 50%;
+  object-fit: cover;
+  width: 100%;
+  margin-bottom: 10%;
+}
+.barraLateral .link {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  padding: 0 0 10% 10%;
+}
+.navbar {
+  height: 8vh;
+}
+.navbar .container {
+  width: 95%;
+  border-radius: 0.2rem;
+  margin: 1% 1.5%;
+  padding: 0 1%;
+  height: 8vh;
+  background-color: #14272C;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
+  grid-gap: 1%;
+  align-items: center;
+}
+.navbar .container .textoAzul {
+  color: #00D1FF;
+  text-transform: uppercase;
+}
+.navbar .container .textoCabecalho {
+  color: #fff;
+}
+.navbar .container .sair {
+  display: flex;
+  justify-content: center;
+}
+.modal {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal .container-modal {
+  background-color: #D9D9D9;
+  color: #000;
+  width: 60%;
+  height: 82%;
+  overflow-y: scroll;
+}
+.novoProcesso {
+  width: 100%;
+}
+.novoProcesso input {
+  border: none;
+}
+.novoProcesso .firstSelection {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 1%;
+  grid-gap: 8%;
+}
+.novoProcesso .firstSelection .secondContainer {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  margin: auto 0;
+}
+.novoProcesso .firstSelection .secondContainer button {
+  margin: auto 0 0 5%;
+  border: none;
+  color: white;
+  background-color: #14272C;
+}
+.novoProcesso .firstContainer {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
+}
+.novoProcesso .firstContainer .textInput {
+  height: 100%;
+}
+.novoProcesso .secondSelection {
+  margin: 3% 2%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5%;
+}
+.novoProcesso .secondSelection .left {
+  display: grid;
+  grid-gap: 5%;
+}
+.novoProcesso .secondSelection .left .autor-reu {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  grid-gap: 5%;
+}
+.novoProcesso .secondSelection .left .autor-reu button {
+  border: none;
+  color: white;
+  height: 34px;
+  font-size: 16px;
+}
+.novoProcesso .secondSelection .left .autor-reu .buttonAutor {
+  background-color: #14272C;
+}
+.novoProcesso .secondSelection .left .autor-reu .buttonReu {
+  background-color: #C7CAA3;
+}
+.novoProcesso .secondSelection .left .selecaoAdvogado {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.novoProcesso .secondSelection .left .selecaoAdvogado .container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  background-color: #D9D9D9;
+}
+.novoProcesso .secondSelection .left .selecaoAdvogado .container button {
+  border: none;
+  text-align: start;
+  width: 100%;
+  background-color: #14272C;
+  color: white;
+  padding: 0 5%;
+  border-radius: 0.2rem;
+  height: 50%;
+}
+.novoProcesso .secondSelection .right {
+  margin-top: 5%;
+  display: grid;
+}
+.novoProcesso .secondSelection .right .firstContainer {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1%;
+}
+.novoProcesso .secondSelection .right .firstContainer .textInput {
+  height: 50%;
+}
+.novoProcesso .observacoes {
+  margin: 3.5% 2%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5%;
+}
+.novoProcesso .observacoes textarea {
+  border: none;
+  resize: none;
+}
+.novoProcesso .honorarios {
+  margin: 3% 2%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5%;
+}
+.novoProcesso .honorarios .valor {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  grid-gap: 5%;
+}
+.novoProcesso .honorarios .valor input {
+  max-height: 50%;
+}
+.novoProcesso .honorarios .tempo {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 8%;
+}
+.novoProcesso .honorarios .tempo .date {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.novoProcesso .honorarios .tempo .date .date-input {
+  text-align: center;
+  width: 100%;
+  border-radius: 1rem;
+}
+.novoProcesso .honorarios .tempo .date input[type=date]::-webkit-inner-spin-button,
+.novoProcesso .honorarios .tempo .date input[type=date]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+.novoProcesso .lastSelection {
+  margin: 2% 2%;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+}
+.novoProcesso .lastSelection .botao {
+  border: none;
+  color: white;
+  background-color: #14272C;
+  width: 100%;
+  height: 40px;
+  max-height: 40px;
+  font-size: 22px;
+}
+.login {
+  border-radius: 3px;
+  background-color: #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 35px;
+  padding-bottom: -40px;
+  width: 460px;
+  height: 560px;
+  margin: auto;
+  font-family: "Inter";
+  font-style: normal;
+}
+.login .form {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: inline-block;
+}
+.login .nome, .login .senha {
+  border: none;
+  width: 260px;
+  height: 40px;
+  font-size: 16px;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-left: 1px;
+  margin: 10px;
+}
+.login .btn-enviar {
+  display: flex;
+  margin-top: 60px;
+  margin-left: 8px;
+  height: 90px;
+  width: 290px;
+  align-items: center;
+  justify-content: center;
+  background-color: #55b31f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+}
+.login .btn-enviar:hover {
+  background-color: #53a325;
+  cursor: pointer;
+}
+.login label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+.login input {
+  margin-top: 10px;
+  border-radius: 5px;
+}
+.login .labelNome {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  margin-left: -235px;
+}
+.login .labelSenha {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  margin-left: -235px;
+}
+.login .imageLogin {
+  width: 130px;
+  height: 130px;
+  margin-top: -440px;
+  position: absolute;
+}

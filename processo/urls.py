@@ -1,14 +1,11 @@
-from .views import ProcessosViewSet, ProcessosArquivosViewSet
-from rest_framework import routers
-from django.urls import path, include
+from django.urls import include, path
 
-app_name = "processo"
+from .views import home_page_view, login_view, processo_render_form
 
-router = routers.SimpleRouter()
-
-router.register(r'processo', ProcessosViewSet)
-router.register(r'arquivo', ProcessosArquivosViewSet)
-
+app_name = 'processo'
 
 urlpatterns = [
+    path('', login_view, name="login-page"),
+    path('home/', home_page_view, name="home-page"),
+    path('processo/', processo_render_form, name="processo-render-form")
 ]

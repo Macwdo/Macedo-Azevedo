@@ -1,46 +1,40 @@
-from django.views.generic import TemplateView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.viewsets import ModelViewSet
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.urls import reverse
 
-from advogado.models import Advogado
-from cliente.models import Cliente, ParteADV
-
-from .models import Processos, ProcessosArquivos
-from .serializers import ProcessosArquivosSerializer, ProcessosSerializer
+from .forms import ProcessoForm
 
 
-class ProcessosViewSet(ModelViewSet):
-    queryset = Processos.objects.all()
-    serializer_class = ProcessosSerializer
-    permission_classes = [IsAuthenticated]
-# 
-    def get_queryset(self):
-        fields = {}
-        fk_fields = {  
-            "cliente": Cliente,
-            "parte_adversa": ParteADV,
-            "advogado_responsavel": Advogado,
-            "colaborador": Advogado
-        }
-
-        for k, v in self.request.query_params.items():
-            if k in fk_fields.keys():
-                fields[k] = fk_fields[k].objects.filter(nome__icontains=v).first()
-            else:
-                fields[k + "__icontains"] = v
-
-        qs = Processos.objects.filter(**fields)
-        return qs
+def login_view(request):
+    if request.method == "POST":
+        username=request.POST.get('username',None)
+        password=request.POST.get('password', None)
+        validUser = authenticate(request,
+            username=username,
+            password=password
+        )
+        if validUser:
+            login(request, validUser)
+        else:
+            messages.error(request, 'Credencias Incorretas')
+        return redirect(reverse('processo:home-page'))
+    if request.method == "GET":
+        if request.user.is_authenticated:
+            return redirect(reverse('processo:home-page'))
+        return render(request, 'login.html')
 
 
-class ProcessosArquivosViewSet(ModelViewSet):
-    queryset = ProcessosArquivos.objects.all()
-    serializer_class = ProcessosArquivosSerializer
-    permission_classes = [IsAuthenticated]
 
-class renderPage(TemplateView):
-    template_name = "index.html"
+def home_page_view(request):
+    if request.user.is_authenticated:
+        return render(request, 'homepage.html')
+    else:
+        return redirect(reverse('processo:login-page'))
     
-
-    
-
+def processo_render_form(request):
+    form = ProcessoForm()
+    return render(request,'processo_form.html', {
+        'form': form
+    })
