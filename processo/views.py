@@ -1,17 +1,19 @@
-from rest_framework.viewsets import ModelViewSet
-from .models import Processos, ProcessosArquivos
-from .serializers import ProcessosSerializer, ProcessosArquivosSerializer
-from rest_framework.permissions import IsAuthenticated
 from django.views.generic import TemplateView
-from cliente.models import Cliente, ParteADV
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+
 from advogado.models import Advogado
+from cliente.models import Cliente, ParteADV
+
+from .models import Processos, ProcessosArquivos
+from .serializers import ProcessosArquivosSerializer, ProcessosSerializer
 
 
 class ProcessosViewSet(ModelViewSet):
     queryset = Processos.objects.all()
     serializer_class = ProcessosSerializer
     permission_classes = [IsAuthenticated]
-
+# 
     def get_queryset(self):
         fields = {}
         fk_fields = {  
