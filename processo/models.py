@@ -9,7 +9,7 @@ from cliente.models import Cliente, ParteADV
 
 
 def dir_files_processo(instance, file):
-    return f"{instance}/{file}"
+    return f"{instance.processo}/{file}"
 
 
 class Processos(models.Model):

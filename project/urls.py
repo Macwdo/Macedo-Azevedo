@@ -3,6 +3,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
+    TokenVerifyView
 )
 from django.conf import settings
 from django.conf.urls.static import static
@@ -17,6 +18,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token'),
     path('api/refresh/', TokenRefreshView.as_view(), name='refresh'),
+    path('api/verify/', TokenVerifyView.as_view(), name='verify'),
     path('api/v1/', include(all_routers)),
     path('', renderPage.as_view()),
     path('api/data/', include("escritorio.urls"))
