@@ -6,7 +6,6 @@ class Advogado(models.Model):
     nome = models.CharField(max_length=40, blank=False)
     honorarios = models.FloatField(blank=True, default=0)
     email = models.CharField(max_length=50)
-    image = models.ImageField(default="None")
 
     def __str__(self) -> str:
         return f"{self.nome}"
