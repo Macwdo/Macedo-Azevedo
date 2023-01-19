@@ -1,6 +1,7 @@
+import datetime
+
 from django.core.exceptions import ValidationError
 from django.db import models
-import datetime
 
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
@@ -38,7 +39,7 @@ class Processos(models.Model):
     estado = models.CharField(max_length=2)
     n_vara = models.CharField(max_length=10)
     vara = models.CharField(max_length=50)
-    iniciado = models.DateField(default=datetime.date.today)
+    iniciado = models.DateTimeField(default=datetime.date.today)
     finalizado = models.DateTimeField(blank=True, null=True)
     arquivos = models.FileField(upload_to=dir_files_processo, default="", blank=True, null=True)
 
