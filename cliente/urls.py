@@ -9,5 +9,4 @@ router.register(r"parteadv", ParteADVViewSet)
 app_name = "cliente"
 
 urlpatterns = [
-
 ]
