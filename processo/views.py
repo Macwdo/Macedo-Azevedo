@@ -33,6 +33,7 @@ class ProcessosViewSet(ModelViewSet):
         return qs
 
 
+
 class ProcessosArquivosViewSet(ModelViewSet):
     queryset = ProcessosArquivos.objects.all()
     serializer_class = ProcessosArquivosSerializer
@@ -40,6 +41,8 @@ class ProcessosArquivosViewSet(ModelViewSet):
 
 class renderPage(TemplateView):
     template_name = "index.html"
+
+
     
 
     

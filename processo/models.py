@@ -44,7 +44,9 @@ class Processos(models.Model):
     arquivos = models.FileField(upload_to=dir_files_processo, default="", blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"{self.cliente.nome} X {self.parte_adversa.nome} - {self.codigo_processo}"
+        clienteName = self.cliente.nome.split()
+        clienteName = "_".join(clienteName)
+        return f"{clienteName}X{self.parte_adversa.nome}_{self.codigo_processo}"
 
 
     class Meta:
@@ -57,7 +59,7 @@ class ProcessosArquivos(models.Model):
     arquivo = models.FileField(upload_to=dir_files_processo, default="", blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"{self.pk} {self.arquivo}"
+        return f"{self.pk}{self.arquivo}"
 
     class Meta:
         verbose_name_plural = 'Processos Arquivos'

@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
-from dotenv import load_dotenv
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,11 +28,12 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
 CORS_ALLOWED_ORIGINS = [
+"http://localhost:3000"
 ]
 
 # Application definition
@@ -139,30 +141,33 @@ USE_I18N = True
 USE_TZ = True
 
 #Rest Framework
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 100
 }
+if not DEBUG:
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = 'rest_framework.renderers.JSONRenderer'
 
 # AWS CONFIG
 
 # import ipdb; ipdb.set_trace()
+###
+# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
 
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
+# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_KEY')
 
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
 
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
+# AWS_S3_CUSTOM_DOMAIN = ''
 
-AWS_S3_CUSTOM_DOMAIN = ''
-
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAUT_ACL = None
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
- 
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAUT_ACL = None
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+###
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
