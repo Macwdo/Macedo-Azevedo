@@ -29,6 +29,7 @@ class Processos(models.Model):
     advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, related_name="advogado_responsavel", default="Não Informado")
     parte_adversa = models.ForeignKey(ParteADV, on_delete=models.SET_NULL, null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, related_name="clientes")
+    cliente_de = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null= True, blank=False)
     posicao = models.CharField(choices=posicao_choice, max_length=5)
     colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborador")
     assunto = models.CharField(choices=assunto_choices, max_length=15)
@@ -38,7 +39,7 @@ class Processos(models.Model):
     estado = models.CharField(max_length=2)
     n_vara = models.CharField(max_length=10)
     vara = models.CharField(max_length=50)
-    iniciado = models.DateTimeField(auto_now=True)
+    iniciado = models.DateTimeField(auto_now_add=True)
     finalizado = models.DateTimeField(blank=True, null=True)
     anexo = models.ImageField(upload_to=dir_files_processo, default=None, null=True, blank=True)
 
