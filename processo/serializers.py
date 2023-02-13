@@ -1,19 +1,12 @@
 from rest_framework import serializers
-from .models import Processos, ProcessosArquivos
-from cliente.serializers import ClienteSerializer, ParteADVSerializer
+
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
+from cliente.serializers import ClienteSerializer, ParteADVSerializer
 from processo.utils import get_current_time
 
+from .models import Processos
 
-class ProcessosArquivosSerializer(serializers.ModelSerializer):
-    
-    nome_processo = serializers.StringRelatedField(source="processo", read_only=True)
-    processo = serializers.PrimaryKeyRelatedField(queryset=Processos.objects.all(), write_only=True)
-
-    class Meta:
-        model = ProcessosArquivos
-        fields = ("id", "processo", "nome_processo", "arquivo")
 
 class ProcessosSerializer(serializers.ModelSerializer):
 
@@ -32,35 +25,20 @@ class ProcessosSerializer(serializers.ModelSerializer):
 
 
 
-    processos = ProcessosArquivosSerializer(many=True, read_only=True)
-    uploaded_arquivos = serializers.ListField(
-        child=serializers.FileField(),
-        write_only=True,
-        required=False
-
-    )
-
     class Meta:
         model = Processos
         fields = (
-            "id", "uploaded_arquivos", "advogado","cliente",
+            "id", "advogado","cliente",
             "nome_cliente", "nome_parte", "advogado_colaborador",
             "codigo_processo","advogado_responsavel", "parte_adversa",
             "cliente","posicao","colaborador",
             "assunto", "observacoes", "honorarios",
             "municipio", "estado", "n_vara",
-            "vara","iniciado","finalizado","finalizar",
-            "processos"
-        )
+            "vara","iniciado","finalizado","finalizar", "anexo"
+            )
 
     def create(self, validated_data):
         validated_data.pop("finalizar")
-        if validated_data.get("uploaded_arquivos"):
-            uploaded_arquivos = validated_data.pop("uploaded_arquivos")
-            processo = Processos.objects.create(**validated_data)
-            for arquivo in uploaded_arquivos:
-                processo_arquivo_new = ProcessosArquivos.objects.create(processo=processo, arquivo=arquivo)
-            return processo
         processo = Processos.objects.create(**validated_data)
         return processo
     

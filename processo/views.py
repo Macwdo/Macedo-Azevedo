@@ -5,8 +5,8 @@ from rest_framework.viewsets import ModelViewSet
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
 
-from .models import Processos, ProcessosArquivos
-from .serializers import ProcessosArquivosSerializer, ProcessosSerializer
+from .models import Processos
+from .serializers import ProcessosSerializer
 
 
 class ProcessosViewSet(ModelViewSet):
@@ -34,10 +34,6 @@ class ProcessosViewSet(ModelViewSet):
 
 
 
-class ProcessosArquivosViewSet(ModelViewSet):
-    queryset = ProcessosArquivos.objects.all()
-    serializer_class = ProcessosArquivosSerializer
-    permission_classes = [IsAuthenticated]
 
 class renderPage(TemplateView):
     template_name = "index.html"

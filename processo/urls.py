@@ -1,13 +1,13 @@
-from .views import ProcessosViewSet, ProcessosArquivosViewSet
+from django.urls import include, path
 from rest_framework import routers
-from django.urls import path, include
+
+from .views import ProcessosViewSet
 
 app_name = "processo"
 
 router = routers.SimpleRouter()
 
 router.register(r'processo', ProcessosViewSet)
-router.register(r'arquivo', ProcessosArquivosViewSet)
 
 
 urlpatterns = [

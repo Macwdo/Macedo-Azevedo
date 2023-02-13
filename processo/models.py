@@ -1,16 +1,15 @@
-import datetime
-
-from django.core.exceptions import ValidationError
 from django.db import models
 
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
 
-# Create your models here.
-
 
 def dir_files_processo(instance, file):
-    return f"{instance.processo}/{file}"
+    clienteName = instance.cliente.nome.title().split()
+    clienteName = "_".join(clienteName)
+    parteAdvName = instance.parte_adversa.nome.title().split()
+    parteAdvName = "_".join(parteAdvName)
+    return f"{clienteName}X{instance.parte_adversa.nome}.png"
 
 
 class Processos(models.Model):
@@ -41,25 +40,17 @@ class Processos(models.Model):
     vara = models.CharField(max_length=50)
     iniciado = models.DateTimeField(auto_now=True)
     finalizado = models.DateTimeField(blank=True, null=True)
-    arquivos = models.FileField(upload_to=dir_files_processo, default="", blank=True, null=True)
+    anexo = models.ImageField(upload_to=dir_files_processo, default=None, null=True, blank=True)
 
     def __str__(self) -> str:
-        clienteName = self.cliente.nome.split()
+        clienteName = self.cliente.nome.title().split()
+        parteAdvName = self.parte_adversa.nome.title().split()
         clienteName = "_".join(clienteName)
-        return f"{clienteName}X{self.parte_adversa.nome}_{self.codigo_processo}"
+        parteAdvName = "_".join(parteAdvName)
+        return f"{clienteName}X{parteAdvName}_{self.codigo_processo}"
 
 
     class Meta:
         verbose_name_plural = 'Processos'
 
 
-
-class ProcessosArquivos(models.Model):
-    processo = models.ForeignKey(Processos, on_delete=models.CASCADE, related_name="processos")
-    arquivo = models.FileField(upload_to=dir_files_processo, default="", blank=True, null=True)
-
-    def __str__(self) -> str:
-        return f"{self.pk}{self.arquivo}"
-
-    class Meta:
-        verbose_name_plural = 'Processos Arquivos'

@@ -1,7 +1,10 @@
-from django.db.models.signals import pre_delete, pre_save, post_save
-from django.dispatch import receiver
 import os
-from .models import Processos, ProcessosArquivos
+
+from django.db.models.signals import post_save, pre_delete, pre_save
+from django.dispatch import receiver
+
+from .models import Processos
+
 
 def delete_empty_folders(path):
     root = path
@@ -15,23 +18,18 @@ def delete_file(instance, **kwargs):
     many = kwargs.get("many", None)
     if many:
         try:
-            os.remove(instance.arquivos.path)
+            os.remove(instance.anexo.path)
             delete_empty_folders("./files")
         except(ValueError, FileNotFoundError):
             print("Error")
     else:
         try:
-            os.remove(instance.arquivo.path)
+            os.remove(instance.anexo.path)
             delete_empty_folders("./files")
         except(ValueError, FileNotFoundError):
             print("Error")
 
 
-
-@receiver(pre_delete, sender=ProcessosArquivos)
-def processoArquivos_delete(sender, instance, *args, **kwargs):
-    old_instance = ProcessosArquivos.objects.get(pk=instance.pk)
-    delete_file(old_instance)
 
 @receiver(pre_delete, sender=Processos)
 def processo_delete(sender, instance, *args, **kwargs):

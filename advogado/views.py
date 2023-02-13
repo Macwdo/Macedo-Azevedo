@@ -28,6 +28,7 @@ def getCurrentUser(request):
     if request.user.is_anonymous:
        return Response(status=401)
     user = User.objects.get(id=request.user.id)
+
     try:
         advogadoData = Advogado.objects.get(usuario=user)
     except Advogado.DoesNotExist:
@@ -41,6 +42,4 @@ def getCurrentUser(request):
 
     serializer = AdvogadoCurrentSerializer(data=serializerData)
     serializer.is_valid()
-
-    print(serializer.validated_data)
     return Response(data=serializer.data)
