@@ -11,6 +11,9 @@ __pycache__
 db.sqlite3
 media
 
+#chrome
+chromedriver
+
 # Backup files # 
 *.bak 
 
