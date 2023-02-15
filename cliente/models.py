@@ -11,7 +11,7 @@ class Cliente(models.Model):
     nome = models.CharField(max_length=50)
     email = models.CharField(max_length=50, blank=True, null=True)
     numero = models.CharField(max_length=20, blank=True, null=True)
-    registro = models.DateTimeField(auto_now=True)
+    registro = models.DateTimeField(auto_now_add=True)
     cpf_cnpj = models.CharField(max_length=30)
     tipo = models.CharField(choices=choice_tipo, max_length=2)
 
@@ -32,7 +32,7 @@ class ParteADV(models.Model):
     email = models.CharField(max_length=50, blank=True, null=True)
     numero = models.CharField(max_length=20, blank=True, null=True)
     cpf_cnpj = models.CharField(max_length=30)
-    registro = models.DateTimeField(auto_now=True)
+    registro = models.DateTimeField(auto_now_add=True)
     tipo = models.CharField(choices=choice_tipo, max_length=2)
 
     def __str__(self) -> str:
