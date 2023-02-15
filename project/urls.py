@@ -9,7 +9,7 @@ from advogado.urls import router as advogado_router
 from advogado.urls import urlpatterns as advogado_urls
 from cliente.urls import router as cliente_router
 from processo.urls import router as processo_router
-from processo.views import renderPage, processoWebScraping
+from processo.views import renderPage
 
 all_routers = processo_router.urls + cliente_router.urls + advogado_router.urls
 
