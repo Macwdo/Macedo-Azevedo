@@ -1,7 +1,6 @@
-from django.db import models
-
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
+from django.db import models
 
 
 def dir_files_processo(instance, file):
@@ -25,7 +24,7 @@ class Processos(models.Model):
         ("Réu", "Réu")
     ]
 
-    codigo_processo = models.CharField(max_length=25, unique=True)
+    codigo_processo = models.CharField(max_length=25, unique=True, null=False, blank=False)
     advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, related_name="advogado_responsavel", default="Não Informado")
     parte_adversa = models.ForeignKey(ParteADV, on_delete=models.SET_NULL, null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, related_name="clientes")
@@ -35,9 +34,9 @@ class Processos(models.Model):
     assunto = models.CharField(choices=assunto_choices, max_length=15)
     observacoes = models.CharField(max_length=255, default="Sem observações", null=True, blank=True)
     honorarios = models.FloatField(blank=True, default=0)
-    municipio = models.CharField(max_length=35)
-    estado = models.CharField(max_length=2)
-    n_vara = models.CharField(max_length=10)
+    municipio = models.CharField(max_length=40)
+    estado = models.CharField(max_length=20)
+    n_vara = models.CharField(max_length=30)
     vara = models.CharField(max_length=50)
     iniciado = models.DateTimeField(auto_now_add=True)
     finalizado = models.DateTimeField(blank=True, null=True)

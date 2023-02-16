@@ -26,7 +26,6 @@ class ProcessosSerializer(serializers.ModelSerializer):
     colaborador = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True, required=False)
 
 
-
     class Meta:
         model = Processos
         fields = (
@@ -41,6 +40,8 @@ class ProcessosSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop("finalizar")
+        data = self.validated_data.get("colaborador")
+        print(data)
         processo = Processos.objects.create(**validated_data)
         return processo
     
