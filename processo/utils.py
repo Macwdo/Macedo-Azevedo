@@ -5,6 +5,8 @@ from time import sleep
 import pytz
 from rest_framework.exceptions import bad_request
 from selenium import webdriver
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 timezone = pytz.timezone('America/Sao_Paulo')
 
@@ -46,29 +48,38 @@ class webScraping:
         if validNP:
             return True
         return False
+    
+    def searchWait(self, driver, secs, xpath):
+        return WebDriverWait(driver, secs).until(
+            EC.presence_of_element_located(
+                ("xpath", xpath)
+            )
+        )
 
     def search(self, nProcesso: str, request):
         if not self.valid_nProcess(nProcesso):
             bad_request(request)
         nProcesso = nProcesso[:15] + nProcesso[21:]
         driver = self.__driver
-        driver.get(self.const["Rj"]["Tj"]["URL"])
-        sleep(3)
-        driver.find_element("xpath", self.const["Rj"]["Tj"]["tipoN"]["unica"]["inputNp"]).send_keys(nProcesso)
-        sleep(1)
-        driver.find_element("xpath", self.const["Rj"]["Tj"]["tipoN"]["unica"]["button"]).click()
-        sleep(3)
+        driver.get(self.const["Rj"]["Tj"]["URL"])   
+
+
+        self.searchWait(driver, 5, self.const["Rj"]["Tj"]["tipoN"]["unica"]["inputNp"]).send_keys(nProcesso)
+        
+        self.searchWait(driver, 0.5, self.const["Rj"]["Tj"]["tipoN"]["unica"]["button"]).click()
+
         dados = self.const["Rj"]["Tj"]["tipoN"]["unica"]["dados"]
         dataDict = {
-            "autor": driver.find_element("xpath", dados["autor"]).text,
-            "reu": driver.find_element("xpath", dados["reu"]).text,
+            "autor": self.searchWait(driver, 3, dados["autor"]).text,
+            "reu": self.searchWait(driver, 1, dados["reu"]).text,
             "advogados": [
-            driver.find_element("xpath", dados["advogados"][0]).text,
-            driver.find_element("xpath", dados["advogados"][1]).text,
-            driver.find_element("xpath", dados["advogados"][2]).text
+            self.searchWait(driver, 1, dados["advogados"][0]).text,
+            self.searchWait(driver, 1, dados["advogados"][1]).text,
+            self.searchWait(driver, 1, dados["advogados"][2]).text
             ],
-            "movimentacao": driver.find_element("xpath", dados["movimentacao"]).text.split("\n")
+            "movimentacao": self.searchWait(driver, 1, dados["movimentacao"]).text.split("\n")
         }
+        driver.close()
         
         
         return dataDict

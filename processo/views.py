@@ -1,5 +1,7 @@
+from django.core.paginator import Paginator
 from django.views.generic import TemplateView
 from rest_framework.decorators import api_view
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -16,7 +18,8 @@ class ProcessosViewSet(ModelViewSet):
     queryset = Processos.objects.all()
     serializer_class = ProcessosSerializer
     permission_classes = [IsAuthenticated]
-# 
+    
+
     def get_queryset(self):
         fields = {}
         fk_fields = {  
@@ -25,26 +28,29 @@ class ProcessosViewSet(ModelViewSet):
             "advogado_responsavel": Advogado,
             "colaborador": Advogado
         }
+        
         for k, v in self.request.query_params.items():
+            if k == "page":
+                continue
             if k in fk_fields.keys():
                 fields[k] = fk_fields[k].objects.filter(nome__icontains=v).first()
             else:
                 fields[k + "__icontains"] = v
 
         qs = Processos.objects.filter(**fields)
+
         return qs
+                
 
-
-@api_view(["POST"])
+@api_view(["GET", "POST"])
 def processosWebScraping(request):
+    if not request.user.is_authenticated:
+       return Response(data={"detail": "Você não está autenticado"}, status=401)
     if request.method == "POST":
         processos_ws = webScraping()
-        dataScrap1 = processos_ws.search("0000903-19.2022.8.19.0209", request)
-        dataScrap2 = processos_ws.search("0030307-60.2022.8.19.0001", request)
-        dataTotal = [dataScrap1, dataScrap2]
-        return Response(data=dataTotal)
-
-
+        codigo_processo = request.data["codigo_processo"]
+        data = processos_ws.search(codigo_processo, request)
+        return Response(data=data)
 
 class renderPage(TemplateView):
     template_name = "index.html"
