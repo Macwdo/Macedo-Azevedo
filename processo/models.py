@@ -1,7 +1,6 @@
-from django.db import models
-
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
+from django.db import models
 
 
 def dir_files_processo(instance, file):
@@ -25,7 +24,7 @@ class Processos(models.Model):
         ("Réu", "Réu")
     ]
 
-    codigo_processo = models.CharField(max_length=25, unique=True)
+    codigo_processo = models.CharField(max_length=25, unique=True, null=False, blank=False)
     advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, related_name="advogado_responsavel", default="Não Informado")
     parte_adversa = models.ForeignKey(ParteADV, on_delete=models.SET_NULL, null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, related_name="clientes")

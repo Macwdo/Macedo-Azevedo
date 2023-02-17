@@ -1,13 +1,12 @@
-from django.db import models
-
 from advogado.models import Advogado
+from django.db import models
 
 # Create your models here.
 
 class Receita(models.Model):
     nome_ganho = models.CharField(max_length=40)
     valor_ganho = models.FloatField()
-    gerado = models.DateTimeField()
+    gerado = models.DateTimeField(auto_now_add=True)
     pago = models.BooleanField(default=True)
     responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True)
 
@@ -18,7 +17,7 @@ class Receita(models.Model):
 class Custos(models.Model):
     nome_custo = models.CharField(max_length=40)
     valor_custo = models.FloatField()
-    gerado = models.DateTimeField()
+    gerado = models.DateTimeField(auto_now_add=True, null= True)
     pago = models.BooleanField(default=False)
     responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True)
 
