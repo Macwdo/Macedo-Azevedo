@@ -3,8 +3,10 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
+
 from .models import Processos
 from .serializers import ProcessosSerializer
 from .utils import webScraping
@@ -32,8 +34,7 @@ class ProcessosViewSet(ModelViewSet):
                 fields[k] = fk_fields[k].objects.filter(nome__icontains=v).first()
             else:
                 fields[k + "__icontains"] = v
-
-        qs = Processos.objects.filter(**fields)
+        qs = Processos.objects.filter(**fields).order_by("-id")
 
         return qs
                 
