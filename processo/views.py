@@ -1,13 +1,12 @@
-from django.core.paginator import Paginator
-from django.views.generic import TemplateView
-from rest_framework.decorators import api_view
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from time import sleep
 
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
+from django.views.generic import TemplateView
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 from .models import Processos
 from .serializers import ProcessosSerializer
@@ -36,8 +35,7 @@ class ProcessosViewSet(ModelViewSet):
                 fields[k] = fk_fields[k].objects.filter(nome__icontains=v).first()
             else:
                 fields[k + "__icontains"] = v
-
-        qs = Processos.objects.filter(**fields)
+        qs = Processos.objects.filter(**fields).order_by("-id")
 
         return qs
                 
