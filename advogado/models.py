@@ -1,7 +1,7 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
 
 class Advogado(models.Model):
     nome = models.CharField(max_length=40, blank=False)

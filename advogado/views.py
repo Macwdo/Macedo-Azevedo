@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -24,7 +24,7 @@ class AdvogadoViewSet(ModelViewSet):
         return qs
     
 @api_view(["GET"])
-def getCurrentUser(request):
+def getCurrentUser(request: Request):
     if request.user.is_anonymous:
        return Response(status=401)
     user = User.objects.get(id=request.user.id)
@@ -43,3 +43,4 @@ def getCurrentUser(request):
     serializer = AdvogadoCurrentSerializer(data=serializerData)
     serializer.is_valid()
     return Response(data=serializer.data)
+

@@ -55,6 +55,7 @@ def sofCustos(request):
     custdict_pago = {}
     custdict_npago = {}
     total = 0
+    teste = request
     for custo in custos:
         if custo.pago:
             custdict_pago[custo.nome_custo] = custo.custo

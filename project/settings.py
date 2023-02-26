@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from decouple import config
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,6 +34,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'django_rest_passwordreset',
+    'usuarios'
 ]
 
 MIDDLEWARE = [
@@ -133,6 +136,21 @@ REST_FRAMEWORK = {
 if not DEBUG:
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = 'rest_framework.renderers.JSONRenderer'
 
+# EMAIL
+
+if not DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+DEFAULT_FROM_EMAIL = "danilomaf@hotmail.com"
+
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_HOST = config("EMAIL_HOST")
+
 # AWS CONFIG
 
 # import ipdb; ipdb.set_trace()
@@ -176,8 +194,6 @@ SIMPLE_JWT = {
     'SIGNING_KEY': SECRET_KEY,
 
     'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-
-    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION'
 }
+

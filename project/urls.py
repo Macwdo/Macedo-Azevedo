@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import include, path
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView, TokenVerifyView)
@@ -22,8 +23,12 @@ urlpatterns = [
     path('api/v1/', include(all_routers)),
     path('api/v1/', include("advogado.urls")),
     path('api/v1/', include("processo.urls")),
+    path('api/v1/', include("usuarios.urls")),
+    path('api/v1/data/', include("escritorio.urls")),
     path('', renderPage.as_view()),
-    path('api/v1/data/', include("escritorio.urls"))
+    path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+
 ]
+
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
