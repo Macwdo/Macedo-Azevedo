@@ -1,0 +1,10 @@
+python-decouple
+django
+python-dotenv
+django-rest-framework
+djangorestframework-simplejwt
+django-cors-headers
+django-rest-passwordreset
+selenium
+pillow
+psycopg2
