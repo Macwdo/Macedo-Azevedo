@@ -131,17 +131,10 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 15,
-    'DEFAULT_THROTTLE_CLASSES': [
-        'processo.views.throttles.BurstRateThrottle',
-        'processo.views.throttles.SustainedRateThrottle'
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        'burst': '3/min',
-        'sustained': '1000/day'
-    }
+
 }
 if not DEBUG:
-    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = 'rest_framework.renderers.JSONRenderer'
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = ('rest_framework.renderers.JSONRenderer',)
 
 # EMAIL
 
