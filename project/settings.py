@@ -16,7 +16,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True if os.getenv("DEBUG") == "1" else False
 
 
-ALLOWED_HOSTS = loads(os.getenv("CORS_ALLOWED_ORIGINS"))
+ALLOWED_HOSTS = loads(os.getenv("ALLOWED_HOSTS"))
 CORS_ALLOWED_ORIGINS = loads(os.getenv("CORS_ALLOWED_ORIGINS"))
 
 INSTALLED_APPS = [
@@ -130,7 +130,15 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 15
+    'PAGE_SIZE': 15,
+    'DEFAULT_THROTTLE_CLASSES': [
+        'processo.views.throttles.BurstRateThrottle',
+        'processo.views.throttles.SustainedRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'burst': '3/min',
+        'sustained': '1000/day'
+    }
 }
 if not DEBUG:
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = 'rest_framework.renderers.JSONRenderer'
