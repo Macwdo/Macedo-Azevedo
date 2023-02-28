@@ -25,7 +25,6 @@ urlpatterns = [
     path('api/v1/', include("processo.urls")),
     path('api/v1/', include("usuarios.urls")),
     path('api/v1/data/', include("escritorio.urls")),
-    path('', renderPage.as_view()),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
 ]
