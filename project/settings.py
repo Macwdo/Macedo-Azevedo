@@ -73,24 +73,17 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DATABASE_NAME'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PORT': os.getenv('DATABASE_PORT')
     }
 }
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv('DATABASE_NAME'),
-#         'HOST': os.getenv('DATABASE_HOST'),
-#         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-#         'USER': os.getenv('DATABASE_USER'),
-#         'PORT': os.getenv('DATABASE_PORT')
-#     }
-# }
 
 
 # Password validation
@@ -170,8 +163,6 @@ EMAIL_HOST = config("EMAIL_HOST")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = '/static/'
 
 MEDIA_ROOT = BASE_DIR.joinpath('files')
 MEDIA_URL = '/files/'
