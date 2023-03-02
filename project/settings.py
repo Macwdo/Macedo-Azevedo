@@ -16,8 +16,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True if os.getenv("DEBUG") == "1" else False
 
 
-ALLOWED_HOSTS = loads(os.getenv("ALLOWED_HOSTS"))
-CORS_ALLOWED_ORIGINS = loads(os.getenv("CORS_ALLOWED_ORIGINS"))
+ALLOWED_HOSTS = ["*"]
+CORS_ALLOWED_ORIGINS = ["https://localhost:3000"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -76,12 +76,8 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASE_NAME'),
-        'HOST': os.getenv('DATABASE_HOST'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'USER': os.getenv('DATABASE_USER'),
-        'PORT': os.getenv('DATABASE_PORT')
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -163,6 +159,9 @@ EMAIL_HOST = config("EMAIL_HOST")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+
+
+STATIC_URL = '/static/'
 
 MEDIA_ROOT = BASE_DIR.joinpath('files')
 MEDIA_URL = '/files/'

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.views.generic import TemplateView
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
@@ -20,24 +21,20 @@ class ProcessosViewSet(ModelViewSet):
 
     def get_queryset(self):
         fields = {}
-        fk_fields = {  
-            "cliente": Cliente,
-            "parte_adversa": ParteADV,
-            "advogado_responsavel": Advogado,
-            "colaborador": Advogado
-        }
-        
-        for k, v in self.request.query_params.items():
-            if k == "page":
-                continue
-            if k in fk_fields.keys():
-                fields[k] = fk_fields[k].objects.filter(nome__icontains=v).first()
-            else:
-                fields[k + "__icontains"] = v
-        qs = Processos.objects.filter(**fields).order_by("-id")
+        q = self.request.query_params.get("q", None)
+        if q is None:
+            return super().get_queryset()
+        qs = Processos.objects.filter(
+            Q(codigo_processo__icontains=q) |
+            Q(advogado_responsavel=Advogado.objects.filter(nome__icontains=q).first()) |
+            Q(parte_adversa=ParteADV.objects.filter(nome__icontains=q).first()) |
+            Q(cliente=Cliente.objects.filter(nome__icontains=q).first()) |
+            Q(municipio_icontains=q)|
+            Q(vara=q)
+            )
 
         return qs
-                
+
 
 @api_view(["GET", "POST"])
 def processosWebScraping(request):
