@@ -1,6 +1,5 @@
 import os
 from datetime import timedelta
-from json import loads
 from pathlib import Path
 
 from decouple import config

@@ -25,14 +25,13 @@ class ProcessosViewSet(ModelViewSet):
         if q is None:
             return super().get_queryset()
         qs = Processos.objects.filter(
-            Q(codigo_processo__icontains=q) |
-            Q(advogado_responsavel=Advogado.objects.filter(nome__icontains=q).first()) |
-            Q(parte_adversa=ParteADV.objects.filter(nome__icontains=q).first()) |
-            Q(cliente=Cliente.objects.filter(nome__icontains=q).first()) |
-            Q(municipio_icontains=q)|
-            Q(vara=q)
+            Q(codigo_processo__istartswith=q) |
+            Q(advogado_responsavel=Advogado.objects.filter(nome__istartswith=q).first())|
+            Q(parte_adversa=ParteADV.objects.filter(nome__istartswith=q).first()) |
+            Q(cliente=Cliente.objects.filter(nome__istartswith=q).first()) |
+            Q(municipio__istartswith=q)|
+            Q(vara__istartswith=q)
             )
-
         return qs
 
 

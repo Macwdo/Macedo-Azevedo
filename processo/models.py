@@ -1,6 +1,7 @@
+from django.db import models
+
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
-from django.db import models
 
 
 def dir_files_processo(instance, file):
@@ -43,11 +44,7 @@ class Processos(models.Model):
     anexo = models.ImageField(upload_to=dir_files_processo, default=None, null=True, blank=True)
 
     def __str__(self) -> str:
-        clienteName = self.cliente.nome.title().split()
-        parteAdvName = self.parte_adversa.nome.title().split()
-        clienteName = "_".join(clienteName)
-        parteAdvName = "_".join(parteAdvName)
-        return f"{clienteName}X{parteAdvName}_{self.codigo_processo}"
+        return f"{self.cliente}X{self.parte_adversa}_{self.codigo_processo}"
 
 
     class Meta:
