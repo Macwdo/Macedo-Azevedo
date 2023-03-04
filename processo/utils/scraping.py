@@ -1,17 +1,10 @@
-import datetime
 import re
-import pytz
+
 from rest_framework.exceptions import bad_request
 from selenium import webdriver
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.remote.webelement import WebElement
-
-timezone = pytz.timezone('America/Sao_Paulo')
-
-
-def get_current_time(timezone=timezone):
-    return datetime.datetime.now(tz=timezone)
 
 
 class webScraping:

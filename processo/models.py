@@ -40,14 +40,26 @@ class Processos(models.Model):
     n_vara = models.CharField(max_length=30)
     vara = models.CharField(max_length=50)
     iniciado = models.DateTimeField(auto_now_add=True)
-    finalizado = models.DateTimeField(blank=True, null=True)
+    finalizado = models.DateTimeField(auto_now_add=False, blank=True, null=True)
     anexo = models.ImageField(upload_to=dir_files_processo, default=None, null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.cliente}X{self.parte_adversa}_{self.codigo_processo}"
 
-
     class Meta:
         verbose_name_plural = 'Processos'
 
+
+class ProcessoHonorarios(models.Model):
+    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
+    valor = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+
+class ProcessoAnexos(models.Model):
+    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
+    arquivo = models.FileField()
+    created_at = models.DateTimeField(auto_now_add=True)
 

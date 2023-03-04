@@ -41,22 +41,20 @@ class ProcessosSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop("finalizar")
         data = self.validated_data.get("colaborador")
-        print(data)
         processo = Processos.objects.create(**validated_data)
         return processo
     
     def update(self, instance, validated_data):
         validated_data.get("finalizar", None)
         advogado_responsavel = Advogado.objects.get(pk=instance.advogado_responsavel.id)
-        if validated_data and instance.finalizado is None:
+        if validated_data.get("finalizar", False) and instance.finalizado is None:
             validated_data["finalizado"] = get_current_time()
+            advogado_responsavel.save()
+        else:
             advogado_responsavel.save()
 
         advogados = ["Silvia Regina", "Sandra Cristina", "Rafael Azevedo", "Daniel Macedo"]
         assuntos = ["Civil", "Previdenciario", "Trabalhista"]
                     
-
-        
-
         return super().update(instance, validated_data)
         

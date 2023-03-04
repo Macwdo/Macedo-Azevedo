@@ -1,12 +1,12 @@
 from django.db.models import Q
 from django.views.generic import TemplateView
 from rest_framework.decorators import api_view
+from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from advogado.models import Advogado
-from cliente.models import Cliente, ParteADV
 
 from .models import Processos
 from .serializers import ProcessosSerializer
@@ -20,18 +20,53 @@ class ProcessosViewSet(ModelViewSet):
     
 
     def get_queryset(self):
-        fields = {}
         q = self.request.query_params.get("q", None)
+        laywer = self.request.query_params.get("advogado", None)
+        date_selected = self.request.query_params.get("desde", None)
+
         if q is None:
-            return super().get_queryset()
-        qs = Processos.objects.filter(
-            Q(codigo_processo__istartswith=q) |
-            Q(advogado_responsavel=Advogado.objects.filter(nome__istartswith=q).first())|
-            Q(parte_adversa=ParteADV.objects.filter(nome__istartswith=q).first()) |
-            Q(cliente=Cliente.objects.filter(nome__istartswith=q).first()) |
-            Q(municipio__istartswith=q)|
-            Q(vara__istartswith=q)
-            )
+            q = ""
+        
+        laywers_qs = ""
+        date_qs = ""
+
+        if laywer is not None:
+            try:
+                laywers_qs = f"""Processos.objects.filter(
+                        Q(codigo_processo__istartswith=q) |
+                        Q(parte_adversa__nome__istartswith=q)|
+                        Q(cliente__nome__istartswith=q)|
+                        Q(municipio__istartswith=q)|
+                        Q(vara__istartswith=q)
+                ) & Processos.objects.filter(
+                    advogado_responsavel=eval("Advogado.objects.get(pk=int({laywer}))")
+                    )"""
+            except Advogado.DoesNotExist:
+                raise NotFound()
+
+        if date_selected is not None:
+            date_selected = date_selected.split("/")
+            if laywers_qs == "":
+                date_qs = """Processos.objects.filter(
+                    iniciado__year=date_selected[1],
+                    iniciado__month=date_selected[0]
+                )"""
+            else: 
+                date_qs = """& Processos.objects.filter(
+                    iniciado__year=date_selected[1],
+                    iniciado__month=date_selected[0]
+                )"""
+            
+        if laywers_qs == "" and date_qs == "":
+            qs = Processos.objects.filter(
+                        Q(codigo_processo__istartswith=q) |
+                        Q(parte_adversa__nome__istartswith=q)|
+                        Q(cliente__nome__istartswith=q)|
+                        Q(municipio__istartswith=q)|
+                        Q(vara__istartswith=q)
+                )
+        else: 
+            qs = eval(laywers_qs+ date_qs)
         return qs
 
 
@@ -47,9 +82,3 @@ def processosWebScraping(request):
 
 class renderPage(TemplateView):
     template_name = "index.html"
-
-
-    
-
-    
-
