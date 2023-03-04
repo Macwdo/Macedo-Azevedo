@@ -13,7 +13,7 @@ from rest_framework.response import Response
 def sendEmail(request: Request):
     html_content = render_to_string("./emails/cliente_message.html", {
         "titulo":"Feliz Natal",
-        "nome": "Danilo Macedo",
+        "nome": "Daniel Macedo",
         "texto": "Uma mensagem de feliz natal"
     })
     text_content = strip_tags(html_content)
@@ -21,7 +21,7 @@ def sendEmail(request: Request):
         "Enviar Email",
         text_content,
         settings.EMAIL_HOST_USER,
-        [""]
+        ["danilo.macedofernandes@hotmail.com"]
     )
 
     email.attach_alternative(content=html_content,mimetype="text/html")

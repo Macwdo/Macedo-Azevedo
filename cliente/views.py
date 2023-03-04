@@ -1,8 +1,10 @@
-from rest_framework.viewsets import ModelViewSet
-from .models import ParteADV
-from .models import Cliente 
-from .serializers import ClienteSerializer, ParteADVSerializer
+from django.db.models import Q
+from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+
+from .models import Cliente, ParteADV
+from .serializers import ClienteSerializer, ParteADVSerializer
 
 
 class ClienteViewSet(ModelViewSet):
@@ -11,10 +13,49 @@ class ClienteViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        fields = {}
-        for k, v in self.request.query_params.items():
-            fields[k + "__icontains"] = v
-        qs = Cliente.objects.filter(**fields)
+        q = self.request.query_params.get("q", None)
+        date_selected = self.request.query_params.get("desde", None)
+        tipo = self.request.query_params.get("tipo", None)
+
+        if q is None:
+            q = ""
+
+        date_qs, tipo_qs = "", ""
+
+        if tipo is not None:
+            print(tipo)
+            try:
+                tipo_qs = f"""Cliente.objects.filter(
+                    Q(nome__istartswith=q) |
+                    Q(email__istartswith=q) |
+                    Q(cpf_cnpj__istartswith=q) |
+                    Q(nome__istartswith=q) 
+                    ) & Cliente.objects.filter(tipo="{tipo}")"""
+            except:
+                raise NotFound()
+
+        if date_selected is not None:
+            date_selected = date_selected.split("/")
+            if tipo == "":
+                date_qs = """Cliente.objects.filter(
+                    registro__year=date_selected[1],
+                    registro__month=date_selected[0]
+                )"""
+            else: 
+                date_qs = """& Cliente.objects.filter(
+                    registro__year=date_selected[1],
+                    registro__month=date_selected[0]
+                )"""
+                
+        if tipo_qs == "" and date_qs == "":
+            qs = Cliente.objects.filter(
+                    Q(nome__istartswith=q) |
+                    Q(email__istartswith=q) |
+                    Q(cpf_cnpj__istartswith=q)
+                    )
+        else: 
+            qs = eval(tipo_qs + date_qs)
+
         return qs
 
 
@@ -25,9 +66,48 @@ class ParteADVViewSet(ModelViewSet):
 
 
     def get_queryset(self):
-        fields = {}
-        for k, v in self.request.query_params.items():
-            fields[k + "__icontains"] = v
-        qs = ParteADV.objects.filter(**fields)
+        q = self.request.query_params.get("q", None)
+        date_selected = self.request.query_params.get("desde", None)
+        tipo = self.request.query_params.get("tipo", None)
+
+        if q is None:
+            q = ""
+
+        date_qs, tipo_qs = "", ""
+
+        if tipo is not None:
+            print(tipo)
+            try:
+                tipo_qs = f"""ParteADV.objects.filter(
+                    Q(nome__istartswith=q) |
+                    Q(email__istartswith=q) |
+                    Q(cpf_cnpj__istartswith=q) |
+                    Q(nome__istartswith=q) 
+                    ) & ParteADV.objects.filter(tipo="{tipo}")"""
+            except:
+                raise NotFound()
+
+        if date_selected is not None:
+            date_selected = date_selected.split("/")
+            if tipo == "":
+                date_qs = """ParteADV.objects.filter(
+                    registro__year=date_selected[1],
+                    registro__month=date_selected[0]
+                )"""
+            else: 
+                date_qs = """& ParteADV.objects.filter(
+                    registro__year=date_selected[1],
+                    registro__month=date_selected[0]
+                )"""
+                
+        if tipo_qs == "" and date_qs == "":
+            qs = ParteADV.objects.filter(
+                    Q(nome__istartswith=q) |
+                    Q(email__istartswith=q) |
+                    Q(cpf_cnpj__istartswith=q)
+                    )
+        else: 
+            qs = eval(tipo_qs + date_qs)
+
         return qs
 

@@ -15,8 +15,6 @@ class Cliente(models.Model):
     cpf_cnpj = models.CharField(max_length=30, default="Não informado")
     tipo = models.CharField(choices=choice_tipo, max_length=2)
 
-    def dia(self):
-        return "campo dia"
 
     def __str__(self) -> str:
         return f"{self.nome}"

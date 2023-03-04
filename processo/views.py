@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import NotFound
@@ -39,7 +40,7 @@ class ProcessosViewSet(ModelViewSet):
                         Q(municipio__istartswith=q)|
                         Q(vara__istartswith=q)
                 ) & Processos.objects.filter(
-                    advogado_responsavel=eval("Advogado.objects.get(pk=int({laywer}))")
+                    advogado_responsavel=eval("get_object_or_404(Advogado, pk={laywer})")
                     )"""
             except Advogado.DoesNotExist:
                 raise NotFound()
@@ -61,6 +62,7 @@ class ProcessosViewSet(ModelViewSet):
             qs = Processos.objects.filter(
                         Q(codigo_processo__istartswith=q) |
                         Q(parte_adversa__nome__istartswith=q)|
+                        Q(advogado_responsavel__nome__istartswith=q)|
                         Q(cliente__nome__istartswith=q)|
                         Q(municipio__istartswith=q)|
                         Q(vara__istartswith=q)
