@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from .views import ProcessosViewSet, processosWebScraping
+from .views import ProcessosViewSet, tjRjScraping
 
 app_name = "processo"
 
@@ -11,5 +11,5 @@ router.register(r'processo', ProcessosViewSet)
 
 
 urlpatterns = [
-    path("processosws/", processosWebScraping, name="processoWebScraping")
+    path("processosws/", tjRjScraping, name="processoWebScraping")
 ]

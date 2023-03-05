@@ -2,7 +2,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from decouple import config
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -16,7 +15,7 @@ DEBUG = True if os.getenv("DEBUG") == "1" else False
 
 
 ALLOWED_HOSTS = ["*"]
-CORS_ALLOWED_ORIGINS = ["https://localhost:3000"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',

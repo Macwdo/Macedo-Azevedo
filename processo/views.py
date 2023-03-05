@@ -13,7 +13,7 @@ from advogado.models import Advogado
 
 from .models import Processos
 from .serializers import ProcessosSerializer
-from .utils import webScraping
+from .utils.scraping.tj_rj import TjRjScraping
 
 
 class ProcessosViewSet(ModelViewSet):
@@ -25,7 +25,7 @@ class ProcessosViewSet(ModelViewSet):
     def get_queryset(self):
         q = self.request.query_params.get("q", None)
         laywer = self.request.query_params.get("advogado", None)
-        date_selected = self.request.query_params.get("desde", None)
+        date_selected = self.request.query_params.get("iniciado", None)
 
         if q is None:
             q = ""
@@ -69,18 +69,18 @@ class ProcessosViewSet(ModelViewSet):
                 )
         else: 
             qs = eval(laywers_qs+ date_qs)
-        return qs
+        return qs.order_by("-id")
 
 
-@api_view(["GET", "POST"])
-def processosWebScraping(request):
+@api_view(["GET", "POST"])  
+def tjRjScraping(request):
     if not request.user.is_authenticated:
        return Response(data={"detail": "Você não está autenticado"}, status=401)
     if request.method == "POST":
-        processos_ws = webScraping()
-        codigo_processo = request.data["codigo_processo"]
-        data = processos_ws.search(codigo_processo, request)
+        processos_ws = TjRjScraping("../chromedriver")
+        data = processos_ws.run(request.data["codigo_processo"])
         return Response(data=data["body"], status=data["status"])
 
 class renderPage(TemplateView):
     template_name = "index.html"
+    

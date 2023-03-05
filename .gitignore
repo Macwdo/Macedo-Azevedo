@@ -1,6 +1,7 @@
 #Project Folders#
 terraform/
 files/
+examples/
 #Project Files
 index.html
 scripts.js

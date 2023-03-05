@@ -16,7 +16,7 @@ class ClienteViewSet(ModelViewSet):
 
     def get_queryset(self):
         q = self.request.query_params.get("q", None)
-        date_selected = self.request.query_params.get("desde", None)
+        date_selected = self.request.query_params.get("iniciado", None)
         tipo = self.request.query_params.get("tipo", None)
 
         if q is None:
@@ -68,7 +68,7 @@ class ParteADVViewSet(ModelViewSet):
 
     def get_queryset(self):
         q = self.request.query_params.get("q", None)
-        date_selected = self.request.query_params.get("desde", None)
+        date_selected = self.request.query_params.get("iniciado", None)
         tipo = self.request.query_params.get("tipo", None)
 
         if q is None:
