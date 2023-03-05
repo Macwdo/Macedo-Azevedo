@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db.models import Q
 from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
@@ -29,29 +31,28 @@ class ClienteViewSet(ModelViewSet):
                     Q(nome__istartswith=q) |
                     Q(email__istartswith=q) |
                     Q(cpf_cnpj__istartswith=q) |
-                    Q(nome__istartswith=q) 
+                    Q(numero__istartswith=q) 
                     ) & Cliente.objects.filter(tipo="{tipo}")"""
             except:
                 raise NotFound()
 
         if date_selected is not None:
             date_selected = date_selected.split("/")
-            if tipo == "":
-                date_qs = """Cliente.objects.filter(
-                    registro__year=date_selected[1],
-                    registro__month=date_selected[0]
+            if tipo_qs == "":
+                date_qs = f"""Cliente.objects.filter(
+                registro__gte="{date(int(date_selected[1]), int(date_selected[0]), 1)}",
                 )"""
             else: 
-                date_qs = """& Cliente.objects.filter(
-                    registro__year=date_selected[1],
-                    registro__month=date_selected[0]
+                date_qs = f""" & Cliente.objects.filter(
+                registro__gte="{date(int(date_selected[1]), int(date_selected[0]), 1)}",
                 )"""
                 
         if tipo_qs == "" and date_qs == "":
             qs = Cliente.objects.filter(
                     Q(nome__istartswith=q) |
                     Q(email__istartswith=q) |
-                    Q(cpf_cnpj__istartswith=q)
+                    Q(cpf_cnpj__istartswith=q) |
+                    Q(numero__istartswith=q)
                     )
         else: 
             qs = eval(tipo_qs + date_qs)
@@ -76,35 +77,32 @@ class ParteADVViewSet(ModelViewSet):
         date_qs, tipo_qs = "", ""
 
         if tipo is not None:
-            print(tipo)
             try:
                 tipo_qs = f"""ParteADV.objects.filter(
                     Q(nome__istartswith=q) |
                     Q(email__istartswith=q) |
                     Q(cpf_cnpj__istartswith=q) |
-                    Q(nome__istartswith=q) 
+                    Q(numero__istartswith=q)
                     ) & ParteADV.objects.filter(tipo="{tipo}")"""
             except:
                 raise NotFound()
 
         if date_selected is not None:
             date_selected = date_selected.split("/")
-            if tipo == "":
-                date_qs = """ParteADV.objects.filter(
-                    registro__year=date_selected[1],
-                    registro__month=date_selected[0]
+            if tipo_qs == "":
+                date_qs = f"""ParteADV.objects.filter(
+                registro__gte="{date(int(date_selected[1]), int(date_selected[0]), 1)}",
                 )"""
             else: 
-                date_qs = """& ParteADV.objects.filter(
-                    registro__year=date_selected[1],
-                    registro__month=date_selected[0]
+                date_qs = f""" & ParteADV.objects.filter(
+                registro__gte="{date(int(date_selected[1]), int(date_selected[0]), 1)}",
                 )"""
-                
         if tipo_qs == "" and date_qs == "":
             qs = ParteADV.objects.filter(
                     Q(nome__istartswith=q) |
                     Q(email__istartswith=q) |
-                    Q(cpf_cnpj__istartswith=q)
+                    Q(cpf_cnpj__istartswith=q) |
+                    Q(numero__istartswith=q)
                     )
         else: 
             qs = eval(tipo_qs + date_qs)

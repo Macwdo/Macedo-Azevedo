@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
@@ -48,14 +50,12 @@ class ProcessosViewSet(ModelViewSet):
         if date_selected is not None:
             date_selected = date_selected.split("/")
             if laywers_qs == "":
-                date_qs = """Processos.objects.filter(
-                    iniciado__year=date_selected[1],
-                    iniciado__month=date_selected[0]
+                date_qs = f"""Processos.objects.filter(
+                    iniciado__gte="{date(int(date_selected[1]), int(date_selected[0]), 1)}"
                 )"""
             else: 
-                date_qs = """& Processos.objects.filter(
-                    iniciado__year=date_selected[1],
-                    iniciado__month=date_selected[0]
+                date_qs = f"""& Processos.objects.filter(
+                    iniciado__gte="{date(int(date_selected[1]), int(date_selected[0]), 1)}"
                 )"""
             
         if laywers_qs == "" and date_qs == "":

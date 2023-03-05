@@ -13,7 +13,6 @@ def dir_files_processo(instance, file):
 
 
 class Processos(models.Model):
-    
     assunto_choices = [
         ("Trabalhista", "Direito Trabalhista"),
         ("Previdenciário", "Direito Previdenciário"),
@@ -34,13 +33,13 @@ class Processos(models.Model):
     colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborador")
     assunto = models.CharField(choices=assunto_choices, max_length=15)
     observacoes = models.CharField(max_length=255, default="Sem observações", null=True, blank=True)
-    honorarios = models.FloatField(blank=True, default=0)
     municipio = models.CharField(max_length=40)
     estado = models.CharField(max_length=20)
     n_vara = models.CharField(max_length=30)
     vara = models.CharField(max_length=50)
     iniciado = models.DateTimeField(auto_now_add=True)
     finalizado = models.DateTimeField(auto_now_add=False, blank=True, null=True)
+    honorarios = models.FloatField(blank=True, default=0)
     anexo = models.ImageField(upload_to=dir_files_processo, default=None, null=True, blank=True)
 
     def __str__(self) -> str:
@@ -50,12 +49,12 @@ class Processos(models.Model):
         verbose_name_plural = 'Processos'
 
 
-class ProcessoHonorarios(models.Model):
+class ProcessoCustos(models.Model):
+    referente = models.CharField(max_length=255)
     processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
     valor = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
 
 
 class ProcessoAnexos(models.Model):
