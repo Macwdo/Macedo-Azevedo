@@ -1,7 +1,7 @@
 from datetime import date
 
+from advogado.models import Advogado
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import NotFound
@@ -9,10 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from advogado.models import Advogado
-
-from .models import Processos
-from .serializers import ProcessosSerializer
+from .models import ProcessoHonorarios, Processos
+from .serializers import *
 from .utils.scraping.tj_rj import TjRjScraping
 
 
@@ -21,7 +19,6 @@ class ProcessosViewSet(ModelViewSet):
     serializer_class = ProcessosSerializer
     permission_classes = [IsAuthenticated]
     
-
     def get_queryset(self):
         q = self.request.query_params.get("q", None)
         laywer = self.request.query_params.get("advogado", None)
@@ -83,4 +80,17 @@ def tjRjScraping(request):
 
 class renderPage(TemplateView):
     template_name = "index.html"
+
+class ProcessoHonorariosViewSet(ModelViewSet):
+    queryset = ProcessoHonorarios.objects.all()
+    serializer_class = ProcessosHonorariosSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        q = self.request.query_params.get("q", None)
+        try:
+            qs = ProcessoHonorarios.objects.filter(processo=Processos.objects.get(pk=int(q)))
+        except:
+            raise NotFound()
+        return qs
     

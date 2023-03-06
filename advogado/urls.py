@@ -10,5 +10,5 @@ router.register(r"advogado", AdvogadoViewSet)
 
 urlpatterns = [
     path("current/", getCurrentUser, name="current")
-]
+] + router.urls
 

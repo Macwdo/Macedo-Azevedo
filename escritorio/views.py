@@ -1,12 +1,13 @@
-from rest_framework.viewsets import ModelViewSet
-from escritorio.models import Custos
 from advogado.models import Advogado
-from processo.models import Processos
-from escritorio.serializers import CustosSerializer
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view
 from django.http import JsonResponse
+from escritorio.models import Custos
+from escritorio.serializers import CustosSerializer
+from processo.models import Processos
+from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+
 
 class CustosViewSet(ModelViewSet):
     queryset = Custos.objects.all()
@@ -55,7 +56,6 @@ def sofCustos(request):
     custdict_pago = {}
     custdict_npago = {}
     total = 0
-    teste = request
     for custo in custos:
         if custo.pago:
             custdict_pago[custo.nome_custo] = custo.custo

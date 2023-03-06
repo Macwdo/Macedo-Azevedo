@@ -1,15 +1,6 @@
-from django.db import models
-
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
-
-
-def dir_files_processo(instance, file):
-    clienteName = instance.cliente.nome.title().split()
-    clienteName = "_".join(clienteName)
-    parteAdvName = instance.parte_adversa.nome.title().split()
-    parteAdvName = "_".join(parteAdvName)
-    return f"{clienteName}X{instance.parte_adversa.nome}.png"
+from django.db import models
 
 
 class Processos(models.Model):
@@ -39,26 +30,36 @@ class Processos(models.Model):
     vara = models.CharField(max_length=50)
     iniciado = models.DateTimeField(auto_now_add=True)
     finalizado = models.DateTimeField(auto_now_add=False, blank=True, null=True)
-    honorarios = models.FloatField(blank=True, default=0)
-    anexo = models.ImageField(upload_to=dir_files_processo, default=None, null=True, blank=True)
+
+    def honorarios(self):
+        return ProcessoHonorarios.objects.filter(processo=Processos.objects.get(pk=self.pk))
+
+    def honorario_total(self):
+        honorarios = ProcessoHonorarios.objects.filter(processo=Processos.objects.get(pk=self.pk))
+        total = 0
+        for i in honorarios:
+            total += i.valor
+        return total
+        
 
     def __str__(self) -> str:
-        return f"{self.cliente}X{self.parte_adversa}_{self.codigo_processo}"
+        return f"{self.codigo_processo}"
 
     class Meta:
         verbose_name_plural = 'Processos'
 
 
-class ProcessoCustos(models.Model):
+class ProcessoHonorarios(models.Model):
     referente = models.CharField(max_length=255)
     processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
+    responsavel = models.ForeignKey(Advogado, models.SET_NULL, null=True, blank=False)
     valor = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class ProcessoAnexos(models.Model):
-    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
+    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False, related_name="arquivos")
     arquivo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
 

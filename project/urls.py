@@ -1,18 +1,16 @@
+from advogado.urls import urlpatterns as advogado_router
+from cliente.urls import urlpatterns as cliente_router
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
+from processo.urls import urlpatterns as processo_router
+from processo.views import renderPage
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView, TokenVerifyView)
 
-from advogado.urls import router as advogado_router
-from advogado.urls import urlpatterns as advogado_urls
-from cliente.urls import router as cliente_router
-from processo.urls import router as processo_router
-from processo.views import renderPage
-
-all_routers = processo_router.urls + cliente_router.urls + advogado_router.urls
+all_routers = processo_router + cliente_router + advogado_router
 
 
 urlpatterns = [

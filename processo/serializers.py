@@ -1,11 +1,28 @@
-from rest_framework import serializers
-
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
 from cliente.serializers import ClienteSerializer, ParteADVSerializer
 from processo.utils import get_current_time
+from rest_framework import serializers
 
-from .models import Processos
+from .models import *
+from .views import *
+
+
+class ProcessosHonorariosSerializer(serializers.ModelSerializer):
+    responsavel = serializers.StringRelatedField()
+    class Meta:
+        fields = (
+            "id", "referente",
+            "valor", "referente",
+            "responsavel"
+            )
+        model = ProcessoHonorarios
+
+
+class ProcessosAnexosSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = "__all__"
+        model = ProcessoAnexos
 
 
 class ProcessosSerializer(serializers.ModelSerializer):
@@ -21,10 +38,10 @@ class ProcessosSerializer(serializers.ModelSerializer):
     cliente = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all(), write_only=True)
     parte_adversa = serializers.PrimaryKeyRelatedField(queryset=ParteADV.objects.all(), write_only=True)
 
-
     advogado_responsavel = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
     colaborador = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True, required=False)
 
+    honorarios = ProcessosHonorariosSerializer(many=True)
 
     class Meta:
         model = Processos
@@ -33,14 +50,15 @@ class ProcessosSerializer(serializers.ModelSerializer):
             "nome_cliente", "nome_parte", "advogado_colaborador",
             "codigo_processo","advogado_responsavel", "parte_adversa",
             "cliente","posicao","colaborador",
-            "assunto", "observacoes", "honorarios",
-            "municipio", "estado", "n_vara",
-            "vara","iniciado","finalizado","finalizar", "anexo"
+            "assunto", "observacoes",
+            "municipio", "estado", "n_vara","vara",
+            "honorario_total",
+            "iniciado","finalizado","finalizar", "honorarios",
             )
+        
 
     def create(self, validated_data):
         validated_data.pop("finalizar")
-        data = self.validated_data.get("colaborador")
         processo = Processos.objects.create(**validated_data)
         return processo
     
