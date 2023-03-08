@@ -31,11 +31,11 @@ class Processos(models.Model):
     iniciado = models.DateTimeField(auto_now_add=True)
     finalizado = models.DateTimeField(auto_now_add=False, blank=True, null=True)
 
-    def honorarios(self):
-        return ProcessoHonorarios.objects.filter(processo=Processos.objects.get(pk=self.pk))
+    def honorarios_registrados(self):
+        return ProcessosHonorarios.objects.filter(processo=Processos.objects.get(pk=self.pk))
 
-    def honorario_total(self):
-        honorarios = ProcessoHonorarios.objects.filter(processo=Processos.objects.get(pk=self.pk))
+    def honorarios(self):
+        honorarios = ProcessosHonorarios.objects.filter(processo=Processos.objects.get(pk=self.pk))
         total = 0
         for i in honorarios:
             total += i.valor
@@ -49,7 +49,7 @@ class Processos(models.Model):
         verbose_name_plural = 'Processos'
 
 
-class ProcessoHonorarios(models.Model):
+class ProcessosHonorarios(models.Model):
     referente = models.CharField(max_length=255)
     processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
     responsavel = models.ForeignKey(Advogado, models.SET_NULL, null=True, blank=False)
@@ -58,8 +58,8 @@ class ProcessoHonorarios(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class ProcessoAnexos(models.Model):
-    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False, related_name="arquivos")
+class ProcessosAnexos(models.Model):
+    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
     arquivo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
 

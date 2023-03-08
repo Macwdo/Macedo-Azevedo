@@ -24,8 +24,7 @@ class ClienteViewSet(ModelViewSet):
 
         date_qs, tipo_qs = "", ""
 
-        if tipo is not None:
-            print(tipo)
+        if tipo is not None and tipo != "":
             try:
                 tipo_qs = f"""Cliente.objects.filter(
                     Q(nome__istartswith=q) |
@@ -36,7 +35,7 @@ class ClienteViewSet(ModelViewSet):
             except:
                 raise NotFound()
 
-        if date_selected is not None:
+        if date_selected is not None and date_selected != "":
             date_selected = date_selected.split("/")
             if tipo_qs == "":
                 date_qs = f"""Cliente.objects.filter(
@@ -54,10 +53,26 @@ class ClienteViewSet(ModelViewSet):
                     Q(cpf_cnpj__istartswith=q) |
                     Q(numero__istartswith=q)
                     )
+        elif tipo_qs == "" and date_qs != "":
+            qs = Cliente.objects.filter(
+                        Q(codigo_processo__istartswith=q) |
+                        Q(parte_adversa__nome__istartswith=q)|
+                        Q(advogado_responsavel__nome__istartswith=q)|
+                        Q(cliente__nome__istartswith=q)|
+                        Q(municipio__istartswith=q)|
+                        Q(vara__istartswith=q)
+                ) and eval(date_qs)
+
+        elif tipo != "" and date_qs == "":
+            qs = eval(tipo_qs)
+
+        elif tipo == "" and date_qs != "":
+            qs = eval(date_qs)
+        
         else: 
             qs = eval(tipo_qs + date_qs)
-
-        return qs
+            
+        return qs.order_by("-id")
 
 
 class ParteADVViewSet(ModelViewSet):
@@ -74,9 +89,10 @@ class ParteADVViewSet(ModelViewSet):
         if q is None:
             q = ""
 
+
         date_qs, tipo_qs = "", ""
 
-        if tipo is not None:
+        if tipo is not None and tipo != "":
             try:
                 tipo_qs = f"""ParteADV.objects.filter(
                     Q(nome__istartswith=q) |
@@ -87,7 +103,7 @@ class ParteADVViewSet(ModelViewSet):
             except:
                 raise NotFound()
 
-        if date_selected is not None:
+        if date_selected is not None and date_selected != "":
             date_selected = date_selected.split("/")
             if tipo_qs == "":
                 date_qs = f"""ParteADV.objects.filter(
@@ -104,8 +120,24 @@ class ParteADVViewSet(ModelViewSet):
                     Q(cpf_cnpj__istartswith=q) |
                     Q(numero__istartswith=q)
                     )
+        elif tipo_qs == "" and date_qs != "":
+            qs = ParteADV.objects.filter(
+                        Q(codigo_processo__istartswith=q) |
+                        Q(parte_adversa__nome__istartswith=q)|
+                        Q(advogado_responsavel__nome__istartswith=q)|
+                        Q(cliente__nome__istartswith=q)|
+                        Q(municipio__istartswith=q)|
+                        Q(vara__istartswith=q)
+                ) and eval(date_qs)
+
+        elif tipo != "" and date_qs == "":
+            qs = eval(tipo_qs)
+
+        elif tipo == "" and date_qs != "":
+            qs = eval(date_qs)
+        
         else: 
             qs = eval(tipo_qs + date_qs)
 
-        return qs
+        return qs.order_by("-id")
 

@@ -1,28 +1,34 @@
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
 from cliente.serializers import ClienteSerializer, ParteADVSerializer
-from processo.utils import get_current_time
 from rest_framework import serializers
+
+from processo.utils import get_current_time
 
 from .models import *
 from .views import *
 
 
 class ProcessosHonorariosSerializer(serializers.ModelSerializer):
-    responsavel = serializers.StringRelatedField()
+    advogado_responsavel = serializers.StringRelatedField(source="responsavel")
+    responsavel = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
+
+    codigo_processo = serializers.StringRelatedField(source="processo")
+    processo = serializers.PrimaryKeyRelatedField(queryset=Processos.objects.all(), write_only=True)
+
     class Meta:
         fields = (
-            "id", "referente",
-            "valor", "referente",
-            "responsavel"
+            "id", "referente", "codigo_processo",
+            "valor", "processo",
+            "responsavel", "advogado_responsavel"
             )
-        model = ProcessoHonorarios
+        model = ProcessosHonorarios
 
 
 class ProcessosAnexosSerializer(serializers.ModelSerializer):
     class Meta:
         fields = "__all__"
-        model = ProcessoAnexos
+        model = ProcessosAnexos
 
 
 class ProcessosSerializer(serializers.ModelSerializer):
@@ -34,14 +40,14 @@ class ProcessosSerializer(serializers.ModelSerializer):
     advogado = serializers.StringRelatedField(source="advogado_responsavel", read_only=True)
     advogado_colaborador = serializers.StringRelatedField(source="colaborador", read_only=True)
 
-    cliente_de = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
     cliente = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all(), write_only=True)
     parte_adversa = serializers.PrimaryKeyRelatedField(queryset=ParteADV.objects.all(), write_only=True)
 
+    cliente_de = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
     advogado_responsavel = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
     colaborador = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True, required=False)
 
-    honorarios = ProcessosHonorariosSerializer(many=True)
+    honorarios_registrados = ProcessosHonorariosSerializer(many=True, read_only=True)
 
     class Meta:
         model = Processos
@@ -52,8 +58,8 @@ class ProcessosSerializer(serializers.ModelSerializer):
             "cliente","posicao","colaborador",
             "assunto", "observacoes",
             "municipio", "estado", "n_vara","vara",
-            "honorario_total",
             "iniciado","finalizado","finalizar", "honorarios",
+            "honorarios_registrados"
             )
         
 
@@ -64,15 +70,8 @@ class ProcessosSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         validated_data.get("finalizar", None)
-        advogado_responsavel = Advogado.objects.get(pk=instance.advogado_responsavel.id)
         if validated_data.get("finalizar", False) and instance.finalizado is None:
             validated_data["finalizado"] = get_current_time()
-            advogado_responsavel.save()
-        else:
-            advogado_responsavel.save()
-
-        advogados = ["Silvia Regina", "Sandra Cristina", "Rafael Azevedo", "Daniel Macedo"]
-        assuntos = ["Civil", "Previdenciario", "Trabalhista"]
                     
         return super().update(instance, validated_data)
         

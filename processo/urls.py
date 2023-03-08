@@ -8,7 +8,8 @@ app_name = "processo"
 router = routers.SimpleRouter()
 
 router.register(r'processo', ProcessosViewSet)
-router.register(r'honorario', ProcessoHonorariosViewSet)
+router.register(r'processo-honorario', ProcessosHonorariosViewSet)
+router.register(r'processo-anexos', ProcessosAnexosViewSet)
 
 urlpatterns = [
     path("processosws/", tjRjScraping, name="processoWebScraping"),
