@@ -98,6 +98,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#Sentry
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -125,12 +126,12 @@ if not DEBUG:
 
 # EMAIL
 
-if not DEBUG:
+if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-DEFAULT_FROM_EMAIL = "danilomaf@hotmail.com"
+DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
 
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")

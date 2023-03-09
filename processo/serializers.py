@@ -48,6 +48,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
     colaborador = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True, required=False)
 
     honorarios_registrados = ProcessosHonorariosSerializer(many=True, read_only=True)
+    anexos_registrados = ProcessosAnexosSerializer(many=True, read_only=True)
 
     class Meta:
         model = Processos
@@ -59,7 +60,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
             "assunto", "observacoes",
             "municipio", "estado", "n_vara","vara",
             "iniciado","finalizado","finalizar", "honorarios",
-            "honorarios_registrados"
+            "honorarios_registrados", "anexos_registrados"
             )
         
 

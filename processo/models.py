@@ -40,6 +40,11 @@ class Processos(models.Model):
         for i in honorarios:
             total += i.valor
         return total
+
+    def anexos_registrados(self):
+        return ProcessosAnexos.objects.filter(processo=Processos.objects.get(pk=self.pk))
+
+
         
 
     def __str__(self) -> str:
@@ -59,6 +64,7 @@ class ProcessosHonorarios(models.Model):
 
 
 class ProcessosAnexos(models.Model):
+    nome_do_anexo = models.CharField(max_length=100, default="Arquivo Sem Nome")
     processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
     arquivo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
