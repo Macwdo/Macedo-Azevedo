@@ -62,4 +62,5 @@ class ProcessosAnexos(models.Model):
     processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
     arquivo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
