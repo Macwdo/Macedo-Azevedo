@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  macedoazevedoapp:
+    container_name: macedoazevedoapp
+    build: .
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code  
+    depends_on:
+      - db_macedo_azevedo
+      
+  db_macedo_azevedo:
+    container_name: db_macedo_azevedo
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: db_app
+      POSTGRES_USER: postgres
+    ports:
+      - "5431:5432"
+
+volumes:
+  postgres_data:
