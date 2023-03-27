@@ -1,5 +1,8 @@
 #Project Folders#
 key.txt
+code/files/
+code/staticfiles/**
+code/staticfiles
 terraform/
 files/
 examples/

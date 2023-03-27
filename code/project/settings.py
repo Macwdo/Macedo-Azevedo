@@ -9,9 +9,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = True if os.getenv("DEBUG") == "1" else False
+DEBUG = True if os.environ.get("DEBUG") == "1" else False
 
 
 ALLOWED_HOSTS = ["*"]
@@ -75,11 +75,11 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASE_NAME'),
-        'HOST': os.getenv('DATABASE_HOST'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'USER': os.getenv('DATABASE_USER'),
-        'PORT': os.getenv('DATABASE_PORT')
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PORT': os.environ.get('DATABASE_PORT')
     }
 }
 
@@ -134,23 +134,23 @@ if DEBUG:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
+DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
 
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
-EMAIL_PORT = int(os.getenv("EMAIL_PORT"))
-EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT"))
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
 
 # AWS CONFIG
 
 # import ipdb; ipdb.set_trace()
 ###
-# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY')
+# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY')
 
-# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_KEY')
+# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
 
-# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_BUCKET_NAME')
+# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
 
 # AWS_S3_CUSTOM_DOMAIN = ''
 
@@ -163,7 +163,8 @@ EMAIL_HOST = os.getenv("EMAIL_HOST")
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_ROOT = BASE_DIR.joinpath('files')
 MEDIA_URL = '/files/'
