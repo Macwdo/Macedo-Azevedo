@@ -13,7 +13,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = True if os.environ.get("DEBUG") == "1" else False
 
-
 ALLOWED_HOSTS = ["*"]
 CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 
@@ -31,9 +30,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'django_rest_passwordreset',
-    'usuarios'
-]
+    'django_rest_passwordreset'
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -190,3 +188,11 @@ SIMPLE_JWT = {
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION'
 }
 
+
+# Celery
+
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "pyamqp://guest@localhost//")

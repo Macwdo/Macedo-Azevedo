@@ -19,6 +19,15 @@ run:
 	docker-compose -f docker-compose.yml down
 	docker-compose -f docker-compose.yml up
 
+connect:
+	docker exec -it macedoazevedoapp /bin/bash
+
+celery_connect:
+	docker exec -i macedoazevedoapp sh -c 'celery -A project worker --loglevel=INFO'
+
+run_robot:
+	docker exec -it macedoazevedoapp python3 manage.py robot
+	
 
 up:
 	docker-compose -f docker-compose.yml down

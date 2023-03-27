@@ -2,9 +2,22 @@ from rest_framework.exceptions import NotFound
 from selenium.webdriver.common.by import By
 
 from .scrapingPattern import webScraping
-
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import Chrome
 
 class TjRjScraping(webScraping):
+    def __init__(self, **kwargs) -> None:
+        chrome_user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
+        self.chrome_options = Options()
+        self.chrome_options.add_argument("--window-size=1920,1080")
+        self.chrome_options.add_argument("--headless")
+        self.chrome_options.add_argument("--no-sandbox")
+        self.chrome_options.add_argument("--disable-dev-shm-usage")
+        self.chrome_options.add_argument('--remote-debugging-port=9222')
+        self.chrome_options.add_argument(f"--user-agent={chrome_user_agent}")
+        self.__paths = {}
+        self.driver = Chrome(options=self.chrome_options)
+
     paths = {
                 "URL": "https://www3.tjrj.jus.br/consultaprocessual/#/conspublica#porNumero",
                 "tipoN": {

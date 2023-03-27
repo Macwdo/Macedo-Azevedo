@@ -38,6 +38,13 @@ services:
       POSTGRES_USER: postgres
     ports:
       - "5431:5432"
+
+  celery_broker:
+    container_name: celery_broker
+    image: rabbitmq:latest
+    restart: always
+    ports:
+      - 5672:5672
   
   pgadmin:
     container_name: pgadmin4_container
