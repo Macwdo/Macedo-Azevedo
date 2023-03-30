@@ -12,8 +12,8 @@ from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
 from celery import shared_task
-from .models import Cliente, ParteADV
-from .serializers import ClienteSerializer, ParteADVSerializer
+from .models import Cliente, ParteADV, ClienteEndereco, ParteADVEndereco
+from .serializers import ClienteSerializer, ParteADVSerializer, ClienteEnderecoSerializer, ParteADVEnderecoSerializer
 
 
 class ClienteViewSet(ModelViewSet):
@@ -147,6 +147,38 @@ class ParteADVViewSet(ModelViewSet):
             qs = eval(tipo_qs + date_qs)
 
         return qs.order_by("-id")
+    
+class ClienteEnderecoViewSet(ModelViewSet):
+    queryset = ClienteEndereco.objects.all()
+    serializer_class = ClienteEnderecoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        q = self.request.query_params.get("q", None)
+        if q == None:
+            return super().get_queryset()
+        try:
+            qs = ClienteEndereco.objects.filter(processo=Cliente.objects.get(pk=int(q)))
+        except:
+            raise NotFound()
+        return qs
+    
+
+class ParteADVEnderecoViewSet(ModelViewSet):
+    queryset = ParteADVEndereco.objects.all()
+    serializer_class = ParteADVEnderecoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        q = self.request.query_params.get("q", None)
+        if q == None:
+            return super().get_queryset()
+        try:
+            qs = ParteADVEndereco.objects.filter(processo=ParteADV.objects.get(pk=int(q)))
+        except:
+            raise NotFound()
+        return qs
+    
 
 @shared_task()
 @api_view(["GET"])

@@ -1,10 +1,12 @@
 from rest_framework.routers import SimpleRouter
 from django.urls import path
-from .views import ClienteViewSet, ParteADVViewSet, sendEmail, task_test
+from .views import ClienteViewSet, ParteADVViewSet, ParteADVEnderecoViewSet, ClienteEnderecoViewSet, sendEmail, task_test
 
 router = SimpleRouter()
 router.register(r"cliente", ClienteViewSet)
 router.register(r"parteadv", ParteADVViewSet)
+router.register(r"parteadv-endereco", ParteADVEnderecoViewSet)
+router.register(r"cliente-endereco", ClienteEnderecoViewSet)
 
 
 app_name = "cliente"

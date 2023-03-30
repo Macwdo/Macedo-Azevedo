@@ -23,14 +23,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'processo',
     'cliente',
     'advogado',
-    'escritorio',
+
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
-    'django_rest_passwordreset'
+    'django_rest_passwordreset',
+    'easyaudit'
+
     ]
 
 MIDDLEWARE = [
@@ -43,6 +46,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'easyaudit.middleware.easyaudit.EasyAuditMiddleware',
+
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -142,7 +147,6 @@ EMAIL_HOST = os.environ.get("EMAIL_HOST")
 
 # AWS CONFIG
 
-# import ipdb; ipdb.set_trace()
 ###
 # AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY')
 
