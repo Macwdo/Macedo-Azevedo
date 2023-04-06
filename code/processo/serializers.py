@@ -64,7 +64,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
             "municipio", "estado", "n_vara","vara",
             "iniciado","finalizado","finalizar", "honorarios",
             "honorarios_registrados", "anexos_registrados"
-            )
+        )
         
 
     def create(self, validated_data):
