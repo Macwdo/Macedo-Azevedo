@@ -2,12 +2,15 @@ from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
 from cliente.serializers import ClienteSerializer, ParteADVSerializer
 from rest_framework import serializers
-
 from processo.utils import get_current_time
-
 from .models import *
 from .views import *
 
+
+class ProcessosAssuntosSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ("assunto")
+        model = ProcessosAssuntos
 
 class ProcessosHonorariosSerializer(serializers.ModelSerializer):
     advogado_responsavel = serializers.StringRelatedField(source="responsavel")

@@ -13,6 +13,7 @@ from rest_framework_simplejwt.views import (TokenObtainPairView,
 all_routers = processo_router + cliente_router + advogado_router
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token'),
@@ -24,6 +25,9 @@ urlpatterns = [
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
 ]
+
+if settings.DEBUG == True:
+    urlpatterns.append(path('', renderPage.as_view(), name='home'))
 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

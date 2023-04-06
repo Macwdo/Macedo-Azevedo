@@ -9,8 +9,8 @@ class Advogado(models.Model):
 
     nome = models.CharField(max_length=40, blank=False)
     email = models.CharField(max_length=50)
-    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    oab = models.CharField(max_length=8, null=False, blank=False, default="RJ000123")
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    oab = models.CharField(max_length=8, unique=True, null=False, blank=True)
     image = models.ImageField(upload_to="images/", default=None, null=True)
 
     def __str__(self) -> str:

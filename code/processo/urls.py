@@ -1,16 +1,33 @@
 from django.urls import include, path
 from rest_framework import routers
-
+from rest_framework_nested import routers as nrouters
 from .views import *
 
-app_name = "processo"
 
-router = routers.SimpleRouter()
+app_name = "processos"
 
+
+router = nrouters.SimpleRouter()
 router.register(r'processo', ProcessosViewSet)
-router.register(r'processo-honorario', ProcessosHonorariosViewSet)
-router.register(r'processo-anexos', ProcessosAnexosViewSet)
+
+processo_routers = nrouters.NestedSimpleRouter(
+    router,
+    r'processo',
+    lookup='processo'
+)
+
+processo_routers.register(
+    r'honorario',
+    ProcessosHonorariosViewSet,
+    basename='processo-honorario'
+)
+
+processo_routers.register(
+    r'anexo',
+    ProcessosAnexosViewSet,
+    basename='processo-honorario'
+)
 
 urlpatterns = [
     path("processosws/", tjRjScraping, name="processoWebScraping"),
-] + router.urls
+] + router.urls + processo_routers.urls

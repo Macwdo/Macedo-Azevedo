@@ -34,7 +34,6 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     environment:
       POSTGRES_PASSWORD: 12345
-      POSTGRES_DB: appdb
       POSTGRES_USER: postgres
     ports:
       - "5431:5432"
@@ -55,6 +54,9 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
+    volumes:
+      - pgadmindata:/var/lib/pgadmin
 
 volumes:
   postgres_data:
+  pgadmindata:

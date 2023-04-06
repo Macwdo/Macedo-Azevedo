@@ -8,7 +8,7 @@ admin:
 	docker exec -it macedoazevedoapp sh -c 'python manage.py createsuperuser --username admin'
 
 migrations:
-	docker exec -i macedoazevedoapp sh -c 'python manage.py makemigrations'
+	docker exec -i macedoazevedoapp sh -c 'python manage.py makemigrations processo advogado cliente'
 
 build:
 	docker exec -i macedoazevedoapp sh -c 'pip install -r requirements.txt'
@@ -24,6 +24,10 @@ connect:
 
 celery_connect:
 	docker exec -i macedoazevedoapp sh -c 'celery -A project worker --loglevel=INFO'
+
+load_data:
+	docker exec -i web_realtor sh -c './manage.py loaddata */fixtures/*.json'
+
 
 run_robot:
 	docker exec -it macedoazevedoapp python3 manage.py robot

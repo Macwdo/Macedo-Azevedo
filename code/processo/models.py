@@ -3,13 +3,11 @@ from cliente.models import Cliente, ParteADV
 from django.db import models
 
 
-class Processos(models.Model):
-    assunto_choices = [
-        ("Trabalhista", "Direito Trabalhista"),
-        ("Previdenciário", "Direito Previdenciário"),
-        ("Civil", "Direito Civil")
-    ]
+class ProcessosAssuntos(models.Model):
+    assunto = models.CharField(max_length=255)
 
+
+class Processos(models.Model):
     posicao_choice = [
         ("Autor", "Autor"),
         ("Réu", "Réu")
@@ -22,9 +20,9 @@ class Processos(models.Model):
     cliente_de = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null= True, blank=False)
     posicao = models.CharField(choices=posicao_choice, max_length=5)
     colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborador")
-    assunto = models.CharField(choices=assunto_choices, max_length=15)
     observacoes = models.CharField(max_length=255, default="Sem observações", null=True, blank=True)
     municipio = models.CharField(max_length=40)
+    assunto = models.CharField(max_length=255)
     estado = models.CharField(max_length=20)
     n_vara = models.CharField(max_length=30)
     vara = models.CharField(max_length=50)
@@ -45,8 +43,6 @@ class Processos(models.Model):
         return ProcessosAnexos.objects.filter(processo=Processos.objects.get(pk=self.pk))
 
 
-        
-
     def __str__(self) -> str:
         return f"{self.codigo_processo}"
 
@@ -55,12 +51,23 @@ class Processos(models.Model):
 
 
 class ProcessosHonorarios(models.Model):
-    referente = models.CharField(max_length=255)
+
+    referente_field = [
+        ("Honorarios", "Honorarios"),
+        ("Custo", "Custo"),
+        ("Taxas", "Taxas")
+                       ]
+
+    referente = models.CharField(max_length=255,)
     processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
     responsavel = models.ForeignKey(Advogado, models.SET_NULL, null=True, blank=False)
     valor = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.processo} {self.valor}"
+
 
 
 class ProcessosAnexos(models.Model):
@@ -69,4 +76,7 @@ class ProcessosAnexos(models.Model):
     arquivo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.processo} {self.nome_do_anexo}"
 

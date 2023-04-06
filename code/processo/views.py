@@ -96,36 +96,27 @@ def tjRjScraping(request):
         data = processos_ws.run(request.data["codigo_processo"])
         return Response(data=data["body"], status=data["status"])
 
+
 class renderPage(TemplateView):
     template_name = "index.html"
+
 
 class ProcessosHonorariosViewSet(ModelViewSet):
     queryset = ProcessosHonorarios.objects.all()
     serializer_class = ProcessosHonorariosSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        q = self.request.query_params.get("q", None)
-        if q == None:
-            return super().get_queryset()
-        try:
-            qs = ProcessosHonorarios.objects.filter(processo=Processos.objects.get(pk=int(q)))
-        except:
-            raise NotFound()
-        return qs
-    
+
+
 class ProcessosAnexosViewSet(ModelViewSet):
     queryset = ProcessosAnexos.objects.all()
     serializer_class = ProcessosAnexosSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        q = self.request.query_params.get("q", None)
-        if q == None:
-            return super().get_queryset()
-        try:
-            qs = ProcessosAnexos.objects.filter(processo=Processos.objects.get(pk=int(q)))
-        except:
-            raise NotFound()
-        return qs
-    
+
+
+class ProcessosAssuntosViewSet(ModelViewSet):
+    queryset = ProcessosAssuntos.objects.all()
+    serializer_class = ProcessosAssuntosSerializer
+    permission_classes = [IsAuthenticated]
+

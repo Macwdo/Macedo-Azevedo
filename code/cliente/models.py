@@ -4,11 +4,10 @@ from django.db import models
 class Cliente(models.Model):
     choice_tipo =(("PF", "Pessoa Fisica"), ("PJ", "Pessoa Juridica"))
     nome = models.CharField(max_length=100)
-    email = models.CharField(max_length=100, blank=False, null=False, default="Não informado")
-    numero = models.CharField(max_length=20, blank=False, null=False, default="Não informado")
-    registro = models.DateTimeField(auto_now_add=True)
-    endereco = models.CharField(max_length=200, blank=False, null=False, default="Não informado")
-    cpf_cnpj = models.CharField(max_length=30, default="Não informado")
+    email = models.CharField(max_length=255, blank=True, null=True)
+    numero = models.CharField(max_length=20, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    cpf_cnpj = models.CharField(max_length=30, blank=False)
     tipo = models.CharField(choices=choice_tipo, max_length=2)
 
     def __str__(self) -> str:
@@ -28,11 +27,10 @@ class ClienteEndereco(models.Model):
 class ParteADV(models.Model):
     choice_tipo = [("PF", "Pessoa Fisica"), ("PJ", "Pessoa Juridica")]
     nome = models.CharField(max_length=100)
-    email = models.CharField(max_length=100, blank=False, null=False, default="Não informado")
-    numero = models.CharField(max_length=20, blank=False, null=False, default="Não informado")
-    endereco = models.CharField(max_length=200, blank=False, null=False, default="Não informado")
-    cpf_cnpj = models.CharField(max_length=30, default="Não informado")
-    registro = models.DateTimeField(auto_now_add=True)
+    email = models.CharField(max_length=255, blank=True, null=True)
+    numero = models.CharField(max_length=20, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    cpf_cnpj = models.CharField(max_length=30, blank=False)
     tipo = models.CharField(choices=choice_tipo, max_length=2)
 
     def __str__(self) -> str:
