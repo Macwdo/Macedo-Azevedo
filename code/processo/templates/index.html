@@ -1,0 +1,104 @@
+<html>
+<head>
+    <title>
+        Inicial
+    </title>
+</head>
+
+<body>
+    <h1>
+        Endpoints
+    </h1>
+    <h2>
+        Processo
+    </h2>
+    <div>
+        <div>
+            <h1>
+                Processo
+            </h1>
+            <ul>
+
+                <p>
+                    Retorno da API - 200 - Sucesso<br>
+                    Retorno da API - 401 - Unauthorized <br>
+                    {<br>
+                        "detail": "As credenciais de autenticação não foram fornecidas."<br>
+                    }<br>
+                    Retorno da API - 400 - Erro no enviou - Bad Request
+                </p>
+                <li>
+                    GET - LIST - api/v1/processo/ <br>
+                </li>
+                <li>
+                    GET - DETAIL - api/v1/processo/{id} <br>
+                    <p>
+                        {<br>
+                            "id": int,<br>
+                            "advogado": "string",<br>
+                            "cliente_de_dr": "string",<br>
+                            "nome_cliente": "string",<br>
+                            "nome_parte": "string",<br>
+                            "advogado_colaborador": "string" ou null,<br>
+                            "codigo_processo": "string",<br>
+                            "posicao": "string",<br>
+                            "assunto": "string",<br>
+                            "observacoes": "string,<br>
+                            "municipio": "string",<br>
+                            "estado": "string",<br>
+                            "n_vara": "string",<br>
+                            "vara": "string",<br>
+                            "iniciado": "string",<br>
+                            "finalizado": null,<br>
+                            "honorarios": float,<br>
+                            "honorarios_registrados": [],<br>
+                            "anexos_registrados": []<br>
+                        }
+                    </p>
+                </li>
+                <li>
+                    POST - api/v1/processo/<br>
+                    <p>
+                    {<br>
+                        "codigo_processo": "string",<br>
+                        "advogado_responsavel": int-id,<br>
+                        "cliente_de": int-id,<br>
+                        "cliente": int-id,<br>
+                        "parte_adversa": int-id,<br>
+                        "colaborador": int-id,<br>
+                        "posicao": "string",<br>
+                        "assunto": "string",<br>
+                        "observacoes": "string",<br>
+                        "municipio": "string",<br>
+                        "estado": "string",<br>
+                        "n_vara": "string",<br>
+                        "vara": "string"<br>
+                    }
+                    </p>
+
+                </li>
+                <li>
+                    PUT - api/v1/processo/{id}<br>
+                </li>
+                <li>
+                    PATCH - api/v1/processo/{id}<br>
+                </li>
+                <li>
+                    DELETE - api/v1/processo/{id}
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h1>
+                Processo Honorarios
+            </h1>
+            <ul>
+                <li>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

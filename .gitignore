@@ -7,7 +7,6 @@ terraform/
 files/
 examples/
 #Project Files
-index.html
 scripts.js
 # Django #
 *.log
