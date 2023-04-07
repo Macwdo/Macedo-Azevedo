@@ -13,17 +13,11 @@ class ProcessosAssuntosSerializer(serializers.ModelSerializer):
         model = ProcessosAssuntos
 
 class ProcessosHonorariosSerializer(serializers.ModelSerializer):
-    advogado_responsavel = serializers.StringRelatedField(source="responsavel")
-    responsavel = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
-
-    codigo_processo = serializers.StringRelatedField(source="processo")
-    processo = serializers.PrimaryKeyRelatedField(queryset=Processos.objects.all(), write_only=True)
-
     class Meta:
         fields = (
-            "id", "referente", "codigo_processo",
+            "id", "referente",
             "valor", "processo",
-            "responsavel", "advogado_responsavel"
+            "responsavel"
             )
         model = ProcessosHonorarios
 
@@ -71,11 +65,3 @@ class ProcessosSerializer(serializers.ModelSerializer):
         validated_data.pop("finalizar")
         processo = Processos.objects.create(**validated_data)
         return processo
-    
-    def update(self, instance, validated_data):
-        validated_data.get("finalizar", None)
-        if validated_data.get("finalizar", False) and instance.finalizado is None:
-            validated_data["finalizado"] = get_current_time()
-                    
-        return super().update(instance, validated_data)
-        

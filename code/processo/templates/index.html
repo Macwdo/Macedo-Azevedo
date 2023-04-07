@@ -9,14 +9,14 @@
     <h1>
         Endpoints
     </h1>
-    <h2>
+    <h1>
         Processo
-    </h2>
-    <div>
+    </h1>
+        <div style="margin-left: 50px">
         <div>
-            <h1>
+            <h2>
                 Processo
-            </h1>
+            </h2>
             <ul>
 
                 <p>
@@ -32,9 +32,10 @@
                 </li>
                 <li>
                     GET - DETAIL - api/v1/processo/{id} <br>
+                    GET - Finalizar Processo - api/v1/processo/{id}
                     <p>
                         {<br>
-                            "id": int,<br>
+                            "id": int-id,<br>
                             "advogado": "string",<br>
                             "cliente_de_dr": "string",<br>
                             "nome_cliente": "string",<br>
@@ -89,15 +90,82 @@
             </ul>
         </div>
         <div>
-            <h1>
+            <h2>
                 Processo Honorarios
-            </h1>
+            </h2>
             <ul>
                 <li>
-
+                    GET - LIST - api/v1/processo/{id}/honorario
+                </li>
+                <li>
+                    GET - DETAIL - api/v1/processo/{id}/honorario/{id}<br>
+                    {<br>
+                        "id": int-id,<br>
+                        "referente": "string",<br>
+                        "valor": float,<br>
+                        "processo": int-id,<br>
+                        "responsavel": int-id<br>
+                    }
+                </li>
+                <li>
+                    POST - api/v1/processo/{id}/honorario<br>
+                    {<br>
+                    "referente":"string",<br>
+                    "valor": float,<br>
+                    "processo": int-id,<br>
+                    "responsavel": int-id<br>
+                    }
+                </li>
+                <li>
+                    PATCH - api/v1/processo/{id}/honorario/{id}
+                </li>
+                <li>
+                    PUT - api/v1/processo/{id}/honorario/{id}
+                </li>
+                <li>
+                    DELETE - api/v1/processo/{id}/honorario/{id}
                 </li>
             </ul>
         </div>
+        <div>
+            <h2>
+                Processo Anexos
+            </h2>
+            <ul>
+                <li>
+                    GET - LIST - api/v1/processo/{id}/anexo
+                </li>
+                <li>
+                    GET - DETAIL - api/v1/processo/{id}/anexo/{id}<br>
+                    {<br>
+                    "id": int-id,<br>
+                    "nome_do_anexo": "string",<br>
+                    "arquivo": "string-url",<br>
+                    "created_at": "string-date",<br>
+                    "processo": int-id<br>
+                    }<br>
+                </li>
+                <li>
+                    GET - DETAIL - api/v1/processo/{id}/anexo/{id}<br>
+                    {<br>
+                    "id": int-id,<br>
+                    "nome_do_anexo": "string",<br>
+                    "arquivo": "string-url",<br>
+                    "processo": int-id<br>
+                    }<br>
+                </li>
+                <li>
+                    PATCH - api/v1/processo/{id}/anexo/{id}
+                </li>
+                <li>
+                    PUT - api/v1/processo/{id}/anexo/{id}
+                </li>
+                <li>
+                    DELETE - api/v1/processo/{id}/anexo/{id}
+                </li>
+            </ul>
+        </div>
+
     </div>
 </body>
 

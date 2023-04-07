@@ -30,4 +30,5 @@ processo_routers.register(
 
 urlpatterns = [
     path("processosws/", tjRjScraping, name="processoWebScraping"),
+    path("processo/<int:id>/finalizar/", finalizar_processo, name="finalizar")
 ] + router.urls + processo_routers.urls

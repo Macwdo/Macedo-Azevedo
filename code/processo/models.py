@@ -28,6 +28,8 @@ class Processos(models.Model):
     vara = models.CharField(max_length=50)
     iniciado = models.DateTimeField(auto_now_add=True)
     finalizado = models.DateTimeField(auto_now_add=False, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def honorarios_registrados(self):
         return ProcessosHonorarios.objects.filter(processo=Processos.objects.get(pk=self.pk))
@@ -71,11 +73,10 @@ class ProcessosHonorarios(models.Model):
 
 
 class ProcessosAnexos(models.Model):
-    nome_do_anexo = models.CharField(max_length=100, default="Arquivo Sem Nome")
+    nome_do_anexo = models.CharField(max_length=100, null=False, blank=False)
     processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
     arquivo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.processo} {self.nome_do_anexo}"

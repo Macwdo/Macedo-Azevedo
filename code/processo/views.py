@@ -1,5 +1,7 @@
+import time
 from datetime import date
 
+from django.contrib.auth.decorators import login_required
 from advogado.models import Advogado
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -9,7 +11,9 @@ from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework.exceptions import NotAuthenticated
+from rest_framework import status
+from datetime import datetime
 from .models import Processos, ProcessosHonorarios
 from .serializers import *
 from .utils.scraping.tj_rj import TjRjScraping
@@ -87,14 +91,25 @@ class ProcessosViewSet(ModelViewSet):
         return qs.order_by("-id")
 
 
-@api_view(["GET", "POST"])  
-def tjRjScraping(request):
+@api_view(["GET"])
+def finalizar_processo(request, id):
     if not request.user.is_authenticated:
-       return Response(data={"detail": "Você não está autenticado"}, status=401)
-    if request.method == "POST":
-        processos_ws = TjRjScraping("../chromedriver")
-        data = processos_ws.run(request.data["codigo_processo"])
-        return Response(data=data["body"], status=data["status"])
+        raise NotAuthenticated()
+    processo = get_object_or_404(Processos, pk=id)
+    if processo.finalizado == None:
+        processo.finalizado = datetime.now()
+        processo.save()
+        serializer = ProcessosSerializer(processo, many=False)
+        return Response(data=serializer.data)
+    else:
+        return Response(data={"detail": "este processo ja foi finalizado"}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["POST"])
+@login_required()
+def tjRjScraping(request):
+    processos_ws = TjRjScraping("../chromedriver")
+    data = processos_ws.run(request.data["codigo_processo"])
+    return Response(data=data["body"], status=data["status"])
 
 
 class renderPage(TemplateView):
@@ -106,12 +121,30 @@ class ProcessosHonorariosViewSet(ModelViewSet):
     serializer_class = ProcessosHonorariosSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_queryset(self, *args, **kwargs):
+        processo_pk = int(self.kwargs.get("processo_pk"))
+        try:
+            processo = Processos.objects.get(pk=processo_pk)
+        except Processos.DoesNotExist:
+            raise NotFound()
+        return self.queryset.filter(processo=processo_pk)
+
+
 
 
 class ProcessosAnexosViewSet(ModelViewSet):
     queryset = ProcessosAnexos.objects.all()
     serializer_class = ProcessosAnexosSerializer
     permission_classes = [IsAuthenticated]
+
+
+    def get_queryset(self, *args, **kwargs):
+        processo_pk = int(self.kwargs.get("processo_pk"))
+        try:
+            processo = Processos.objects.get(pk=processo_pk)
+        except Processos.DoesNotExist:
+            raise NotFound()
+        return self.queryset.filter(processo=processo_pk)
 
 
 
