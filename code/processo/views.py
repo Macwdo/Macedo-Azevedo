@@ -112,10 +112,6 @@ def tjRjScraping(request):
     return Response(data=data["body"], status=data["status"])
 
 
-class renderPage(TemplateView):
-    template_name = "index.html"
-
-
 class ProcessosHonorariosViewSet(ModelViewSet):
     queryset = ProcessosHonorarios.objects.all()
     serializer_class = ProcessosHonorariosSerializer

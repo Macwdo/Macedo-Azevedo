@@ -1,27 +1,24 @@
-from django.urls import include, path
-from rest_framework import routers
-from rest_framework_nested import routers as nrouters
+from django.urls import path
+from rest_framework_nested.routers import SimpleRouter, NestedSimpleRouter
 from .views import *
 
 
 app_name = "processos"
 
 
-router = nrouters.SimpleRouter()
+router = SimpleRouter()
 router.register(r'processo', ProcessosViewSet)
 
-processo_routers = nrouters.NestedSimpleRouter(
+processo_routers = NestedSimpleRouter(
     router,
     r'processo',
     lookup='processo'
 )
-
 processo_routers.register(
     r'honorario',
     ProcessosHonorariosViewSet,
     basename='processo-honorario'
 )
-
 processo_routers.register(
     r'anexo',
     ProcessosAnexosViewSet,
