@@ -1,26 +1,42 @@
 [
     {
-        "usuario": 1,
-        "nome": "Sandra Cristina",
-        "email": "sandrama@adv.com",
-        "oab": "RJ126128"
+        "model": "advogado.advogado",
+        "pk": 0,
+        "fields":{
+            "usuario_id": 0,
+            "nome": "Sandra Cristina",
+            "email": "sandrama@adv.com",
+            "oab": "RJ126128"
+        }
     },
     {
-        "usuario": 1,
-        "nome": "Silvia Regina",
-        "email": "silviaregina@adv.com",
-        "oab": "RJ064135"
+        "model": "advogado.advogado",
+        "pk": 1,
+        "fields":{
+            "usuario_id": 0,
+            "nome": "Silvia Regina",
+            "email": "silviaregina@adv.com",
+            "oab": "RJ064135"
+        }
     },
     {
-        "usuario": 1,
-        "nome": "Daniel Macedo",
-        "email": "danielmacedo@adv.com",
-        "oab": "RJ221153E"
+        "model": "advogado.advogado",
+        "pk": 2,
+        "fields":{
+            "usuario_id": 0,
+            "nome": "Daniel Macedo",
+            "email": "danielmacedo@adv.com",
+            "oab": "RJ221153E"
+        }
     },
     {
-        "usuario": 1,
-        "nome": "Rafael Azevedo",
-        "email": "rafaelazevedo@adv.com",
-        "oab": "RJ243193"
+        "model": "advogado.advogado",
+        "pk": 3,
+        "fields": {
+            "usuario_id": 0,
+            "nome": "Rafael Azevedo",
+            "email": "rafaelazevedo@adv.com",
+            "oab": "RJ243193"
+        }
     }
 ]

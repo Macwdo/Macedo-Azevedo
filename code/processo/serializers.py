@@ -15,7 +15,7 @@ class ProcessosHonorariosSerializer(serializers.ModelSerializer):
         fields = (
             "id", "referente",
             "valor", "processo",
-            "responsavel"
+            "advogado_responsavel"
             )
         model = ProcessosHonorarios
 

@@ -75,7 +75,7 @@ class ProcessosHonorarios(models.Model):
 
     referente = models.CharField(max_length=255,)
     processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
-    responsavel = models.ForeignKey(Advogado, models.SET_NULL, null=True, blank=False)
+    advogado_responsavel = models.ForeignKey(Advogado, models.SET_NULL, null=True, blank=False)
     valor = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

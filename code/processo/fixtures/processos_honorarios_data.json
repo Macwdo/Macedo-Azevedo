@@ -1,0 +1,87 @@
+[
+  {
+    "model":"processo.processoshonorarios",
+      "pk": 1,
+      "fields":{
+        "referente": "Custas",
+        "valor": 599.0,
+        "processo": 1,
+        "advogado_responsavel": 0,
+        "created_at": "2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+    }
+  },
+  {
+    "model":"processo.processoshonorarios",
+      "pk": 1,
+      "fields":{
+        "referente": "Imposto",
+        "valor": 232.9,
+        "processo": 1,
+        "advogado_responsavel": 1,
+        "created_at": "2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+    }
+  },
+  {
+    "model":"processo.processoshonorarios",
+      "pk": 1,
+      "fields":{
+        "referente": "Suborno",
+        "valor": 17100.0,
+        "processo": 1,
+        "advogado_responsavel": 2,
+        "created_at": "2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+    }
+  },
+  {
+    "model":"processo.processoshonorarios",
+      "pk": 1,
+      "fields":{
+        "id": 4,
+        "referente": "Suborno",
+        "valor": 15000.0,
+        "processo": 1,
+        "advogado_responsavel": 3,
+        "created_at": "2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+    }
+  },
+    {
+    "model":"processo.processoshonorarios",
+      "pk": 1,
+      "fields":{
+        "referente": "Custas",
+        "valor": 599.0,
+        "processo": 1,
+        "advogado_responsavel": 0,
+        "created_at": "2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+    }
+  },
+  {
+    "model":"processo.processoshonorarios",
+      "pk": 1,
+      "fields":{
+        "referente": "Transporte",
+        "valor": 900,
+        "processo": 3,
+        "advogado_responsavel": 1,
+        "created_at": "2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+    }
+  },
+  {
+    "model":"processo.processoshonorarios",
+      "pk": 1,
+      "fields":{
+        "referente": "Suborno",
+        "valor": 15000.0,
+        "processo": 3,
+        "advogado_responsavel": 1,
+        "created_at": "2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+    }
+  }
+]

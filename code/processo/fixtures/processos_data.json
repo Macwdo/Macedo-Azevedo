@@ -1,0 +1,84 @@
+[
+  {
+    "model": "processo.processos",
+    "pk": 0,
+    "fields": {
+        "cliente": 1,
+        "cliente_de": 1,
+        "codigo_processo": "0002169-90.2022.8.19.0031",
+        "advogado_responsavel": 0,
+        "parte_adversa": 1,
+        "posicao": "Autor",
+        "assunto": "Outra loucura",
+        "municipio": "Rio de Janeiro",
+        "estado": "RJ",
+        "n_vara": "2",
+        "vara": "Civil",
+        "iniciado": "2023-04-11T18:22:28.652943-03:00",
+        "created_at":"2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+
+    }
+  },
+  {
+    "model": "processo.processos",
+    "pk": 1,
+    "fields": {
+        "cliente": 1,
+        "cliente_de": 1,
+        "codigo_processo": "0000678-73.2022.8.19.0055",
+        "advogado_responsavel": 0,
+        "parte_adversa": 1,
+        "posicao": "Autor",
+        "assunto": "Outra loucura com velho",
+        "municipio": "Rio de Janeiro",
+        "estado": "RJ",
+        "n_vara": "1",
+        "vara": "Civil",
+        "iniciado": "2023-04-11T18:22:28.652943-03:00",
+        "created_at": "2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+
+    }
+  },
+  {
+    "model": "processo.processos",
+    "pk": 2,
+    "fields": {
+        "cliente": 1,
+        "cliente_de": 1,
+        "codigo_processo": "0030307-60.2022.8.19.0001",
+        "advogado_responsavel": 1,
+        "parte_adversa": 1,
+        "posicao": "Autor",
+        "assunto": "Outra loucura com a dra silvia",
+        "municipio": "Rio de Janeiro",
+        "estado": "RJ",
+        "n_vara": "37",
+        "vara": "Civil",
+        "iniciado": "2023-04-11T18:22:28.652943-03:00",
+        "created_at":"2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+    }
+  },
+    {
+    "model": "processo.processos",
+    "pk": 3,
+    "fields": {
+        "cliente": 1,
+        "cliente_de": 1,
+        "codigo_processo": "0000434-88.2022.8.19.0203",
+        "advogado_responsavel": 1,
+        "parte_adversa": 1,
+        "posicao": "Autor",
+        "assunto": "Loucura com a dra silvia em jacarepagua",
+        "municipio": "Rio de Janeiro",
+        "estado": "RJ",
+        "n_vara": "4",
+        "vara": "Civil",
+        "iniciado": "2023-04-11T18:22:28.652943-03:00",
+        "created_at": "2023-04-11T18:22:28.652943-03:00",
+        "updated_at": "2023-04-11T18:22:28.652943-03:00"
+    }
+  }
+]

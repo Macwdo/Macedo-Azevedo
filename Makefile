@@ -26,12 +26,10 @@ celery_connect:
 	docker exec -i macedoazevedoapp sh -c 'celery -A project worker --loglevel=INFO'
 
 load_data:
-	docker exec -i web_realtor sh -c './manage.py loaddata */fixtures/*.json'
-
+	docker exec -i macedoazevedoapp sh -c 'python manage.py loaddata */fixtures/*.json'
 
 run_robot:
 	docker exec -it macedoazevedoapp python3 manage.py robot
-	
 
 up:
 	docker-compose -f docker-compose.yml down
