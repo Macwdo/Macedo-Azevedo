@@ -1,0 +1,26 @@
+[
+    {
+        "usuario": 1,
+        "nome": "Sandra Cristina",
+        "email": "sandrama@adv.com",
+        "oab": "RJ126128"
+    },
+    {
+        "usuario": 1,
+        "nome": "Silvia Regina",
+        "email": "silviaregina@adv.com",
+        "oab": "RJ064135"
+    },
+    {
+        "usuario": 1,
+        "nome": "Daniel Macedo",
+        "email": "danielmacedo@adv.com",
+        "oab": "RJ221153E"
+    },
+    {
+        "usuario": 1,
+        "nome": "Rafael Azevedo",
+        "email": "rafaelazevedo@adv.com",
+        "oab": "RJ243193"
+    }
+]
