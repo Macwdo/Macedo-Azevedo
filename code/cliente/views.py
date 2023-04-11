@@ -154,14 +154,12 @@ class ClienteEnderecoViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        q = self.request.query_params.get("q", None)
-        if q == None:
-            return super().get_queryset()
+        cliente_pk = int(self.kwargs.get("cliente_pk"))
         try:
-            qs = ClienteEndereco.objects.filter(processo=Cliente.objects.get(pk=int(q)))
-        except:
+            cliente = Cliente.objects.get(pk=cliente_pk)
+        except Cliente.DoesNotExist:
             raise NotFound()
-        return qs
+        return self.queryset.filter(pk=cliente_pk)
     
 
 class ParteADVEnderecoViewSet(ModelViewSet):
@@ -170,15 +168,12 @@ class ParteADVEnderecoViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        q = self.request.query_params.get("q", None)
-        if q == None:
-            return super().get_queryset()
+        parteadv_pk = int(self.kwargs.get("parteadv_pk"))
         try:
-            qs = ParteADVEndereco.objects.filter(processo=ParteADV.objects.get(pk=int(q)))
-        except:
+            parteadv = ParteADV.objects.get(pk=parteadv_pk)
+        except Cliente.DoesNotExist:
             raise NotFound()
-        return qs
-    
+        return self.queryset.filter(pk=parteadv_pk)
 
 @shared_task()
 @api_view(["GET"])

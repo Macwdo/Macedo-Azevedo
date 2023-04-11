@@ -3,7 +3,7 @@ from .views import ClienteViewSet, ParteADVViewSet, ParteADVEnderecoViewSet, Cli
 from rest_framework_nested.routers import SimpleRouter, NestedSimpleRouter
 
 
-app_name = "cliente"
+app_name = "registros"
 
 cliente_router = SimpleRouter()
 cliente_router.register(r'cliente', ClienteViewSet)
@@ -35,9 +35,8 @@ parteadv_router_nested.register(
 )
 
 
-
 urlpatterns = [
     path("send-email/", sendEmail, name="reset"),
     path("testing/", task_test, name="reset")
-] + parteadv_router.urls + cliente_router.urls
+] + parteadv_router.urls + parteadv_router_nested.urls + cliente_router.urls + cliente_router_nested.urls
 

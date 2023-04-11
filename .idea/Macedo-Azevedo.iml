@@ -14,7 +14,7 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.10 (Macedo-Azevedo)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.11.1 Docker (macedoazevedoapp:latest)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

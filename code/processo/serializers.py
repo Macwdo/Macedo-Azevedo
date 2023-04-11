@@ -1,8 +1,6 @@
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
-from cliente.serializers import ClienteSerializer, ParteADVSerializer
 from rest_framework import serializers
-from processo.utils import get_current_time
 from .models import *
 from .views import *
 
@@ -57,7 +55,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
             "assunto", "observacoes",
             "municipio", "estado", "n_vara","vara",
             "iniciado","finalizado","finalizar", "honorarios",
-            "honorarios_registrados", "anexos_registrados"
+            "honorarios_registrados", "anexos_registrados","rastreado"
         )
         
 

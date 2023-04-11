@@ -1,29 +1,25 @@
-import time
+from advogado.models import Advogado
+from .serializers import *
 from datetime import date
-
-from django.contrib.auth.decorators import login_required
 from advogado.models import Advogado
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
-from rest_framework.decorators import api_view
 from rest_framework.exceptions import NotFound
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.exceptions import NotAuthenticated
 from rest_framework import status
 from datetime import datetime
 from .models import Processos, ProcessosHonorarios
-from .serializers import *
-from .utils.scraping.tj_rj import TjRjScraping
-
+from processo.scraping.tribunais.tj_rj import TjRjScraping
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
 class ProcessosViewSet(ModelViewSet):
     queryset = Processos.objects.all()
     serializer_class = ProcessosSerializer
     permission_classes = [IsAuthenticated]
-    
+
+
     def get_queryset(self):
         q = self.request.query_params.get("q", None)
         laywer = self.request.query_params.get("advogado", None)
@@ -92,9 +88,8 @@ class ProcessosViewSet(ModelViewSet):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def finalizar_processo(request, id):
-    if not request.user.is_authenticated:
-        raise NotAuthenticated()
     processo = get_object_or_404(Processos, pk=id)
     if processo.finalizado == None:
         processo.finalizado = datetime.now()
@@ -105,7 +100,7 @@ def finalizar_processo(request, id):
         return Response(data={"detail": "este processo ja foi finalizado"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["POST"])
-@login_required()
+@permission_classes([IsAuthenticated])
 def tjRjScraping(request):
     processos_ws = TjRjScraping("../chromedriver")
     data = processos_ws.run(request.data["codigo_processo"])

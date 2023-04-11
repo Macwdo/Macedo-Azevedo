@@ -42,11 +42,15 @@ class webScraping(ABC):
     @abstractmethod
     def response_data(self):
         pass
-       
+
+    @abstractmethod
+    def history_process(self):
+        pass
+
 
     def searchWait(self, secs, by, path) -> WebElement:
         return WebDriverWait(self.driver, secs).until(
             EC.presence_of_element_located(
                 (by, path)
             )
-        )  
+        )

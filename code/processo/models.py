@@ -1,7 +1,7 @@
 from advogado.models import Advogado
 from cliente.models import Cliente, ParteADV
 from django.db import models
-
+from datetime import datetime
 
 class ProcessosAssuntos(models.Model):
     assunto = models.CharField(max_length=255)
@@ -12,7 +12,6 @@ class Processos(models.Model):
         ("Autor", "Autor"),
         ("Réu", "Réu")
     ]
-
     codigo_processo = models.CharField(max_length=25, unique=True, null=False, blank=False)
     advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, related_name="advogado_responsavel", default="Não Informado")
     parte_adversa = models.ForeignKey(ParteADV, on_delete=models.SET_NULL, null=True)
@@ -44,12 +43,26 @@ class Processos(models.Model):
     def anexos_registrados(self):
         return ProcessosAnexos.objects.filter(processo=Processos.objects.get(pk=self.pk))
 
+    def rastreado(self):
+        rastreaveis = ["8.19"]
+        if self.codigo_processo[16:20] in rastreaveis:
+            return True
+        return False
 
     def __str__(self) -> str:
         return f"{self.codigo_processo}"
 
     class Meta:
         verbose_name_plural = 'Processos'
+
+
+class ProcessoMovimento(models.Model):
+    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
+    last_date = models.CharField(max_length=10, null=False, blank=False)
+    data = models.CharField(max_length=255, null=False, blank=False)
+
+    def date(self):
+        return datetime(int(self.last_date[6:]), int(self.last_date[3:5]), int(self.last_date[0:2]))
 
 
 class ProcessosHonorarios(models.Model):
