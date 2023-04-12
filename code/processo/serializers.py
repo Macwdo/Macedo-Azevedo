@@ -53,9 +53,9 @@ class ProcessosSerializer(serializers.ModelSerializer):
             "codigo_processo","advogado_responsavel", "parte_adversa",
             "cliente","posicao","colaborador",
             "assunto", "observacoes",
-            "municipio", "estado", "n_vara","vara",
+            "municipio", "estado", "n_vara","vara","rastreado",
             "iniciado","finalizado","finalizar", "honorarios",
-            "honorarios_registrados", "anexos_registrados","rastreado"
+            "honorarios_registrados", "anexos_registrados",
         )
         
 

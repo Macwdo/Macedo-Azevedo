@@ -59,7 +59,7 @@ class Processos(models.Model):
 class ProcessoMovimento(models.Model):
     processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
     last_date = models.CharField(max_length=10, null=False, blank=False)
-    data = models.CharField(max_length=255, null=False, blank=False)
+    data = models.TextField(default=None, null=True, blank=True)
 
     def date(self):
         return datetime(int(self.last_date[6:]), int(self.last_date[3:5]), int(self.last_date[0:2]))

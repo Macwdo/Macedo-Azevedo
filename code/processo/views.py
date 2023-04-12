@@ -1,7 +1,6 @@
 from advogado.models import Advogado
 from .serializers import *
 from datetime import date
-from advogado.models import Advogado
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import NotFound
@@ -9,10 +8,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
 from .models import Processos, ProcessosHonorarios
-from processo.scraping.tribunais.tj_rj import TjRjScraping
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
+from .tasks import get_last_change_process
+
 
 class ProcessosViewSet(ModelViewSet):
     queryset = Processos.objects.all()
@@ -102,9 +102,8 @@ def finalizar_processo(request, id):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def tjRjScraping(request):
-    processos_ws = TjRjScraping("../chromedriver")
-    data = processos_ws.run(request.data["codigo_processo"])
-    return Response(data=data["body"], status=data["status"])
+    get_last_change_process.delay()
+    return Response(data={"sucesso": "seu processo está sendo monitorado"}, status=201)
 
 
 class ProcessosHonorariosViewSet(ModelViewSet):

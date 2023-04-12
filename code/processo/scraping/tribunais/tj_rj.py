@@ -1,12 +1,17 @@
 from rest_framework.exceptions import NotFound
 from selenium.webdriver.common.by import By
-from processo.scraping.base_scraping import webScraping
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import Chrome
 
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from re import search
+from rest_framework.exceptions import bad_request
+from selenium.webdriver.remote.webelement import WebElement
 
-class TjRjScraping(webScraping):
-    def __init__(self, **kwargs) -> None:
+
+class TjRjScraping:
+    def __init__(self, numero_processo) -> None:
         chrome_user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'
         self.chrome_options = Options()
         self.chrome_options.add_argument("--window-size=1920,1080")
@@ -16,6 +21,7 @@ class TjRjScraping(webScraping):
         self.chrome_options.add_argument('--remote-debugging-port=9222')
         self.chrome_options.add_argument(f"--user-agent={chrome_user_agent}")
         self.driver = Chrome(options=self.chrome_options)
+        self.n_process = numero_processo
 
     paths = {
                 "URL": "https://www3.tjrj.jus.br/consultaprocessual/#/conspublica#porNumero",
@@ -34,6 +40,19 @@ class TjRjScraping(webScraping):
             }
         }
 
+    def valid_nProcess(self, nProcess: str) -> bool:
+        regex = r"([0-9]{7})[-]([0-9]{2})(.{1})([0-9]{4}).([0-9]{1}).([0-9]{2}).([0-9]{4})"
+        validNP = search(regex, nProcess)
+        if validNP:
+            return True
+        raise bad_request()
+
+    def searchWait(self, secs, by, path) -> WebElement:
+        return WebDriverWait(self.driver, secs).until(
+            EC.presence_of_element_located(
+                (by, path)
+            )
+        )
 
     def searchNprocess(self, nProcess):
         self.n_process = nProcess
@@ -95,13 +114,10 @@ class TjRjScraping(webScraping):
 
         return {self.n_process: final_data}
 
-    def response_data(self):
-        pass
 
-
-    def run(self, nProcess):
-        self.searchNprocess(nProcess)
-        data = self.history_process(last=True)
+    def run(self):
+        self.searchNprocess(self.n_process)
+        data = self.history_process(last=False)
         return data
 
 
