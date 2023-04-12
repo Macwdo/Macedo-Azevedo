@@ -7,6 +7,7 @@ class Cliente(models.Model):
     email = models.CharField(max_length=255, blank=True, null=True)
     numero = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     cpf_cnpj = models.CharField(max_length=30, blank=False)
     tipo = models.CharField(choices=choice_tipo, max_length=2)
 
@@ -30,6 +31,7 @@ class ParteADV(models.Model):
     email = models.CharField(max_length=255, blank=True, null=True)
     numero = models.CharField(max_length=20, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     cpf_cnpj = models.CharField(max_length=30, blank=False)
     tipo = models.CharField(choices=choice_tipo, max_length=2)
 

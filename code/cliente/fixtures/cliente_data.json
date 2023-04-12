@@ -1,57 +1,67 @@
 [
     {
-        "model": "client.client",
+        "model": "cliente.cliente",
         "pk": 0,
         "fields": {
             "nome": "Dayvd Alysson",
             "email": "dayvdladrao22@gmail.com",
             "numero": "(21) 99332-2328",
             "cpf_cnpj": "173.221.717-93",
-            "tipo": "PF"
+            "tipo": "PF",
+            "created_at": "2023-04-11T18:22:28.652943-03:00",
+            "updated_at": "2023-04-11T18:22:28.652943-03:00"
         }
     },
     {
-        "model": "client.client",
+        "model": "cliente.cliente",
         "pk": 1,
         "fields":{
             "nome": "Snipptly software",
             "email": "snipptlysoft@soft.com",
             "numero": "+55 21 97822-2328",
             "cpf_cnpj": "62.573.259/0001-89",
-            "tipo": "PJ"
+            "tipo": "PJ",
+            "created_at": "2023-04-11T18:22:28.652943-03:00",
+            "updated_at": "2023-04-11T18:22:28.652943-03:00"
         }
     },
     {
-        "model": "client.client",
+        "model": "cliente.cliente",
         "pk": 2,
         "fields":{
             "nome": "Breno Valle",
             "email": "breneninho22vale@gmail.com",
             "numero": "+353 83 1113042",
             "cpf_cnpj": "798.921.821-92",
-            "tipo": "PF"
+            "tipo": "PF",
+            "created_at": "2023-04-11T18:22:28.652943-03:00",
+            "updated_at": "2023-04-11T18:22:28.652943-03:00"
         }
     },
     {
-        "model": "client.client",
+        "model": "cliente.cliente",
         "pk": 3,
         "fields":{
             "nome": "Caua gomes",
             "email": "paodemel122@hotmail.com",
             "numero": "+55 21 99231-0321",
             "cpf_cnpj": "992.123.322-92",
-            "tipo": "PF"
+            "tipo": "PF",
+            "created_at": "2023-04-11T18:22:28.652943-03:00",
+            "updated_at": "2023-04-11T18:22:28.652943-03:00"
         }
     },
     {
-        "model": "client.client",
+        "model": "cliente.cliente",
         "pk": 4,
         "fields":{
             "nome": "Glauberioca Tapioca",
             "email": "tapiocapaodemel@tapi.com",
             "numero": "+55 21 91203-0321",
             "cpf_cnpj": "32.443.259/0001-99",
-            "tipo": "PJ"
+            "tipo": "PJ",
+            "created_at": "2023-04-11T18:22:28.652943-03:00",
+            "updated_at": "2023-04-11T18:22:28.652943-03:00"
         }
     }
 
