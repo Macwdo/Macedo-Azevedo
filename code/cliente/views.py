@@ -147,7 +147,8 @@ class ParteADVViewSet(ModelViewSet):
             qs = eval(tipo_qs + date_qs)
 
         return qs.order_by("-id")
-    
+
+
 class ClienteEnderecoViewSet(ModelViewSet):
     queryset = ClienteEndereco.objects.all()
     serializer_class = ClienteEnderecoSerializer
