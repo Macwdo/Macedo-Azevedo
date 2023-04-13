@@ -20,10 +20,10 @@ EMAIL_HOST=SMTP.office365.com
 #Database
 
 DATABASE_USER=postgres
-DATABASE_NAME=db_app
+DATABASE_NAME=postgres
 DATABASE_HOST=db_macedoazevedoapp
 DATABASE_PORT=5432
 DATABASE_PASSWORD=12345
 
 # Celery
-CELERY_BROKER_URL=pyamqp://guest@celery_broker//
+CELERY_BROKER_URL=pyamqp://guest@rabbitmq_macedoazevedoapp//

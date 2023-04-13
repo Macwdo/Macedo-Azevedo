@@ -117,7 +117,7 @@ class TjRjScraping:
 
     def run(self):
         self.searchNprocess(self.n_process)
-        data = self.history_process(last=False)
+        data = self.history_process(last=True)
         return data
 
 

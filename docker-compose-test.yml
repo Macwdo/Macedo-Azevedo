@@ -1,0 +1,104 @@
+version: '3.7'
+
+services:
+  web_drivmatics:
+    container_name: "web_drivmatics"
+    image: drivmatics_api:latest
+    command: ./manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./code:/usr/src/code
+    ports:
+      - 8000:8000
+    env_file: .env
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db_drivmatics
+  nginx_drivmatics:
+    container_name: "nginx_drivmatics"
+    build:
+      context: nginx/
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/usr/src/code
+    ports:
+      - 80:80
+    depends_on:
+      - web_drivmatics
+  db_drivmatics:
+    container_name: "db_drivmatics"
+    image: mysql:5.7.24
+    volumes:
+      - mysql_drivmatics_db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: drivmatics_db
+      MYSQL_DATABASE: drivmatics
+    ports:
+      - "3310:3306"
+    restart: always
+  db_postgres_drivmatics:
+    container_name: "db_postgres_drivmatics"
+    image: kartoza/postgis:11.0-2.5
+    environment:
+      - POSTGRES_DB=docker
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=Pg@2019
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - ./pg_data:/var/lib/postgresql
+    healthcheck:
+      test: "exit 0"
+  celery_beat_drivmatics:
+    container_name: "celery_beat_drivmatics"
+    image: drivmatics_api:latest
+    command: celery -A app beat -l debug
+    volumes:
+      - ./code:/usr/src/code
+    env_file: .env
+    restart: always
+    depends_on:
+      - redis_drivmatics
+  celery_flower_drivmatics:
+    container_name: "celery_flower_drivmatics"
+    image: drivmatics_api:latest
+    command: celery -A app flower
+    volumes:
+      - ./code:/usr/src/code
+    ports:
+      - "5555:5555"
+    env_file: .env
+    restart: always
+    depends_on:
+      - redis_drivmatics
+  redis_drivmatics:
+    container_name: "redis_drivmatics"
+    image: redis:6.2.3
+    volumes:
+      - ./redis_data:/data
+    ports:
+      - "6379:6379"
+    restart: always
+  worker:
+    container_name: "worker"
+    image: drivmatics_api:latest
+    command: celery -A app worker -l INFO -E
+    volumes:
+      - ./code:/usr/src/code
+    env_file: .env
+    restart: always
+  metabase:
+    container_name: "metabase"
+    image: metabase/metabase:latest
+    volumes:
+      - ./metabase_data:/metabase-data
+    env_file: .env.metabase
+    ports:
+      - "3000:3000"
+    restart: always
+
+volumes:
+  static_volume:
+  media_volume:
+  mysql_drivmatics_db:

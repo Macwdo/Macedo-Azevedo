@@ -39,8 +39,8 @@ services:
     ports:
       - "5431:5432"
 
-  celery_broker:
-    container_name: celery_broker
+  rabbitmq_macedoazevedoapp:
+    container_name: rabbitmq_macedoazevedoapp
     image: rabbitmq:latest
     restart: always
     ports:
@@ -57,6 +57,15 @@ services:
       - "5050:80"
     volumes:
       - pgadmindata:/var/lib/pgadmin
+
+  worker_macedoazevedoapp:
+    container_name: worker_macedoazevedoapp
+    image: macedoazevedoapp
+    command: celery -A project worker --loglevel=INFO
+    volumes:
+      - ./code:/home/app
+    env_file: .env
+    restart: always
 
 volumes:
   postgres_data:
