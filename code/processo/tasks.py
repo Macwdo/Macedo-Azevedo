@@ -16,6 +16,5 @@ def track_process(numero_processo, id):
             last_date=data["date"],
             data=data_str
         )
-        print(processo_movimento)
     except:
         raise Exception()
