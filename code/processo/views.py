@@ -11,14 +11,18 @@ from .models import Processos, ProcessosHonorarios
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
-from .tasks import get_last_change_process
-
+from .tasks import track_process
 
 class ProcessosViewSet(ModelViewSet):
     queryset = Processos.objects.all()
     serializer_class = ProcessosSerializer
     permission_classes = [IsAuthenticated]
 
+    def finalize_response(self, request, response, *args, **kwargs):
+        # if response.status_code == 201:
+        #     track_process.delay(response.data["codigo_processo"], response.data["id"])
+
+        return super().finalize_response(request, response, *args, **kwargs)
 
     def get_queryset(self):
         q = self.request.query_params.get("q", None)
@@ -99,17 +103,12 @@ def finalizar_processo(request, id):
     else:
         return Response(data={"detail": "este processo ja foi finalizado"}, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-def tjRjScraping(request):
-    get_last_change_process.delay()
-    return Response(data={"sucesso": "seu processo está sendo monitorado"}, status=201)
-
 
 class ProcessosHonorariosViewSet(ModelViewSet):
     queryset = ProcessosHonorarios.objects.all()
     serializer_class = ProcessosHonorariosSerializer
     permission_classes = [IsAuthenticated]
+
 
     def get_queryset(self, *args, **kwargs):
         processo_pk = int(self.kwargs.get("processo_pk"))
@@ -118,8 +117,6 @@ class ProcessosHonorariosViewSet(ModelViewSet):
         except Processos.DoesNotExist:
             raise NotFound()
         return self.queryset.filter(processo=processo_pk)
-
-
 
 
 class ProcessosAnexosViewSet(ModelViewSet):
@@ -135,7 +132,6 @@ class ProcessosAnexosViewSet(ModelViewSet):
         except Processos.DoesNotExist:
             raise NotFound()
         return self.queryset.filter(processo=processo_pk)
-
 
 
 class ProcessosAssuntosViewSet(ModelViewSet):

@@ -11,15 +11,23 @@ class ProcessosAssuntosSerializer(serializers.ModelSerializer):
         fields = ("assunto")
         model = ProcessosAssuntos
 
+
 class ProcessosHonorariosSerializer(serializers.ModelSerializer):
+    advogado_responsavel = AdvogadoSerializer(many=False, read_only=True)
+    advogado_responsavel_id = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
+
     class Meta:
         fields = (
             "id", "referente",
             "valor", "processo",
-            "advogado_responsavel"
+            "advogado_responsavel", "advogado_responsavel_id"
             )
         model = ProcessosHonorarios
 
+    def create(self, validated_data):
+        validated_data["advogado_responsavel"] = validated_data.pop("advogado_responsavel_id")
+        processo_honorario = ProcessosHonorarios.objects.create(**validated_data)
+        return processo_honorario
 
 class ProcessosAnexosSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,7 +36,6 @@ class ProcessosAnexosSerializer(serializers.ModelSerializer):
 
 
 class ProcessosSerializer(serializers.ModelSerializer):
-
 
     cliente = ClienteSerializer(many=False, required=False)
 
@@ -45,21 +52,21 @@ class ProcessosSerializer(serializers.ModelSerializer):
     cliente_de_id = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
     advogado_responsavel_id = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
     colaborador_id = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True, required=False)
-
+    
     honorarios_registrados = ProcessosHonorariosSerializer(many=True, read_only=True)
     anexos_registrados = ProcessosAnexosSerializer(many=True, read_only=True)
 
     class Meta:
         model = Processos
         fields = (
-            "id","codigo_processo","posicao",
+            "id", "codigo_processo", "posicao",
             "assunto", "observacoes",
-            "municipio", "estado", "n_vara","vara","rastreado",
-            "iniciado","finalizado", "honorarios",
-            "advogado_responsavel","cliente",
-            "cliente_de","colaborador","parte_adversa","cliente",
-            "honorarios_registrados", "anexos_registrados","cliente_id",
-            "parte_adversa_id","cliente_de_id","advogado_responsavel_id","colaborador_id"
+            "municipio", "estado", "n_vara", "vara", "rastreado",
+            "iniciado", "finalizado", "honorarios",
+            "advogado_responsavel", "cliente",
+            "cliente_de", "colaborador", "parte_adversa", "cliente",
+            "honorarios_registrados", "anexos_registrados", "cliente_id",
+            "parte_adversa_id", "cliente_de_id", "advogado_responsavel_id", "colaborador_id"
             
         )
 

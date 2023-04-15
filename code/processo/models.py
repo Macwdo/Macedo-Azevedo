@@ -9,10 +9,10 @@ class ProcessosAssuntos(models.Model):
 
 class Processos(models.Model):
     posicao_choice = [
-        ("Autor", "Autor"),
-        ("Réu", "Réu")
+        ("autor", "Autor"),
+        ("reu", "Réu")
     ]
-    codigo_processo = models.CharField(max_length=25, unique=True, null=False, blank=False)
+    codigo_processo = models.CharField(max_length=25, null=False, blank=False)
     advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, related_name="advogado_responsavel", default="Não Informado")
     parte_adversa = models.ForeignKey(ParteADV, on_delete=models.SET_NULL, null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, related_name="cliente")
@@ -20,9 +20,9 @@ class Processos(models.Model):
     posicao = models.CharField(choices=posicao_choice, max_length=5)
     colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborador")
     observacoes = models.CharField(max_length=255, default="Sem observações", null=True, blank=True)
-    municipio = models.CharField(max_length=40)
+    estado = models.TextField()
+    municipio = models.TextField()
     assunto = models.CharField(max_length=255)
-    estado = models.CharField(max_length=20)
     n_vara = models.CharField(max_length=30)
     vara = models.CharField(max_length=50)
     iniciado = models.DateTimeField(auto_now_add=True)
@@ -48,7 +48,7 @@ class Processos(models.Model):
         if self.codigo_processo[16:20] in rastreaveis:
             return True
         return False
-
+    
     def __str__(self) -> str:
         return f"{self.codigo_processo}"
 
@@ -58,11 +58,17 @@ class Processos(models.Model):
 
 class ProcessoMovimento(models.Model):
     processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
+    tipo_movimento = models.CharField(max_length=255, null=False, default="Vazio")
     last_date = models.CharField(max_length=10, null=False, blank=False)
     data = models.TextField(default=None, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
     def date(self):
         return datetime(int(self.last_date[6:]), int(self.last_date[3:5]), int(self.last_date[0:2]))
+
+    def __str__(self):
+        return f"{self.processo} {self.tipo_movimento}"
 
 
 class ProcessosHonorarios(models.Model):

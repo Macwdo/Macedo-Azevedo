@@ -1,9 +1,21 @@
 from celery import shared_task
-from time import sleep
 from .scraping.tribunais.tj_rj import TjRjScraping
+from .models import ProcessoMovimento
 
 @shared_task
-def get_last_change_process():
-    tj_rj = TjRjScraping("0030307-60.2022.8.19.0001")
-    data = tj_rj.run()
-    return data
+def track_process(numero_processo, id):
+    try:
+        tj_rj = TjRjScraping(numero_processo)
+        data = tj_rj.history_process()
+        data_str = ""
+        for string in data["data"]:
+            data_str += f"{string}\n"
+        processo_movimento = ProcessoMovimento.objects.create(
+            processo_id=id,
+            tipo_movimento=data["movimento"],
+            last_date=data["date"],
+            data=data_str
+        )
+        print(processo_movimento)
+    except:
+        raise Exception()

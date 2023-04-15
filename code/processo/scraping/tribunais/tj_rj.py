@@ -2,11 +2,9 @@ from rest_framework.exceptions import NotFound
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import Chrome
-
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from re import search
-from rest_framework.exceptions import bad_request
 from selenium.webdriver.remote.webelement import WebElement
 
 
@@ -21,7 +19,7 @@ class TjRjScraping:
         self.chrome_options.add_argument('--remote-debugging-port=9222')
         self.chrome_options.add_argument(f"--user-agent={chrome_user_agent}")
         self.driver = Chrome(options=self.chrome_options)
-        self.n_process = numero_processo
+        self.numero_processo = numero_processo
 
     paths = {
                 "URL": "https://www3.tjrj.jus.br/consultaprocessual/#/conspublica#porNumero",
@@ -45,7 +43,7 @@ class TjRjScraping:
         validNP = search(regex, nProcess)
         if validNP:
             return True
-        raise bad_request()
+        return False
 
     def searchWait(self, secs, by, path) -> WebElement:
         return WebDriverWait(self.driver, secs).until(
@@ -54,11 +52,11 @@ class TjRjScraping:
             )
         )
 
-    def searchNprocess(self, nProcess):
-        self.n_process = nProcess
-        if self.valid_nProcess(nProcess):
-            nProcess = nProcess[:15] + nProcess[21:]
-
+    def searchNprocess(self):
+        if self.valid_nProcess(self.numero_processo):
+            nProcess = self.numero_processo[:15] + self.numero_processo[21:]
+        else:
+            raise Exception()
         self.driver.get(self.paths["URL"])
         self.searchWait(40, By.XPATH, self.paths["tipoN"]["unica"]["inputNp"]).send_keys(nProcess)
         self.searchWait(30, By.XPATH, self.paths["tipoN"]["unica"]["button"]).click()
@@ -69,6 +67,10 @@ class TjRjScraping:
             pass
 
     def history_process(self, last=False):
+        try:
+            self.searchNprocess()
+        except Exception as e:
+            print("Error em buscar processo", e)
         changes_button = self.searchWait(40, By.XPATH, self.paths["tipoN"]["unica"]["all_changes_button"])
         changes_button.click()
         if last:
@@ -90,7 +92,8 @@ class TjRjScraping:
                 continue
 
             elif "Tipo do Movimento" in item and not first:
-                final_data[change_type] = {
+                final_data = {
+                    "movimento": change_type,
                     "data": changes_data,
                     "date": change_date
                 }
@@ -107,17 +110,14 @@ class TjRjScraping:
             changes_data.append(item)
 
         if last:
-            final_data[change_type] = {
+            final_data = {
+                "movimento": change_type,
                 "data": changes_data,
                 "date": change_date
             }
 
-        return {self.n_process: final_data}
 
+        return final_data
 
-    def run(self):
-        self.searchNprocess(self.n_process)
-        data = self.history_process(last=True)
-        return data
 
 
