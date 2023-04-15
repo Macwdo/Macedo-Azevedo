@@ -23,6 +23,7 @@ class ProcessosHonorariosSerializer(serializers.ModelSerializer):
             "advogado_responsavel", "advogado_responsavel_id"
             )
         model = ProcessosHonorarios
+        read_only_fields = ("processo",)
 
     def create(self, validated_data):
         validated_data["advogado_responsavel"] = validated_data.pop("advogado_responsavel_id")
@@ -31,8 +32,14 @@ class ProcessosHonorariosSerializer(serializers.ModelSerializer):
 
 class ProcessosAnexosSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = "__all__"
+        fields = (
+            "id", "nome_do_anexo",
+            "arquivo", "created_at",
+            "processo"
+        )
         model = ProcessosAnexos
+        read_only_fields = ("processo",)
+
 
 
 class ProcessosSerializer(serializers.ModelSerializer):

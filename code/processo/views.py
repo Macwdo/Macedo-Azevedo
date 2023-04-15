@@ -18,6 +18,7 @@ class ProcessosViewSet(ModelViewSet):
     serializer_class = ProcessosSerializer
     permission_classes = [IsAuthenticated]
 
+    
     def finalize_response(self, request, response, *args, **kwargs):
         # if response.status_code == 201:
         #     track_process.delay(response.data["codigo_processo"], response.data["id"])
@@ -109,6 +110,9 @@ class ProcessosHonorariosViewSet(ModelViewSet):
     serializer_class = ProcessosHonorariosSerializer
     permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        serializer.validated_data["processo_id"] = self.kwargs["processo_pk"]
+        return super().perform_create(serializer)
 
     def get_queryset(self, *args, **kwargs):
         processo_pk = int(self.kwargs.get("processo_pk"))
@@ -123,6 +127,10 @@ class ProcessosAnexosViewSet(ModelViewSet):
     queryset = ProcessosAnexos.objects.all()
     serializer_class = ProcessosAnexosSerializer
     permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.validated_data["processo_id"] = self.kwargs["processo_pk"]
+        return super().perform_create(serializer)
 
 
     def get_queryset(self, *args, **kwargs):
