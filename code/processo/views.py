@@ -1,5 +1,5 @@
 from advogado.models import Advogado
-from .serializers import *
+from processo.serializers import ProcessosAnexosSerializer, ProcessosSerializer, ProcessosHonorariosSerializer, ProcessosAssuntosSerializer
 from datetime import date
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -7,11 +7,12 @@ from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
-from .models import Processos, ProcessosHonorarios
+from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos, ProcessosAssuntos, ProcessoMovimento
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
-from .tasks import track_process
+from processo.tasks import track_process
+
 
 class ProcessosViewSet(ModelViewSet):
     queryset = Processos.objects.all()

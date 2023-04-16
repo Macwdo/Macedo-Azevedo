@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
 
-from .models import Advogado
+from advogado.models import Advogado
 
 
 class AdvogadoSerializer(ModelSerializer):

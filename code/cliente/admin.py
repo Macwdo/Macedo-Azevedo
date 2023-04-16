@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ParteADV, Cliente
+from cliente.models import ParteADV, Cliente
 # Register your models here.
     
 @admin.register(Cliente)

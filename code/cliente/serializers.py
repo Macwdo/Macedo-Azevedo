@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ParteADV, Cliente, ParteADVEndereco, ClienteEndereco
+from cliente.models import ParteADV, Cliente, ParteADVEndereco, ClienteEndereco
 
 
 class ClienteSerializer(serializers.ModelSerializer):

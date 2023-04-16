@@ -13,8 +13,8 @@ from celery import shared_task
 
 from processo.models import Processos
 
-from .models import Advogado
-from .serializer import AdvogadoCurrentSerializer, AdvogadoSerializer
+from advogado.models import Advogado
+from advogado.serializer import AdvogadoCurrentSerializer, AdvogadoSerializer
 
 
 class AdvogadoViewSet(ModelViewSet):

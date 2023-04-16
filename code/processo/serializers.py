@@ -3,7 +3,7 @@ from cliente.models import Cliente, ParteADV
 from cliente.serializers import ClienteSerializer, ParteADVSerializer
 from advogado.serializer import AdvogadoSerializer
 from rest_framework import serializers
-from .models import *
+from processo.models import Processos, ProcessosAnexos, ProcessosHonorarios, ProcessosAssuntos
 
 
 class ProcessosAssuntosSerializer(serializers.ModelSerializer):
@@ -14,21 +14,26 @@ class ProcessosAssuntosSerializer(serializers.ModelSerializer):
 
 class ProcessosHonorariosSerializer(serializers.ModelSerializer):
     advogado_responsavel = AdvogadoSerializer(many=False, read_only=True)
-    advogado_responsavel_id = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
+    advogado_responsavel_pk = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
 
     class Meta:
         fields = (
             "id", "referente",
             "valor", "processo",
-            "advogado_responsavel", "advogado_responsavel_id"
+            "advogado_responsavel", "advogado_responsavel_pk"
             )
         model = ProcessosHonorarios
         read_only_fields = ("processo",)
 
     def create(self, validated_data):
-        validated_data["advogado_responsavel"] = validated_data.pop("advogado_responsavel_id")
+        validated_data["advogado_responsavel"] = validated_data.pop("advogado_responsavel_pk")
         processo_honorario = ProcessosHonorarios.objects.create(**validated_data)
         return processo_honorario
+    
+    def update(self, instance, validated_data):
+        validated_data["advogado_responsavel"] = validated_data.pop("advogado_responsavel_pk")
+        return super().update(instance, validated_data)
+
 
 class ProcessosAnexosSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,11 +59,11 @@ class ProcessosSerializer(serializers.ModelSerializer):
 
     colaborador = AdvogadoSerializer(many=False, required=False)
 
-    cliente_id = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all(), write_only=True)
-    parte_adversa_id = serializers.PrimaryKeyRelatedField(queryset=ParteADV.objects.all(), write_only=True)
-    cliente_de_id = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
-    advogado_responsavel_id = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
-    colaborador_id = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True, required=False)
+    cliente_pk = serializers.PrimaryKeyRelatedField(queryset=Cliente.objects.all(), write_only=True)
+    parte_adversa_pk = serializers.PrimaryKeyRelatedField(queryset=ParteADV.objects.all(), write_only=True)
+    cliente_de_pk = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
+    advogado_responsavel_pk = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True)
+    colaborador_pk = serializers.PrimaryKeyRelatedField(queryset=Advogado.objects.all(), write_only=True, required=False)
     
     honorarios_registrados = ProcessosHonorariosSerializer(many=True, read_only=True)
     anexos_registrados = ProcessosAnexosSerializer(many=True, read_only=True)
@@ -72,19 +77,27 @@ class ProcessosSerializer(serializers.ModelSerializer):
             "iniciado", "finalizado", "honorarios",
             "advogado_responsavel", "cliente",
             "cliente_de", "colaborador", "parte_adversa", "cliente",
-            "honorarios_registrados", "anexos_registrados", "cliente_id",
-            "parte_adversa_id", "cliente_de_id", "advogado_responsavel_id", "colaborador_id"
+            "honorarios_registrados", "anexos_registrados", "cliente_pk",
+            "parte_adversa_pk", "cliente_de_pk", "advogado_responsavel_pk", "colaborador_pk"
             
         )
 
 
     def create(self, validated_data):
-        validated_data["cliente"] = validated_data.pop("cliente_id")
-        validated_data["parte_adversa"] = validated_data.pop("parte_adversa_id")
-        validated_data["cliente_de"] = validated_data.pop("cliente_de_id")
-        validated_data["advogado_responsavel"] = validated_data.pop("advogado_responsavel_id")
+        validated_data["cliente"] = validated_data.pop("cliente_pk")
+        validated_data["parte_adversa"] = validated_data.pop("parte_adversa_pk")
+        validated_data["cliente_de"] = validated_data.pop("cliente_de_pk")
+        validated_data["advogado_responsavel"] = validated_data.pop("advogado_responsavel_pk")
         if validated_data.get("colaborador_id"):
-            validated_data["colaborador"] = validated_data.pop("colaborador_id")
+            validated_data["colaborador"] = validated_data.pop("colaborador_pk")
         processo = Processos.objects.create(**validated_data)
-
         return processo
+    
+    def update(self, instance, validated_data):
+        validated_data["cliente"] = validated_data.pop("cliente_pk")
+        validated_data["parte_adversa"] = validated_data.pop("parte_adversa_pk")
+        validated_data["cliente_de"] = validated_data.pop("cliente_de_pk")
+        validated_data["advogado_responsavel"] = validated_data.pop("advogado_responsavel_pk")
+        if validated_data.get("colaborador_pk"):
+            validated_data["colaborador"] = validated_data.pop("colaborador_pk")
+        return super().update(instance, validated_data)

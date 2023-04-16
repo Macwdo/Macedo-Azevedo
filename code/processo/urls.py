@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework_nested.routers import SimpleRouter, NestedSimpleRouter
-from .views import *
+from processo.views import ProcessosViewSet, ProcessosHonorariosViewSet,ProcessosAnexosViewSet, finalizar_processo
 
 
 app_name = "processos"

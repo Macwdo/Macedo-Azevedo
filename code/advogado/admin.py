@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Advogado
+from advogado.models import Advogado
 
 # Register your models here.
 

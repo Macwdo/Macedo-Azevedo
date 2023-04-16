@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Processos, ProcessosHonorarios, ProcessosAnexos
+from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos
 
 
 @admin.register(Processos)

@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
 from celery import shared_task
-from .models import Cliente, ParteADV, ClienteEndereco, ParteADVEndereco
+from cliente.models import Cliente, ParteADV, ClienteEndereco, ParteADVEndereco
 from .serializers import ClienteSerializer, ParteADVSerializer, ClienteEnderecoSerializer, ParteADVEnderecoSerializer
 
 

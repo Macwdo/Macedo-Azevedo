@@ -1,6 +1,6 @@
 from celery import shared_task
 from .scraping.tribunais.tj_rj import TjRjScraping
-from .models import ProcessoMovimento
+from processo.models import ProcessoMovimento
 
 @shared_task
 def track_process(numero_processo, id):

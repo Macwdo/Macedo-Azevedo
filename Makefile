@@ -19,6 +19,9 @@ run:
 	docker-compose -f docker-compose.yml down
 	docker-compose -f docker-compose.yml up
 
+unit:
+	docker exec -i macedoazevedoapp sh -c 'pytest'
+
 connect:
 	docker exec -it macedoazevedoapp /bin/bash
 
@@ -37,3 +40,5 @@ up:
 
 down:
 	docker-compose -f docker-compose.yml down
+
+
