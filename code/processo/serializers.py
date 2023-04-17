@@ -20,7 +20,8 @@ class ProcessosHonorariosSerializer(serializers.ModelSerializer):
         fields = (
             "id", "referente",
             "valor", "processo",
-            "advogado_responsavel", "advogado_responsavel_pk"
+            "advogado_responsavel", "advogado_responsavel_pk",
+            "ganho"
             )
         model = ProcessosHonorarios
         read_only_fields = ("processo",)

@@ -20,7 +20,7 @@ run:
 	docker-compose -f docker-compose.yml up
 
 unit:
-	docker exec -i macedoazevedoapp sh -c 'pytest'
+	docker-compose -f docker-compose.yml run macedoazevedoapp python3 manage.py test
 
 connect:
 	docker exec -it macedoazevedoapp /bin/bash
