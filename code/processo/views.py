@@ -117,10 +117,6 @@ class ProcessosHonorariosViewSet(ModelViewSet):
 
     def get_queryset(self, *args, **kwargs):
         processo_pk = int(self.kwargs.get("processo_pk"))
-        try:
-            processo = Processos.objects.get(pk=processo_pk)
-        except Processos.DoesNotExist:
-            raise NotFound()
         return self.queryset.filter(processo=processo_pk)
 
 
@@ -136,10 +132,6 @@ class ProcessosAnexosViewSet(ModelViewSet):
 
     def get_queryset(self, *args, **kwargs):
         processo_pk = int(self.kwargs.get("processo_pk"))
-        try:
-            processo = Processos.objects.get(pk=processo_pk)
-        except Processos.DoesNotExist:
-            raise NotFound()
         return self.queryset.filter(processo=processo_pk)
 
 
