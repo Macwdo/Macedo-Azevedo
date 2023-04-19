@@ -1,5 +1,3 @@
-from advogado.models import Advogado
-from cliente.models import Cliente, ParteADV
 from cliente.serializers import ClienteSerializer, ParteADVSerializer
 from advogado.serializer import AdvogadoSerializer
 from rest_framework import serializers
