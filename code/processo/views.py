@@ -7,11 +7,11 @@ from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
-from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos, ProcessosAssuntos, ProcessoMovimento
+from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos, ProcessosAssuntos
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
 from processo.tasks import track_process
+from rest_framework.decorators import action
 
 
 class ProcessosViewSet(ModelViewSet):
@@ -19,7 +19,17 @@ class ProcessosViewSet(ModelViewSet):
     serializer_class = ProcessosSerializer
     permission_classes = [IsAuthenticated]
 
-    
+    @action(detail=True, methods=["GET"])
+    def finalizar(self, request, pk):
+        processo = get_object_or_404(Processos, pk=pk)
+        if not processo.finalizado:
+            processo.finalizado = datetime.now()
+            processo.save()
+            serializer = ProcessosSerializer(processo, many=False)
+            return Response(data=serializer.data)
+        else:
+            return Response(data={"detail": "este processo ja foi finalizado"}, status=status.HTTP_400_BAD_REQUEST)
+
     def finalize_response(self, request, response, *args, **kwargs):
         # if response.status_code == 201:
         #     track_process.delay(response.data["codigo_processo"], response.data["id"])
@@ -57,53 +67,40 @@ class ProcessosViewSet(ModelViewSet):
                 date_qs = f"""Processos.objects.filter(
                     iniciado__gte="{date(int(date_selected[1]), int(date_selected[0]), 1)}"
                 )"""
-            else: 
+            else:
                 date_qs = f"""& Processos.objects.filter(
                     iniciado__gte="{date(int(date_selected[1]), int(date_selected[0]), 1)}"
                 )"""
-            
+
         if laywers_qs == "" and date_qs == "":
             qs = Processos.objects.filter(
-                        Q(codigo_processo__istartswith=q) |
-                        Q(parte_adversa__nome__istartswith=q)|
-                        Q(advogado_responsavel__nome__istartswith=q)|
-                        Q(cliente__nome__istartswith=q)|
-                        Q(municipio__istartswith=q)|
-                        Q(vara__istartswith=q)
-                )
+                Q(codigo_processo__istartswith=q) |
+                Q(parte_adversa__nome__istartswith=q) |
+                Q(advogado_responsavel__nome__istartswith=q) |
+                Q(cliente__nome__istartswith=q) |
+                Q(municipio__istartswith=q) |
+                Q(vara__istartswith=q)
+            )
         elif laywers_qs == "" and date_qs != "":
             qs = Processos.objects.filter(
-                        Q(codigo_processo__istartswith=q) |
-                        Q(parte_adversa__nome__istartswith=q)|
-                        Q(advogado_responsavel__nome__istartswith=q)|
-                        Q(cliente__nome__istartswith=q)|
-                        Q(municipio__istartswith=q)|
-                        Q(vara__istartswith=q)
-                ) and eval(date_qs)
+                Q(codigo_processo__istartswith=q) |
+                Q(parte_adversa__nome__istartswith=q) |
+                Q(advogado_responsavel__nome__istartswith=q) |
+                Q(cliente__nome__istartswith=q) |
+                Q(municipio__istartswith=q) |
+                Q(vara__istartswith=q)
+            ) and eval(date_qs)
 
         elif laywer != "" and date_qs == "":
             qs = eval(laywers_qs)
 
         elif laywer == "" and date_qs != "":
             qs = eval(date_qs)
-        
-        else: 
+
+        else:
             qs = eval(laywers_qs + date_qs)
 
         return qs.order_by("-id")
-
-
-@api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def finalizar_processo(request, id):
-    processo = get_object_or_404(Processos, pk=id)
-    if processo.finalizado == None:
-        processo.finalizado = datetime.now()
-        processo.save()
-        serializer = ProcessosSerializer(processo, many=False)
-        return Response(data=serializer.data)
-    else:
-        return Response(data={"detail": "este processo ja foi finalizado"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProcessosHonorariosViewSet(ModelViewSet):
@@ -129,7 +126,6 @@ class ProcessosAnexosViewSet(ModelViewSet):
         serializer.validated_data["processo_id"] = self.kwargs["processo_pk"]
         return super().perform_create(serializer)
 
-
     def get_queryset(self, *args, **kwargs):
         processo_pk = int(self.kwargs.get("processo_pk"))
         return self.queryset.filter(processo=processo_pk)
@@ -139,4 +135,3 @@ class ProcessosAssuntosViewSet(ModelViewSet):
     queryset = ProcessosAssuntos.objects.all()
     serializer_class = ProcessosAssuntosSerializer
     permission_classes = [IsAuthenticated]
-

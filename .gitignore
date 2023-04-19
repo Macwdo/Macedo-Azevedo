@@ -6,6 +6,8 @@ code/staticfiles
 terraform/
 files/
 examples/
+docker-compose-test.yml
+
 #Project Files
 scripts.js
 # Django #

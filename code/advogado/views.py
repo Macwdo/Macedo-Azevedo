@@ -8,7 +8,6 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from rest_framework.decorators import api_view
 from celery import shared_task
 from rest_framework.exceptions import NotAuthenticated
 from processo.models import Processos
@@ -22,13 +21,6 @@ class AdvogadoViewSet(ModelViewSet):
     queryset = Advogado.objects.all()
     serializer_class = AdvogadoSerializer
     permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        fields = {}
-        for k, v in self.request.query_params.items():
-            fields[k + "__icontains"] = v
-        qs = Advogado.objects.filter(**fields)
-        return qs
 
 
 @api_view(["GET"])

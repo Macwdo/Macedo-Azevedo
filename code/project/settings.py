@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'processo',
     'cliente',
     'advogado',
@@ -33,9 +33,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_rest_passwordreset',
     'easyaudit',
-    'drf_yasg'
-
-    ]
+    'drf_yasg',
+    'django_celery_beat'
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -105,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#Sentry
+# Sentry
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -118,7 +118,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-#Rest Framework
+# Rest Framework
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -143,7 +143,7 @@ DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
-EMAIL_PORT = int(os.environ.get("EMAIL_PORT"))
+EMAIL_PORT = 587
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 
 # AWS CONFIG
@@ -179,7 +179,7 @@ MEDIA_URL = '/files/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-#SIMPLE JWT
+# SIMPLE JWT
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),

@@ -1,6 +1,5 @@
-from django.urls import path
 from rest_framework_nested.routers import SimpleRouter, NestedSimpleRouter
-from processo.views import ProcessosViewSet, ProcessosHonorariosViewSet,ProcessosAnexosViewSet, finalizar_processo
+from processo.views import ProcessosViewSet, ProcessosHonorariosViewSet, ProcessosAnexosViewSet
 
 
 app_name = "processos"
@@ -26,5 +25,4 @@ processo_routers.register(
 )
 
 urlpatterns = [
-    path("processo/<int:id>/finalizar/", finalizar_processo, name="finalizar")
 ] + router.urls + processo_routers.urls
