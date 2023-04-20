@@ -23,18 +23,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'processo',
-    'cliente',
-    'advogado',
-
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
     'django_rest_passwordreset',
     'easyaudit',
     'drf_yasg',
-    'django_celery_beat'
+
+    'processo',
+    'cliente',
+    'advogado',
+    'django_celery_beat',
+
+
 ]
 
 MIDDLEWARE = [
@@ -129,7 +130,8 @@ REST_FRAMEWORK = {
 
 }
 if not DEBUG:
-    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = ('rest_framework.renderers.JSONRenderer',)
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = (
+        'rest_framework.renderers.JSONRenderer',)
 
 # EMAIL
 
@@ -210,4 +212,5 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
-CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "pyamqp://guest@localhost//")
+CELERY_BROKER_URL = os.environ.get(
+    "CELERY_BROKER_URL", "pyamqp://guest@localhost//")

@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from re import search
 from selenium.webdriver.remote.webelement import WebElement
+import logging
 
 
 class TjRjScraping:
@@ -22,21 +23,21 @@ class TjRjScraping:
         self.numero_processo = numero_processo
 
     paths = {
-                "URL": "https://www3.tjrj.jus.br/consultaprocessual/#/conspublica#porNumero",
-                "tipoN": {
-                    "unica": {
-                        "inputNp": "/html/body/app-root/app-consultar/div[1]/div/div/div/div/div[2]/div[1]/div[1]/div/app-codigo-processo-origem/div/div[2]/div/div/input[1]",
-                        "button": "/html/body/app-root/app-consultar/div[1]/div/div/div/div/div[2]/div[1]/div[2]/div/div/button[1]",
-                        "errorMessage": "/html/body/app-root/simple-notifications/div/simple-notification/div/div[1]/div",
-                        "all_changes_button": "/html/body/app-root/app-detalhes-processo/section/div/div/div[1]/div[2]/button[2]",
-                        "dados": {
-                            "last_change": "/html/body/app-root/app-detalhes-processo/section/div/div/div[2]/div[2]/div[8]/div[3]",
-                           "all_changes": "/html/body/app-root/app-detalhes-processo/section/div/div/div[3]/div[1]"
-                        },
-                    "antiga": {}
-                }
+        "URL": "https://www3.tjrj.jus.br/consultaprocessual/#/conspublica#porNumero",
+        "tipoN": {
+            "unica": {
+                "inputNp": "/html/body/app-root/app-consultar/div[1]/div/div/div/div/div[2]/div[1]/div[1]/div/app-codigo-processo-origem/div/div[2]/div/div/input[1]",
+                "button": "/html/body/app-root/app-consultar/div[1]/div/div/div/div/div[2]/div[1]/div[2]/div/div/button[1]",
+                "errorMessage": "/html/body/app-root/simple-notifications/div/simple-notification/div/div[1]/div",
+                "all_changes_button": "/html/body/app-root/app-detalhes-processo/section/div/div/div[1]/div[2]/button[2]",
+                "dados": {
+                    "last_change": "/html/body/app-root/app-detalhes-processo/section/div/div/div[3]/div[1]/div[2]",
+
+                },
+                "antiga": {}
             }
         }
+    }
 
     def valid_nProcess(self, nProcess: str) -> bool:
         regex = r"([0-9]{7})[-]([0-9]{2})(.{1})([0-9]{4}).([0-9]{1}).([0-9]{2}).([0-9]{4})"
@@ -58,27 +59,33 @@ class TjRjScraping:
         else:
             raise Exception()
         self.driver.get(self.paths["URL"])
-        self.searchWait(40, By.XPATH, self.paths["tipoN"]["unica"]["inputNp"]).send_keys(nProcess)
-        self.searchWait(30, By.XPATH, self.paths["tipoN"]["unica"]["button"]).click()
+        self.searchWait(
+            40, By.XPATH, self.paths["tipoN"]["unica"]["inputNp"]).send_keys(nProcess)
+        self.searchWait(
+            40, By.XPATH, self.paths["tipoN"]["unica"]["button"]).click()
         try:
-            if self.searchWait(2, By.XPATH, self.paths["tipoN"]["unica"]["errorMessage"]).is_displayed():
+            if self.searchWait(10, By.XPATH, self.paths["tipoN"]["unica"]["errorMessage"]).is_displayed():
                 raise NotFound()
-        except:
+        except Exception as e:
+            logging.warning(
+                f"Erro em buscar o processo - {self.numero_processo} - {e}")
             pass
 
-    def history_process(self, last=False):
+    def last_process_moviment(self):
         try:
             self.searchNprocess()
         except Exception as e:
-            print("Error em buscar processo", e)
-        changes_button = self.searchWait(40, By.XPATH, self.paths["tipoN"]["unica"]["all_changes_button"])
+            logging.warning(
+                f"Erro na busca do processo - {self.numero_processo} - {e}")
+
+        changes_button = self.searchWait(
+            40, By.XPATH, self.paths["tipoN"]["unica"]["all_changes_button"])
         changes_button.click()
-        if last:
-            changes = self.searchWait(10, By.XPATH, self.paths["tipoN"]["unica"]["dados"]["last_change"]).text
-            all_changes = changes.split("\n")
-        else:
-            changes = self.searchWait(10, By.XPATH,  self.paths["tipoN"]["unica"]["dados"]["all_changes"]).text
-            all_changes = changes.split("\n")[1:]
+
+        changes = self.searchWait(
+            10, By.XPATH, self.paths["tipoN"]["unica"]["dados"]["last_change"]).text
+        all_changes = changes.split("\n")
+
         changes_data = []
         final_data = {}
         change_type = ""
@@ -109,15 +116,10 @@ class TjRjScraping:
                 next_index_is_data = True
             changes_data.append(item)
 
-        if last:
             final_data = {
                 "movimento": change_type,
                 "data": changes_data,
                 "date": change_date
             }
 
-
         return final_data
-
-
-

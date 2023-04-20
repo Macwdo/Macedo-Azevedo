@@ -1,7 +1,20 @@
 from cliente.serializers import ClienteSerializer, ParteADVSerializer
 from advogado.serializer import AdvogadoSerializer
 from rest_framework import serializers
-from processo.models import Processos, ProcessosAnexos, ProcessosHonorarios, ProcessosAssuntos
+from processo.models import Processos, ProcessosAnexos, ProcessosHonorarios, ProcessosAssuntos, ProcessosMovimento
+
+
+class ProcessosMovimentoSerializer(serializers.ModelSerializer):
+    codigo_processo = serializers.StringRelatedField(many=False)
+
+    class Meta:
+        fields = (
+            "id", "codigo_processo",
+            "processo", "tipo_movimento", "last_date",
+            "data", "created_at"
+        )
+        read_only_fields = ("processo", )
+        model = ProcessosMovimento
 
 
 class ProcessosAssuntosSerializer(serializers.ModelSerializer):
@@ -63,7 +76,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
         fields = (
             "id", "codigo_processo", "posicao",
             "assunto", "observacoes",
-            "municipio", "estado", "n_vara", "vara", "rastreado",
+            "municipio", "estado", "n_vara", "vara", "tracked",
             "iniciado", "finalizado", "honorarios",
             "advogado_responsavel", "cliente",
             "cliente_de", "colaborador", "parte_adversa", "cliente",

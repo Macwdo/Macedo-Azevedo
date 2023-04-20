@@ -53,7 +53,8 @@ class Processos(models.Model):
     def anexos_registrados(self):
         return ProcessosAnexos.objects.filter(processo=Processos.objects.get(pk=self.pk))
 
-    def rastreado(self):
+    @property
+    def tracked(self):
         rastreaveis = ["8.19"]
         if self.codigo_processo[16:20] in rastreaveis:
             return True
@@ -66,7 +67,7 @@ class Processos(models.Model):
         verbose_name_plural = 'Processos'
 
 
-class ProcessoMovimento(models.Model):
+class ProcessosMovimento(models.Model):
     processo = models.ForeignKey(
         Processos, models.CASCADE, null=False, blank=False)
     tipo_movimento = models.CharField(

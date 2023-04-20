@@ -1,5 +1,9 @@
 from advogado.models import Advogado
-from processo.serializers import ProcessosAnexosSerializer, ProcessosSerializer, ProcessosHonorariosSerializer, ProcessosAssuntosSerializer
+from processo.serializers import (
+    ProcessosAnexosSerializer, ProcessosSerializer,
+    ProcessosHonorariosSerializer, ProcessosAssuntosSerializer,
+    ProcessosMovimentoSerializer
+)
 from datetime import date
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -7,10 +11,10 @@ from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
-from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos, ProcessosAssuntos
+from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos, ProcessosAssuntos, ProcessosMovimento
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
-from processo.tasks import track_process
+from processo.tasks import track_new_process
 from rest_framework.decorators import action
 
 
@@ -31,9 +35,10 @@ class ProcessosViewSet(ModelViewSet):
             return Response(data={"detail": "este processo ja foi finalizado"}, status=status.HTTP_400_BAD_REQUEST)
 
     def finalize_response(self, request, response, *args, **kwargs):
-        # if response.status_code == 201:
-        #     track_process.delay(response.data["codigo_processo"], response.data["id"])
-
+        if response.status_code == 201:
+            track_new_process.delay(
+                response.data["codigo_processo"], response.data["id"]
+            )
         return super().finalize_response(request, response, *args, **kwargs)
 
     def get_queryset(self):
@@ -135,3 +140,17 @@ class ProcessosAssuntosViewSet(ModelViewSet):
     queryset = ProcessosAssuntos.objects.all()
     serializer_class = ProcessosAssuntosSerializer
     permission_classes = [IsAuthenticated]
+
+
+class ProcessosMovimentoViewSet(ModelViewSet):
+    queryset = ProcessosMovimento.objects.all()
+    serializer_class = ProcessosMovimentoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.validated_data["processo_id"] = self.kwargs["processo_pk"]
+        return super().perform_create(serializer)
+
+    def get_queryset(self, *args, **kwargs):
+        processo_pk = int(self.kwargs.get("processo_pk"))
+        return self.queryset.filter(processo=processo_pk).order_by("-id")

@@ -1,5 +1,5 @@
 from rest_framework_nested.routers import SimpleRouter, NestedSimpleRouter
-from processo.views import ProcessosViewSet, ProcessosHonorariosViewSet, ProcessosAnexosViewSet
+from processo.views import ProcessosViewSet, ProcessosHonorariosViewSet, ProcessosAnexosViewSet, ProcessosMovimentoViewSet
 
 
 app_name = "processos"
@@ -21,8 +21,15 @@ processo_routers.register(
 processo_routers.register(
     r'anexo',
     ProcessosAnexosViewSet,
-    basename='processo-honorario'
+    basename='processo-anexo'
 )
+
+processo_routers.register(
+    r'movimento',
+    ProcessosMovimentoViewSet,
+    basename='processo-movimento'
+)
+
 
 urlpatterns = [
 ] + router.urls + processo_routers.urls

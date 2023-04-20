@@ -60,12 +60,26 @@ services:
 
   worker_macedoazevedoapp:
     container_name: worker_macedoazevedoapp
-    image: macedoazevedoapp
+    image: macedoazevedoapp:latest
     command: celery -A project worker --loglevel=INFO
     volumes:
       - ./code:/home/app
     env_file: .env
     restart: always
+    depends_on:
+      - rabbitmq_macedoazevedoapp
+
+  celery_beat_macedoazevedoapp:
+    container_name: celery_beat_macedoazevedoapp
+    image: macedoazevedoapp:latest
+    command: celery -A project beat -l debug
+    volumes:
+      - ./code:/home/app
+      
+    env_file: .env
+    restart: always
+    depends_on:
+      - rabbitmq_macedoazevedoapp
 
 volumes:
   postgres_data:
