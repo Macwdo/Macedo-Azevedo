@@ -8,7 +8,10 @@ admin:
 	docker exec -it macedoazevedoapp sh -c 'python manage.py createsuperuser --username admin'
 
 migrations:
-	docker exec -i macedoazevedoapp sh -c 'python manage.py makemigrations processo advogado cliente'
+	docker exec -i macedoazevedoapp sh -c 'python manage.py makemigrations'
+
+migrate:
+	docker exec -i macedoazevedoapp sh -c 'python manage.py migrate'
 
 build:
 	docker exec -i macedoazevedoapp sh -c 'pip install -r requirements.txt'

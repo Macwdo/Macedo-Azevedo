@@ -7,6 +7,7 @@ terraform/
 files/
 examples/
 docker-compose-test.yml
+code/celerybeat-schedule
 
 #Project Files
 scripts.js
