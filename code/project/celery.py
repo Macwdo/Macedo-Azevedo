@@ -12,7 +12,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.beat_schedule = {
     'search-process-alterations': {
         'task': 'processo.tasks.search_process_alterations',
-        'schedule': 15,
+        'schedule': crontab(hour=1),
         'args': ()
     },
 }

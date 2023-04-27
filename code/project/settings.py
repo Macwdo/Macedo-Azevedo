@@ -105,6 +105,41 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+# Logging
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "loggers": {
+        "processo": {
+            "handlers": ["file",],
+            "level": "INFO"
+        }
+    },
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/logs.log"),
+            "formatter": "verbose"
+        }
+    },
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {name} {module} {funcName} {message}",
+            "datefmt": "[%d/%b/%Y %H:%M:%S]",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {asctime} {message}",
+            "datefmt": "[%d/%b/%Y %H:%M:%S]",
+            "style": "{",
+        },
+    },
+}
+
+TRACKED = ["8.19"]
 
 # Sentry
 
@@ -213,4 +248,5 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_BROKER_URL = os.environ.get(
-    "CELERY_BROKER_URL", "pyamqp://guest@localhost//")
+    "CELERY_BROKER_URL", "pyamqp://guest@localhost//"
+)

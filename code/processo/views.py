@@ -14,8 +14,11 @@ from datetime import datetime
 from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos, ProcessosAssuntos, ProcessosMovimento
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
-from processo.tasks import track_new_process
 from rest_framework.decorators import action
+import logging
+
+
+logger = logging.getLogger("processo")
 
 
 class ProcessosViewSet(ModelViewSet):
@@ -33,13 +36,6 @@ class ProcessosViewSet(ModelViewSet):
             return Response(data=serializer.data)
         else:
             return Response(data={"detail": "este processo ja foi finalizado"}, status=status.HTTP_400_BAD_REQUEST)
-
-    def finalize_response(self, request, response, *args, **kwargs):
-        if response.status_code == 201:
-            track_new_process.delay(
-                response.data["codigo_processo"], response.data["id"]
-            )
-        return super().finalize_response(request, response, *args, **kwargs)
 
     def get_queryset(self):
         q = self.request.query_params.get("q", None)
