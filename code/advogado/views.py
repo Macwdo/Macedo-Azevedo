@@ -35,11 +35,18 @@ def getCurrentUser(request: Request):
         return Response(status=404, data={"detail": "Não existe advogado vinculado a esse usuario"})
 
     advogado_processos = Processos.objects.filter(
-        advogado_responsavel=advogadoData.pk)
+        advogado_responsavel=advogadoData.pk
+    )
+
+    honorarios = [processo.honorarios for processo in advogado_processos]
+    if honorarios:
+        honorarios = reduce(add, honorarios)
+    else:
+        honorarios = 0
 
     serializerData = {
         "nome": advogadoData.nome,
-        "honorarios": reduce(add, [processo.honorarios for processo in advogado_processos]),
+        "honorarios": honorarios,
         "processos": len(advogado_processos)
     }
 

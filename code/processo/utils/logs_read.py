@@ -21,7 +21,7 @@ def get_logs(query, log_group):
     query_id = start_query_response['queryId']
 
     response = None
-    while response == None or response['status'] == 'Running':
+    while response is None or response['status'] == 'Running':
         response = client.get_query_results(
             queryId=query_id
         )
