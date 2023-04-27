@@ -1,8 +1,11 @@
 import os
 from datetime import timedelta
 from pathlib import Path
-
+import boto3
+import watchtower
 from dotenv import load_dotenv
+from boto3.session import Session
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -105,39 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-# Logging
-
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "loggers": {
-        "processo": {
-            "handlers": ["file",],
-            "level": "INFO"
-        }
-    },
-    "handlers": {
-        "file": {
-            "level": "INFO",
-            "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/logs.log"),
-            "formatter": "verbose"
-        }
-    },
-    "formatters": {
-        "verbose": {
-            "format": "{levelname} {asctime} {name} {module} {funcName} {message}",
-            "datefmt": "[%d/%b/%Y %H:%M:%S]",
-            "style": "{",
-        },
-        "simple": {
-            "format": "{levelname} {asctime} {message}",
-            "datefmt": "[%d/%b/%Y %H:%M:%S]",
-            "style": "{",
-        },
-    },
-}
 
 TRACKED = ["8.19"]
 
@@ -185,19 +155,75 @@ EMAIL_HOST = os.environ.get("EMAIL_HOST")
 
 # AWS CONFIG
 
-###
-# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
+AWS_REGION = os.environ.get('AWS_REGION')
 
-# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
+# AWS CLOUDWATCH
+
+
+boto3_logs_client = boto3.client(
+    "logs",
+    region_name=AWS_REGION,
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+
+)
+
+
+# AWS S3
 
 # AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
-
 # AWS_S3_CUSTOM_DOMAIN = ''
-
 # AWS_S3_FILE_OVERWRITE = False
 # AWS_DEFAUT_ACL = None
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-###
+
+# Logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "loggers": {
+        "processo": {
+            "handlers": ["file"],
+            "level": "INFO"
+        },
+        "watchtower": {
+            "level": "INFO",
+            "handlers": ["watchtower"],
+        },
+
+    },
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "logs/logs.log"),
+            "formatter": "verbose"
+        },
+        "watchtower": {
+            "level": "INFO",
+            "class": "watchtower.CloudWatchLogHandler",
+            'boto3_client': boto3_logs_client,
+            "log_group": os.environ.get('AWS_LOG_GROUP'),
+            "stream_name": os.environ.get('AWS_LOG_STREAM_NAME'),
+            "formatter": "simple",
+        },
+
+    },
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {name} {module} {funcName} {message}",
+            "datefmt": "[%d/%b/%Y %H:%M:%S]",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

@@ -45,6 +45,7 @@ def getCurrentUser(request: Request):
 
     serializer = AdvogadoCurrentSerializer(data=serializerData)
     serializer.is_valid()
+
     return Response(data=serializer.data)
 
 
