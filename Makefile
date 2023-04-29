@@ -44,4 +44,8 @@ up:
 down:
 	docker-compose -f docker-compose.yml down
 
+coverage:
+	docker exec -i macedoazevedoapp sh -c 'coverage run manage.py test'
+	docker exec -i macedoazevedoapp sh -c 'coverage html'
+
 
