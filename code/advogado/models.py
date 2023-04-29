@@ -9,7 +9,8 @@ class Advogado(models.Model):
 
     nome = models.CharField(max_length=40, blank=False)
     email = models.CharField(max_length=50)
-    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    usuario = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True)
     oab = models.CharField(max_length=10, unique=True, null=False, blank=True)
     image = models.ImageField(upload_to="images/", default=None, null=True)
 

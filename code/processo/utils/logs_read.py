@@ -10,7 +10,7 @@ client = boto3.client(
 
 )
 
-def get_logs(query, log_group):
+def get_logs(query, log_group, client):
     start_query_response = client.start_query(
         logGroupName=log_group,
         startTime=int((datetime.today() - timedelta(hours=5)).timestamp()),

@@ -4,7 +4,6 @@ from pathlib import Path
 import boto3
 import watchtower
 from dotenv import load_dotenv
-from boto3.session import Session
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
