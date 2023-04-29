@@ -4,7 +4,7 @@ from utils.test_fixtures.lawyers import LawyerMixin
 from utils.test_fixtures.utils_test import UtilsMixin
 
 
-class AdvogadoTest(APITestCase, LawyerMixin, UtilsMixin):
+class LawyersTestCase(APITestCase, LawyerMixin, UtilsMixin):
 
     def setUp(self) -> None:
         self.user_data = {
@@ -32,35 +32,58 @@ class AdvogadoTest(APITestCase, LawyerMixin, UtilsMixin):
             client=self.client
         )
 
-    def test_list_advogados(self):
+    def test_list_lawyers(self):
         response = self.client.get(
-            reverse("advogado-list"), HTTP_AUTHORIZATION=f"Bearer {self.token}")
-        self.assertEqual(200, response.status_code)
-
-    def test_get_lawyers_list(self):
-        response = self.client.get(
-            reverse("advogado-detail", kwargs={"pk": self.lawyer.pk}), HTTP_AUTHORIZATION=f"Bearer {self.token}"
+            reverse("advogado-list"), HTTP_AUTHORIZATION=f"Bearer {self.token}"
         )
         self.assertEqual(200, response.status_code)
 
-    def test_get_lawyers_detail(self):
+    def test_create_lawyers(self):
+        data = {
+            "nome": "Sandra Cristina",
+            "email": "default@email.co",
+            "oab": "RJ127324",
+            "usuario": self.make_user(username="user", password="123", email="default@email.co").pk
+        }
+        url = reverse("advogado-list")
+        response = self.client.post(
+            url, data=data, HTTP_AUTHORIZATION=f"Bearer {self.token}", format="json"
+        )
+        self.assertEqual(201, response.status_code)
+
+    def test_retrieve_lawyers(self):
+        url = reverse("advogado-detail", kwargs={"pk": self.lawyer.pk})
         response = self.client.get(
-            reverse("advogado-detail", kwargs={"pk": self.lawyer.pk}), HTTP_AUTHORIZATION=f"Bearer {self.token}"
+            url, HTTP_AUTHORIZATION=f"Bearer {self.token}"
         )
         self.assertEqual(200, response.status_code)
 
-    def test_partial_update_lawyers_detail(self):
+    def test_update_lawyers(self):
+        data = {
+            "nome": "Danilo Macedo",
+            "email": "default@email.co",
+            "oab": "RJ127324",
+            "usuario": self.user.pk
+        }
+        url = reverse("advogado-detail", kwargs={"pk": self.lawyer.pk})
+        response = self.client.put(
+            url, data=data, HTTP_AUTHORIZATION=f"Bearer {self.token}", format="json"
+        )
+        self.assertEqual(data["nome"], response.data["nome"])
+
+    def test_partial_update_lawyers(self):
         data = {
             "nome": "Danilo"
         }
+        url = reverse("advogado-detail", kwargs={"pk": self.lawyer.pk})
         response = self.client.patch(
-            reverse("advogado-detail", kwargs={"pk": self.lawyer.pk}), data=data, HTTP_AUTHORIZATION=f"Bearer {self.token}"
+            url, data=data, HTTP_AUTHORIZATION=f"Bearer {self.token}", format="json"
         )
+        self.assertEqual(response.data["nome"], data["nome"])
 
-        self.assertEqual(200, response.status_code)
-
-    def test_delete_lawyers(self):
+    def test_destroy_lawyers(self):
+        url = reverse("advogado-detail", kwargs={"pk": self.lawyer.pk})
         response = self.client.delete(
-            reverse("advogado-detail", kwargs={"pk": self.lawyer.pk}), HTTP_AUTHORIZATION=f"Bearer {self.token}"
+            url, HTTP_AUTHORIZATION=f"Bearer {self.token}"
         )
         self.assertEqual(204, response.status_code)
