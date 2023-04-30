@@ -192,6 +192,10 @@ LOGGING = {
             "level": "INFO",
             "handlers": ["watchtower"],
         },
+        "lawsuits_scraping": {
+            "handlers": ["file"],
+            "level": "INFO"
+        }
 
     },
     "handlers": {
@@ -199,7 +203,7 @@ LOGGING = {
             "level": "INFO",
             "class": "logging.FileHandler",
             "filename": os.path.join(BASE_DIR, "logs/logs.log"),
-            "formatter": "verbose"
+            "formatter": "simple"
         },
         "watchtower": {
             "level": "INFO",
@@ -218,7 +222,8 @@ LOGGING = {
             "style": "{",
         },
         "simple": {
-            "format": "{levelname} {message}",
+            "format": "{asctime} {levelname} {message}",
+            "datefmt": "[%d/%b/%Y %H:%M:%S]",
             "style": "{",
         },
     },

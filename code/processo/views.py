@@ -15,12 +15,25 @@ from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos, Pro
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
+from processo.tasks import track_new_process, search_new_lawsuits_changes
 
 
 class ProcessosViewSet(ModelViewSet):
     queryset = Processos.objects.all()
     serializer_class = ProcessosSerializer
     permission_classes = [IsAuthenticated]
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        if request.method == "POST":
+            track_new_process.delay(
+                response.data["codigo_processo"], int(response.data["id"])
+            )
+        return super().finalize_response(request, response, *args, **kwargs)
+
+    @action(detail=False, methods=["GET"])
+    def teste(self, request):
+        search_new_lawsuits_changes.delay()
+        return Response(data={"detail": "buscando"})
 
     @action(detail=True, methods=["GET"])
     def finalizar(self, request, pk):

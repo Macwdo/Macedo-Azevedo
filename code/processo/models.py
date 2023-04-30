@@ -51,7 +51,7 @@ class Processos(models.Model):
         return total
 
     def anexos_registrados(self):
-        return ProcessosAnexos.objects.filter(processo=Processos.objects.get(pk=self.pk))
+        return ProcessosAnexos.objects.filter(processo=Processos.objects.get(pk=self.pk)).order_by("-id")
 
     @property
     def tracked(self):
@@ -62,6 +62,10 @@ class Processos(models.Model):
 
     def __str__(self) -> str:
         return f"{self.codigo_processo}"
+
+    @property
+    def track_history(self):
+        return ProcessosMovimento.objects.filter(processo_id=self.pk)
 
     class Meta:
         verbose_name_plural = 'Processos'

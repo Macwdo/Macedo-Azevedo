@@ -8,6 +8,8 @@ from re import search
 from selenium.webdriver.remote.webelement import WebElement
 import logging
 
+logger = logging.getLogger("lawsuits_scraping")
+
 
 class TjRjScraping:
     def __init__(self, numero_processo) -> None:
@@ -29,10 +31,9 @@ class TjRjScraping:
                 "inputNp": "/html/body/app-root/app-consultar/div[1]/div/div/div/div/div[2]/div[1]/div[1]/div/app-codigo-processo-origem/div/div[2]/div/div/input[1]",
                 "button": "/html/body/app-root/app-consultar/div[1]/div/div/div/div/div[2]/div[1]/div[2]/div/div/button[1]",
                 "errorMessage": "/html/body/app-root/simple-notifications/div/simple-notification/div/div[1]/div",
-                "all_changes_button": "/html/body/app-root/app-detalhes-processo/section/div/div/div[1]/div[2]/button[2]",
+                "lawsuit_number": "/html/body/app-root/app-detalhes-processo/section/div/div/div[2]/div[2]/div[1]/div/span/b",
                 "dados": {
-                    "last_change": "/html/body/app-root/app-detalhes-processo/section/div/div/div[3]/div[1]/div[2]",
-
+                    "last_change": "/html/body/app-root/app-detalhes-processo/section/div/div/div[2]/div[2]/div[8]/div[3]/app-movimento",
                 },
                 "antiga": {}
             }
@@ -46,7 +47,7 @@ class TjRjScraping:
             return True
         return False
 
-    def searchWait(self, secs, by, path) -> WebElement:
+    def searchWait(self, secs: int, by: By, path: str) -> WebElement:
         return WebDriverWait(self.driver, secs).until(
             EC.presence_of_element_located(
                 (by, path)
@@ -58,68 +59,103 @@ class TjRjScraping:
             nProcess = self.numero_processo[:15] + self.numero_processo[21:]
         else:
             raise Exception()
-        self.driver.get(self.paths["URL"])
-        self.searchWait(
-            40, By.XPATH, self.paths["tipoN"]["unica"]["inputNp"]).send_keys(nProcess)
-        self.searchWait(
-            40, By.XPATH, self.paths["tipoN"]["unica"]["button"]).click()
         try:
-            if self.searchWait(10, By.XPATH, self.paths["tipoN"]["unica"]["errorMessage"]).is_displayed():
-                raise NotFound()
+            self.driver.get(self.paths["URL"])
+            logger.info(f"Success Getting TJ-RJ URL - {self.numero_processo}")
         except Exception as e:
-            logging.warning(
-                f"Erro em buscar o processo - {self.numero_processo} - {e}")
-            pass
+            logger.error(
+                f"Error Getting TJ-RJ URL  - {self.numero_processo}")
+
+        try:
+            self.searchWait(
+                40, By.XPATH, self.paths["tipoN"]["unica"]["inputNp"]
+            ).send_keys(nProcess)
+
+            self.searchWait(
+                40, By.XPATH, self.paths["tipoN"]["unica"]["button"]
+            ).click()
+
+            logger.info(
+                f"Success when sending lawsuit number - {self.numero_processo}"
+            )
+        except Exception as e:
+            logger.error(
+                f"Error when sending lawsuit number - {self.numero_processo}")
 
     def last_process_moviment(self):
         try:
             self.searchNprocess()
+            logger.info(f"Success searching lawsuit - {self.numero_processo}")
+
         except Exception as e:
-            logging.warning(
-                f"Erro na busca do processo - {self.numero_processo} - {e}")
+            logger.error(
+                f"Error searching lawsuit - {self.numero_processo} - {e}"
+            )
 
-        changes_button = self.searchWait(
-            40, By.XPATH, self.paths["tipoN"]["unica"]["all_changes_button"])
-        changes_button.click()
+        try:
+            self.searchWait(
+                40, By.XPATH, self.paths["tipoN"]["unica"]["lawsuit_number"]
+            )
+            logger.info(
+                f"Success waiting site load - {self.numero_processo}"
+            )
 
-        changes = self.searchWait(
-            10, By.XPATH, self.paths["tipoN"]["unica"]["dados"]["last_change"]).text
-        all_changes = changes.split("\n")
+        except Exception as e:
+            logger.error(
+                f"Error waiting site load - {self.numero_processo} - {e}"
+            )
+        try:
+            changes = self.searchWait(
+                10, By.XPATH, self.paths["tipoN"]["unica"]["dados"]["last_change"]).text
+            all_changes = changes.split("\n")
+            logger.info(
+                f"Success getting last change - {self.numero_processo}"
+            )
+        except Exception as e:
+            logger.error(
+                f"Error getting last change - {self.numero_processo} - {e}"
+            )
 
-        changes_data = []
-        final_data = {}
-        change_type = ""
-        first = True
-        change_date = ""
-        next_index_is_data = False
-        for item in all_changes:
-            if "Tipo do Movimento" in item and first:
-                change_type = item.split("Tipo do Movimento:")[1].strip()
-                first = False
-                continue
+        try:
+            changes_data = []
+            final_data = {}
+            change_type = ""
+            first = True
+            change_date = ""
+            next_index_is_data = False
+            for item in all_changes:
+                if "Tipo do Movimento" in item and first:
+                    change_type = item.split("Tipo do Movimento:")[1].strip()
+                    first = False
+                    continue
 
-            elif "Tipo do Movimento" in item and not first:
+                elif "Tipo do Movimento" in item and not first:
+                    final_data = {
+                        "movimento": change_type,
+                        "data": changes_data,
+                        "date": change_date
+                    }
+                    changes_data = []
+                    change_type = item.split("Tipo do Movimento:")[1].strip()
+                    continue
+
+                if next_index_is_data:
+                    change_date = item
+                    next_index_is_data = False
+
+                if "Data" in item.capitalize():
+                    next_index_is_data = True
+                changes_data.append(item)
+
                 final_data = {
                     "movimento": change_type,
                     "data": changes_data,
                     "date": change_date
                 }
-                changes_data = []
-                change_type = item.split("Tipo do Movimento:")[1].strip()
-                continue
-
-            if next_index_is_data:
-                change_date = item
-                next_index_is_data = False
-
-            if "Data" in item.capitalize():
-                next_index_is_data = True
-            changes_data.append(item)
-
-            final_data = {
-                "movimento": change_type,
-                "data": changes_data,
-                "date": change_date
-            }
-
-        return final_data
+            logger.info(f"Success to handle data - {self.numero_processo}")
+            return final_data
+        except Exception as e:
+            logger.error(
+                f"Error to handle data - {self.numero_processo} - {e}"
+            )
+            return None

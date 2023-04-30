@@ -10,8 +10,8 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Celery beat Settings
 
 app.conf.beat_schedule = {
-    'search-process-alterations': {
-        'task': 'processo.tasks.search_process_alterations',
+    'search-new-lawsuits-changes': {
+        'task': 'processo.tasks.search_new_lawsuits_changes',
         'schedule': crontab(hour=1),
         'args': ()
     },
