@@ -30,11 +30,6 @@ class ProcessosViewSet(ModelViewSet):
             )
         return super().finalize_response(request, response, *args, **kwargs)
 
-    @action(detail=False, methods=["GET"])
-    def teste(self, request):
-        search_new_lawsuits_changes.delay()
-        return Response(data={"detail": "buscando"})
-
     @action(detail=True, methods=["GET"])
     def finalizar(self, request, pk):
         processo = get_object_or_404(Processos, pk=pk)
