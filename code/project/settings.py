@@ -2,7 +2,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 import boto3
-import watchtower
 from dotenv import load_dotenv
 
 
@@ -25,12 +24,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
     'django_rest_passwordreset',
     'easyaudit',
     'drf_yasg',
+    'storages',
 
     'processo',
     'cliente',
@@ -172,11 +173,12 @@ boto3_logs_client = boto3.client(
 
 # AWS S3
 
-# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
-# AWS_S3_CUSTOM_DOMAIN = ''
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAUT_ACL = None
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
+AWS_S3_FILE_OVERWRITE = False
+
+AWS_S3_REGION_NAME = AWS_REGION
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Logging
 
@@ -185,27 +187,17 @@ LOGGING = {
     "disable_existing_loggers": False,
     "loggers": {
         "processo": {
-            "handlers": ["file"],
+            "handlers": ["cloud_watch"],
             "level": "INFO"
         },
-        "watchtower": {
-            "level": "INFO",
-            "handlers": ["watchtower"],
-        },
         "lawsuits_scraping": {
-            "handlers": ["file"],
+            "handlers": ["cloud_watch"],
             "level": "INFO"
         }
 
     },
     "handlers": {
-        "file": {
-            "level": "INFO",
-            "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/logs.log"),
-            "formatter": "simple"
-        },
-        "watchtower": {
+        "cloud_watch": {
             "level": "INFO",
             "class": "watchtower.CloudWatchLogHandler",
             'boto3_client': boto3_logs_client,

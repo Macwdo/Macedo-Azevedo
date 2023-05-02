@@ -1,5 +1,6 @@
 boto3==1.26.121
 django-storages==1.13.2
+parameterized==0.9.0
 watchtower==3.0.1
 Django==4.1.7
 django-cors-headers==3.14.0
@@ -11,6 +12,7 @@ django-rest-swagger==2.2.0
 djangorestframework-simplejwt==5.2.2
 django-celery-beat==2.5.0
 drf-nested-routers==0.93.4
+coverage==7.2.4
 Pillow==9.4.0
 psycopg2==2.9.5
 python-decouple==3.7
@@ -21,4 +23,6 @@ PyYAML==6.0
 uritemplate==4.1.1
 flower==1.2.0
 drf-yasg==1.21.5
+pytest==7.3.1
+pytest-django==4.5.2
 ipdb==0.13.13

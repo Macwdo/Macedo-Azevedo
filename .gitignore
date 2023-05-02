@@ -8,6 +8,9 @@ files/
 examples/
 docker-compose-test.yml
 code/celerybeat-schedule
+Aws
+code/htmlcov
+code/.coverage
 
 #Project Files
 scripts.js
