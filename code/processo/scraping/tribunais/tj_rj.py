@@ -62,9 +62,9 @@ class TjRjScraping:
         try:
             self.driver.get(self.paths["URL"])
             logger.info(f"Success Getting TJ-RJ URL - {self.numero_processo}")
-        except Exception as e:
-            logger.error(
-                f"Error Getting TJ-RJ URL  - {self.numero_processo}")
+        except:
+            raise Exception(
+                f"Error Getting TJ-RJ URL - {self.numero_processo}")
 
         try:
             self.searchWait(
@@ -78,18 +78,19 @@ class TjRjScraping:
             logger.info(
                 f"Success when sending lawsuit number - {self.numero_processo}"
             )
-        except Exception as e:
-            logger.error(
-                f"Error when sending lawsuit number - {self.numero_processo}")
+        except:
+            raise Exception(
+                f"Error when sending lawsuit number - {self.numero_processo}"
+            )
 
     def last_process_moviment(self):
         try:
             self.searchNprocess()
             logger.info(f"Success searching lawsuit - {self.numero_processo}")
 
-        except Exception as e:
-            logger.error(
-                f"Error searching lawsuit - {self.numero_processo} - {e}"
+        except:
+            raise Exception(
+                f"Error searching lawsuit - {self.numero_processo}"
             )
 
         try:
@@ -100,9 +101,9 @@ class TjRjScraping:
                 f"Success waiting site load - {self.numero_processo}"
             )
 
-        except Exception as e:
-            logger.error(
-                f"Error waiting site load - {self.numero_processo} - {e}"
+        except:
+            raise Exception(
+                f"Error waiting site load - {self.numero_processo}"
             )
         try:
             changes = self.searchWait(
@@ -111,9 +112,9 @@ class TjRjScraping:
             logger.info(
                 f"Success getting last change - {self.numero_processo}"
             )
-        except Exception as e:
-            logger.error(
-                f"Error getting last change - {self.numero_processo} - {e}"
+        except:
+            raise Exception(
+                f"Error getting last change - {self.numero_processo}"
             )
 
         try:
@@ -154,8 +155,7 @@ class TjRjScraping:
                 }
             logger.info(f"Success to handle data - {self.numero_processo}")
             return final_data
-        except Exception as e:
-            logger.error(
-                f"Error to handle data - {self.numero_processo} - {e}"
+        except:
+            raise Exception(
+                f"Error to handle data - {self.numero_processo}"
             )
-            return None

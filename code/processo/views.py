@@ -1,13 +1,10 @@
-from advogado.models import Advogado
 from processo.serializers import (
     ProcessosAnexosSerializer, ProcessosSerializer,
     ProcessosHonorariosSerializer, ProcessosAssuntosSerializer,
     ProcessosMovimentoSerializer
 )
-from datetime import date
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
@@ -15,20 +12,14 @@ from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos, Pro
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
-from processo.tasks import track_new_process, search_new_lawsuits_changes
+from rest_framework.exceptions import bad_request
+from django.http import JsonResponse
 
 
 class ProcessosViewSet(ModelViewSet):
     queryset = Processos.objects.all()
     serializer_class = ProcessosSerializer
     permission_classes = [IsAuthenticated]
-
-    def finalize_response(self, request, response, *args, **kwargs):
-        if request.method == "POST":
-            track_new_process.delay(
-                response.data["codigo_processo"], int(response.data["id"])
-            )
-        return super().finalize_response(request, response, *args, **kwargs)
 
     @action(detail=True, methods=["GET"])
     def finalizar(self, request, pk):
@@ -44,68 +35,51 @@ class ProcessosViewSet(ModelViewSet):
     def get_queryset(self):
         q = self.request.query_params.get("q", None)
         laywer = self.request.query_params.get("advogado", None)
-        date_selected = self.request.query_params.get("iniciado", None)
+        finished = self.request.query_params.get("finalizado", None)
+        lawsuits = Processos.objects.all()
 
-        if q is None:
-            q = ""
-
-        laywers_qs = ""
-        date_qs = ""
-
-        if laywer is not None and laywer != "":
-            try:
-                laywers_qs = f"""Processos.objects.filter(
-                        Q(codigo_processo__istartswith=q) |
-                        Q(parte_adversa__nome__istartswith=q)|
-                        Q(cliente__nome__istartswith=q)|
-                        Q(municipio__istartswith=q)|
-                        Q(vara__istartswith=q)
-                ) & Processos.objects.filter(
-                    advogado_responsavel=eval("get_object_or_404(Advogado, pk={int(laywer)})")
-                    )"""
-            except Advogado.DoesNotExist:
-                raise NotFound()
-
-        if date_selected is not None:
-            date_selected = date_selected.split("/")
-            if laywers_qs == "":
-                date_qs = f"""Processos.objects.filter(
-                    iniciado__gte="{date(int(date_selected[1]), int(date_selected[0]), 1)}"
-                )"""
-            else:
-                date_qs = f"""& Processos.objects.filter(
-                    iniciado__gte="{date(int(date_selected[1]), int(date_selected[0]), 1)}"
-                )"""
-
-        if laywers_qs == "" and date_qs == "":
-            qs = Processos.objects.filter(
-                Q(codigo_processo__istartswith=q) |
-                Q(parte_adversa__nome__istartswith=q) |
-                Q(advogado_responsavel__nome__istartswith=q) |
-                Q(cliente__nome__istartswith=q) |
-                Q(municipio__istartswith=q) |
-                Q(vara__istartswith=q)
+        if q:
+            lawsuits = lawsuits.filter(
+                Q(codigo_processo__icontains=q) |
+                Q(posicao__icontains=q) |
+                Q(observacoes__icontains=q) |
+                Q(estado__icontains=q) |
+                Q(municipio__icontains=q) |
+                Q(assunto__icontains=q) |
+                Q(vara__icontains=q) |
+                Q(n_vara__icontains=q) |
+                Q(advogado_responsavel__nome__icontains=q) |
+                Q(advogado_responsavel__email__icontains=q) |
+                Q(advogado_responsavel__oab__icontains=q) |
+                Q(colaborador__nome__icontains=q) |
+                Q(colaborador__email__icontains=q) |
+                Q(colaborador__oab__icontains=q) |
+                Q(parte_adversa__nome__icontains=q) |
+                Q(parte_adversa__email__icontains=q) |
+                Q(parte_adversa__numero__icontains=q) |
+                Q(parte_adversa__cpf_cnpj__icontains=q) |
+                Q(parte_adversa__endereco__icontains=q) |
+                Q(cliente__nome__icontains=q) |
+                Q(cliente__email__icontains=q) |
+                Q(cliente__numero__icontains=q) |
+                Q(cliente__cpf_cnpj__icontains=q) |
+                Q(cliente__endereco__icontains=q) 
             )
-        elif laywers_qs == "" and date_qs != "":
-            qs = Processos.objects.filter(
-                Q(codigo_processo__istartswith=q) |
-                Q(parte_adversa__nome__istartswith=q) |
-                Q(advogado_responsavel__nome__istartswith=q) |
-                Q(cliente__nome__istartswith=q) |
-                Q(municipio__istartswith=q) |
-                Q(vara__istartswith=q)
-            ) and eval(date_qs)
+        
+        if laywer:
+            lawsuits = lawsuits.filter(
+                advogado_responsavel_id=laywer
+            )
 
-        elif laywer != "" and date_qs == "":
-            qs = eval(laywers_qs)
+        if finished:
+            if finished.upper() == "TRUE":
+                lawsuits = lawsuits.exclude(finalizado__isnull=True)
 
-        elif laywer == "" and date_qs != "":
-            qs = eval(date_qs)
+        return lawsuits.order_by("-id")
+    
 
-        else:
-            qs = eval(laywers_qs + date_qs)
+        
 
-        return qs.order_by("-id")
 
 
 class ProcessosHonorariosViewSet(ModelViewSet):

@@ -33,9 +33,7 @@ def track_new_process(lawsuit_number: str, lawsuit_pk: int):
                     data=data_str
                 )
         except Exception as e:
-            logger.error(
-                f"Error - {e} - cant possible track {lawsuit_number}"
-            )
+            logger.error(e)
     else:
         logger.info("That process cant be tracked")
 

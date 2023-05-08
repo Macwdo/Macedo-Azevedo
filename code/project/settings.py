@@ -3,9 +3,17 @@ from datetime import timedelta
 from pathlib import Path
 import boto3
 from dotenv import load_dotenv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+from json import loads
 
+sentry_sdk.init(
+    dsn=os.environ.get("DSN"),
+    integrations=[
+        DjangoIntegration(),
+    ],
+)
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
@@ -15,7 +23,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True if os.environ.get("DEBUG") == "1" else False
 
 ALLOWED_HOSTS = ["*"]
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+
+CORS_ALLOWED_ORIGINS = loads(os.environ.get("CORS_ALLOWED_ORIGINS", []))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -225,11 +234,11 @@ LOGGING = {
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 
-STATIC_URL = '/staticfiles/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-MEDIA_ROOT = BASE_DIR.joinpath('files')
-MEDIA_URL = '/files/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILE_DIRS = [
+    os.path.join(BASE_DIR, "staticfiles")
+]
 
 
 # Default primary key field type
