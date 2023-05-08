@@ -103,5 +103,11 @@ class ProcessosAnexos(models.Model):
     arquivo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def size(self):
+        return self.arquivo.size
+    
+    # def type(self):
+
+
     def __str__(self) -> str:
         return f"{self.processo} {self.nome_do_anexo}"

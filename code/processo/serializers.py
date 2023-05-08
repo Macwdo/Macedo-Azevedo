@@ -43,7 +43,8 @@ class ProcessosAnexosSerializer(serializers.ModelSerializer):
         fields = (
             "id", "nome_do_anexo",
             "arquivo", "created_at",
-            "processo_id"
+            "size", "processo_id",
+            # "type"
         )
         model = ProcessosAnexos
         read_only_fields = ("processo",)
