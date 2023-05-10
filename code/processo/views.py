@@ -12,6 +12,13 @@ from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos, Pro
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
+from django.views.generic import TemplateView
+
+
+
+class RenderHomePage(TemplateView):
+    template_name =  "base/base.html"
+
 
 
 class ProcessosViewSet(ModelViewSet):

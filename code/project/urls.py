@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from processo.views import RenderHomePage
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -27,6 +28,7 @@ urlpatterns = [
     path('api/v1/', include("advogado.urls")),
     path('api/v1/', include("cliente.urls")),
     path('api/v1/', include("processo.urls")),
+    path('', RenderHomePage.as_view(), name='homepage' )
 ]
 
 
