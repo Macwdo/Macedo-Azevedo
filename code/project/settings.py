@@ -7,13 +7,6 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from json import loads
 
-sentry_sdk.init(
-    dsn=os.environ.get("DSN"),
-    integrations=[
-        DjangoIntegration(),
-    ],
-)
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
@@ -23,8 +16,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True if os.environ.get("DEBUG") == "1" else False
 
 ALLOWED_HOSTS = ["*"]
-
-CORS_ALLOWED_ORIGINS = loads(os.environ.get("CORS_ALLOWED_ORIGINS", []))
+CORS_ALLOWED_ORIGINS = loads(os.environ.get("CORS_ALLOWED_ORIGINS", "[]"))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -34,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
@@ -84,6 +77,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
+# Sentry
+
+if not DEBUG:
+    sentry_sdk.init(
+        dsn=os.environ.get("DSN"),
+        integrations=[
+            DjangoIntegration(),
+        ],
+    )
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -182,12 +184,10 @@ boto3_logs_client = boto3.client(
 
 # AWS S3
 
-if not DEBUG:
+if DEBUG:
     AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
     AWS_S3_FILE_OVERWRITE = False
-
     AWS_S3_REGION_NAME = AWS_REGION
-
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Logging
@@ -241,6 +241,8 @@ STATICFILE_DIRS = [
     os.path.join(BASE_DIR, "staticfiles")
 ]
 
+MEDIA_ROOT = BASE_DIR.joinpath('files')
+MEDIA_URL = '/files/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
