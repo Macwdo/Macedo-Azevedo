@@ -8,7 +8,7 @@ files/
 examples/
 docker-compose-test.yml
 code/celerybeat-schedule
-Aws
+Aws/
 code/htmlcov
 code/.coverage
 
