@@ -11,7 +11,31 @@
     </style>
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">
-    {% include "base/body/body.html" %}
+    <div class="wrapper">
+        {% include "base/body/navbar.html" %}
+        {% include "base/body/sidebar.html" %}
+
+        <div class="content-wrapper">
+            <section class="content-header">
+              <div class="container-fluid">
+              <div class="row mb-2">
+                  <div class="col-sm-6">
+                      {% block title %}{% endblock %}
+                  </div>
+                  <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                      {% block breadcrumb %}{% endblock %}
+                  </ol>
+                  </div>
+              </div>
+              </div>
+            </section> 
+            <section class="content">
+                {% block content %}{% endblock %}
+            </section>
+        </div>
+        {% include "base/body/footer.html" %}
+    </div>
     {% include "base/scripts.html" %}
   </body>
 </html>

@@ -19,6 +19,8 @@ from django.views.generic import TemplateView
 class RenderHomePage(TemplateView):
     template_name =  "base/base.html"
 
+class LawsuitsList(TemplateView):
+    template_name = "lawsuits/lawsuit_list.html"
 
 
 class ProcessosViewSet(ModelViewSet):
