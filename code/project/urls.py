@@ -2,9 +2,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
+
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from processo.views import RenderHomePage, LawsuitsList
 from rest_framework import permissions
+
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -18,6 +19,8 @@ from cliente.urls import cliente_router_nested as client_router_nested
 
 from cliente.urls import parteadv_router as adverse_part_router
 from cliente.urls import parteadv_router_nested as adverse_part_router_nested
+
+from project.login import login, logout
 
 
 if settings.DEBUG:
@@ -39,9 +42,14 @@ if settings.DEBUG:
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', login, name="login"),
+    path('logout/', logout, name="logout")
+
+]
+
+urlpatterns += [
     path('api/token/', TokenObtainPairView.as_view(), name='token'),
     path('api/refresh/', TokenRefreshView.as_view(), name='refresh'),
-    
     path('api/v1/', include(client_router.urls)),
     path('api/v1/', include(client_router_nested.urls)),
     path('api/v1/', include(adverse_part_router.urls)),
