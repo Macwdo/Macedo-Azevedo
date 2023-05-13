@@ -21,12 +21,12 @@ def login(request: HttpRequest):
         if user:
             auth.login(request, user, backend="user.authentication.EmailAuthBackend")
             messages.success(request, f"Logado com sucesso!")
-            return redirect("/")
+            return redirect(reverse("lawsuits:list"))
         messages.error(request, f"Erro ao realizar login")
         return redirect(reverse("login"))
 
 @login_required
-@require_http_methods(["POST"])
+@require_http_methods(["GET"])
 def logout(request):
     auth.logout(request)
     return redirect(reverse("login"))

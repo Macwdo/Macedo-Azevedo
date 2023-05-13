@@ -25,9 +25,10 @@ from project.login import login, logout
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login, name="login"),
-    path('logout/', logout, name="logout")
-
+    path('logout/', logout, name="logout"),
+    path('processo/', include("processo.urls"))
 ]
+
 
 urlpatterns += [
     path('api/token/', TokenObtainPairView.as_view(), name='token'),
