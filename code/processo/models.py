@@ -24,7 +24,6 @@ class Processos(models.Model):
     estado = models.TextField()
     municipio = models.TextField()
     assunto = models.CharField(max_length=255)
-    n_vara = models.CharField(max_length=30)
     vara = models.CharField(max_length=50)
     iniciado = models.DateTimeField(auto_now_add=True)
     finalizado = models.DateTimeField(auto_now_add=False, blank=True, null=True)

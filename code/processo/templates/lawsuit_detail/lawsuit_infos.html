@@ -1,0 +1,68 @@
+<div class="invoice p-3 mb-3">
+
+    <div class="row">
+        <div class="col-12">
+            <h5>
+            <b>Codigo do Processo</b> {{ lawsuit.codigo_processo }}
+            </h5>
+            <hr>
+        </div>
+    </div>
+    
+    <div class="row invoice-info">
+        <div class="col-sm-3 invoice-col">
+            <strong>Cliente</strong><br>
+            <li>
+                {{ lawsuit.cliente }}<br>
+            </li>
+            <li>
+                {{ lawsuit.posicao }}<br>
+            </li>
+            <strong>Parte Adversa</strong><br>
+            <li>
+                {{ lawsuit.parte_adversa }}<br>
+            </li>
+        </div>
+    
+        <div class="col-sm-3 invoice-col">
+                <strong>Advogados</strong><br>
+                <li>
+                    {{ lawsuit.advogado_responsavel }}<br>
+                </li>
+                {% if lawsuit.colaborador %}
+                    <li>
+                        {{ lawsuit.colaborador }}<br>
+                    </li>
+                {% endif %}
+                <strong>Cliente de  </strong><br>
+                <li>
+                    {{ lawsuit.cliente_de }}
+                </li>
+        </div>
+    
+        <div class="col-sm-3 invoice-col">
+            <strong>Vara</strong><br>
+            {{ lawsuit.vara }}<br>
+            <strong>Estado  </strong><br>
+            {{ lawsuit.estado }}<br>
+            <strong>Munícpio  </strong><br>
+            {{ lawsuit.municipio }}<br>
+        </div>
+
+        <div class="col-sm-3 invoice-col">
+            <strong>Assunto</strong><br>
+            {{ lawsuit.assunto }}<br>
+            <strong>Iniciado  </strong><br>
+            {{ lawsuit.iniciado }}<br>
+            <strong>Finalizado  </strong><br>
+            {% if lawsuit.finalizado %}
+                {{ lawsuit.finalizado }}<br>
+            {% else %}
+                Processo não finalizado
+            {% endif %}
+        </div>
+        
+    
+    </div>
+    
+</div>

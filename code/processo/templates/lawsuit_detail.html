@@ -11,7 +11,7 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active text-dark" id="home-tab" data-bs-toggle="tab" data-bs-target="#lawsuit" type="button" role="tab" aria-controls="lawsuit" aria-selected="true">
-                    Processos
+                    Processo
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -29,7 +29,7 @@
     <div class="card-body">
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="lawsuit" role="tabpanel" aria-labelledby="lawsuit-tab">
-
+                {% include "lawsuit_detail/lawsuit_infos.html" %}
             </div>
             <div class="tab-pane fade" id="lawsuit-cousts" role="tabpanel" aria-labelledby="lawsuit-cousts-tab">
 

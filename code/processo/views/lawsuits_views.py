@@ -17,7 +17,7 @@ def list(request: HttpRequest):
     }
     
 
-    return render(request, "lawsuits/lawsuit_list.html", context)
+    return render(request, "lawsuit_list.html", context)
 
 
 @login_required
@@ -29,7 +29,7 @@ def detail(request: HttpRequest, pk: int):
         "lawsuit": lawsuit
     }
 
-    return render(request, "lawsuits/lawsuit_detail.html", context)
+    return render(request, "lawsuit_detail.html", context)
 
 
 @login_required
