@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import ClienteViewSet, ParteADVViewSet, ParteADVEnderecoViewSet, ClienteEnderecoViewSet, sendEmail
 from rest_framework_nested.routers import SimpleRouter, NestedSimpleRouter
-
+from cliente.api.clients.viewsets import ClienteEnderecoViewSet, ClienteViewSet
+from cliente.api.adverse_parts.viewsets import ParteADVViewSet, ParteADVEnderecoViewSet
 
 app_name = "registros"
 
@@ -35,6 +35,4 @@ parteadv_router_nested.register(
 )
 
 
-urlpatterns = [
-    path("send-email/", sendEmail, name="reset"),
-] + parteadv_router.urls + parteadv_router_nested.urls + cliente_router.urls + cliente_router_nested.urls
+urlpatterns = []

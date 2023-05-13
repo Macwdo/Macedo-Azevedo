@@ -7,26 +7,47 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Snippets API",
-        default_version='v1',
-        description="Test description",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
-        license=openapi.License(name="BSD License"),
-    ),
-    public=True,
-    permission_classes=[permissions.AllowAny],
-)
+from advogado.urls import laywer_router as laywer_router
+
+from processo.urls import processo_router as lawsuit_router
+from processo.urls import processo_router_nested as lawsuit_nested_router
+
+from cliente.urls import cliente_router as client_router
+from cliente.urls import cliente_router_nested as client_router_nested
+
+from cliente.urls import parteadv_router as adverse_part_router
+from cliente.urls import parteadv_router_nested as adverse_part_router_nested
+
+
+if settings.DEBUG:
+    schema_view = get_schema_view(
+        openapi.Info(
+            title="Snippets API",
+            default_version='v1',
+            description="Test description",
+            terms_of_service="https://www.google.com/policies/terms/",
+            contact=openapi.Contact(email="contact@snippets.local"),
+            license=openapi.License(name="BSD License"),
+        ),
+        public=True,
+        permission_classes=[permissions.AllowAny],
+    )
+
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token'),
     path('api/refresh/', TokenRefreshView.as_view(), name='refresh'),
-    path('api/v1/', include("advogado.urls")),
-    path('api/v1/', include("cliente.urls")),
-    path('api/v1/', include("processo.urls")),
+    
+    path('api/v1/', include(client_router.urls)),
+    path('api/v1/', include(client_router_nested.urls)),
+    path('api/v1/', include(adverse_part_router.urls)),
+    path('api/v1/', include(adverse_part_router_nested.urls)),
+    path('api/v1/', include(lawsuit_router.urls)),
+    path('api/v1/', include(lawsuit_nested_router.urls)),
+    path('api/v1/', include(laywer_router.urls))
 ]
 
 

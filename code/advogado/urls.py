@@ -1,14 +1,8 @@
-from django.urls import path
 from rest_framework.routers import SimpleRouter
+from advogado.api.viewsets import AdvogadoViewSet
 
-from .views import AdvogadoViewSet, getCurrentUser
+laywer_router = SimpleRouter()
 
-router = SimpleRouter()
+laywer_router.register(r"advogado", AdvogadoViewSet)
 
-router.register(r"advogado", AdvogadoViewSet)
-
-
-urlpatterns = [
-    path("current/", getCurrentUser, name="current")
-] + router.urls
-
+urlpatterns = []
