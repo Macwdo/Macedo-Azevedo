@@ -1,4 +1,5 @@
-from cliente.serializers import ClienteSerializer, ParteADVSerializer
+from cliente.api.clients.serializers import ClienteSerializer
+from cliente.api.adverse_parts.serializers import ParteADVSerializer
 from advogado.api.serializers import AdvogadoSerializer
 from rest_framework import serializers
 from processo.models import Processos, ProcessosAnexos, ProcessosHonorarios, ProcessosAssuntos, ProcessosMovimento
@@ -44,7 +45,6 @@ class ProcessosAnexosSerializer(serializers.ModelSerializer):
             "id", "nome_do_anexo",
             "arquivo", "created_at",
             "size", "processo_id",
-            # "type"
         )
         model = ProcessosAnexos
         read_only_fields = ("processo",)
@@ -84,5 +84,4 @@ class ProcessosSerializer(serializers.ModelSerializer):
             "honorarios_registrados", "anexos_registrados",
             "cliente_id", "parte_adversa_id", "cliente_de_id",
             "advogado_responsavel_id", "colaborador_id"
-
         )
