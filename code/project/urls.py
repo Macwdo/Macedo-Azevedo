@@ -43,7 +43,6 @@ urlpatterns += [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-
 if settings.DEBUG:
     schema_view = get_schema_view(
         openapi.Info(
