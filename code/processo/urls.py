@@ -1,35 +1,32 @@
 from rest_framework_nested.routers import SimpleRouter, NestedSimpleRouter
-from processo.views import ProcessosViewSet, ProcessosHonorariosViewSet, ProcessosAnexosViewSet, ProcessosMovimentoViewSet
-
+from processo.api.viewsets import ProcessosViewSet, ProcessosHonorariosViewSet, ProcessosAnexosViewSet, ProcessosMovimentoViewSet
 
 app_name = "processos"
 
+processo_router = SimpleRouter()
+processo_router.register(r'processo', ProcessosViewSet)
 
-router = SimpleRouter()
-router.register(r'processo', ProcessosViewSet)
-
-processo_routers = NestedSimpleRouter(
-    router,
+processo_router_nested = NestedSimpleRouter(
+    processo_router,
     r'processo',
     lookup='processo'
 )
-processo_routers.register(
+processo_router_nested.register(
     r'honorario',
     ProcessosHonorariosViewSet,
     basename='processo-honorario'
 )
-processo_routers.register(
+processo_router_nested.register(
     r'anexo',
     ProcessosAnexosViewSet,
     basename='processo-anexo'
 )
 
-processo_routers.register(
+processo_router_nested.register(
     r'movimento',
     ProcessosMovimentoViewSet,
     basename='processo-movimento'
 )
 
 
-urlpatterns = [
-] + router.urls + processo_routers.urls
+urlpatterns = []

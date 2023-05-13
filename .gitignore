@@ -11,6 +11,7 @@ code/celerybeat-schedule
 Aws/
 code/htmlcov
 code/.coverage
+code/celerybeat-schedule
 
 #Project Files
 scripts.js
