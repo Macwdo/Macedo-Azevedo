@@ -7,7 +7,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from json import loads
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 load_dotenv()
 
@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'project',
+
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'cliente',
     'advogado',
     'django_celery_beat',
+    'user'
 
 
 ]
@@ -62,7 +65,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -149,6 +152,19 @@ if not DEBUG:
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = (
         'rest_framework.renderers.JSONRenderer',)
 
+# Login url
+
+LOGIN_URL = "/login"
+
+# My User
+
+AUTH_USER_MODEL = "user.User"
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'user.authentication.EmailAuthBackend'
+]
+
 # EMAIL
 
 if DEBUG:
@@ -171,7 +187,6 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
 AWS_REGION = os.environ.get('AWS_REGION')
 
 # AWS CLOUDWATCH
-
 
 boto3_logs_client = boto3.client(
     "logs",
@@ -235,14 +250,14 @@ LOGGING = {
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-MEDIA_ROOT = BASE_DIR.joinpath('files')
 MEDIA_URL = '/files/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
