@@ -13,14 +13,14 @@
                 <img src="{% static 'dist/img/images/resized.jpg' %}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Dr Daniel</a>
+                <a href="#" class="d-block">{{ request.user.username }}</a>
             </div>
         </div>
 
         <nav class="mt-4">
             <ul class="nav nav-pills nav-sidebar flex-column">
                 <li class="nav-item">
-                    <a href="#" class="nav-link sidebar-text">
+                    <a href="{% url 'lawsuits:list' %}" class="nav-link sidebar-text">
                         <p>
                             <i class="fas fa-gavel" style="color: #ffffff;"></i>
                                 Processos

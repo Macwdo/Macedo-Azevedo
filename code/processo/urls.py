@@ -1,7 +1,7 @@
 from rest_framework_nested.routers import SimpleRouter, NestedSimpleRouter
 from processo.api.viewsets import ProcessosViewSet, ProcessosHonorariosViewSet, ProcessosAnexosViewSet, ProcessosMovimentoViewSet
 from django.urls import path
-from .views import list
+from .views import list, detail, delete
 
 app_name = "lawsuits"
 
@@ -32,5 +32,7 @@ processo_router_nested.register(
 
 
 urlpatterns = [
-    path("", list, name="list")
+    path("", list, name="list"),
+    path("<int:pk>", detail, name="detail"),
+    path("<int:pk>/delete", delete , name="delete")
 ]

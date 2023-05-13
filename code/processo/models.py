@@ -65,10 +65,8 @@ class Processos(models.Model):
 
 
 class ProcessosMovimento(models.Model):
-    processo = models.ForeignKey(
-        Processos, models.CASCADE, null=False, blank=False)
-    tipo_movimento = models.CharField(
-        max_length=255, null=False, default="Vazio")
+    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False)
+    tipo_movimento = models.CharField(max_length=255, null=False, default="Vazio")
     last_date = models.CharField(max_length=10, null=False, blank=False)
     data = models.TextField(default=None, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -83,10 +81,8 @@ class ProcessosMovimento(models.Model):
 
 class ProcessosHonorarios(models.Model):
     referente = models.CharField(max_length=255,)
-    processo = models.ForeignKey(
-        Processos, models.CASCADE, null=False, blank=False)
-    advogado_responsavel = models.ForeignKey(
-        Advogado, models.SET_NULL, null=True, blank=False)
+    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False, related_name="processo_honorarios")
+    advogado_responsavel = models.ForeignKey(Advogado, models.SET_NULL, null=True, blank=False)
     valor = models.FloatField()
     ganho = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -98,16 +94,12 @@ class ProcessosHonorarios(models.Model):
 
 class ProcessosAnexos(models.Model):
     nome_do_anexo = models.CharField(max_length=100, null=False, blank=False)
-    processo = models.ForeignKey(
-        Processos, models.CASCADE, null=False, blank=False)
+    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False, related_name="processo_anexos")
     arquivo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def size(self):
         return self.arquivo.size
     
-    # def type(self):
-
-
     def __str__(self) -> str:
         return f"{self.processo} {self.nome_do_anexo}"
