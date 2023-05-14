@@ -1,0 +1,61 @@
+<div class="modal fade" id="values-edit-modal-{{lawsuit_value.pk}}" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Valores do Processo
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="id_referente">Referente:</label>
+                        <input value="{{ lawsuit_value.referente }}" type="text" name="referente" class="form-control" maxlength="255" required="" id="id_referente">
+                        
+                        <label for="id_advogado_responsavel">Advogado responsavel:</label>
+                        <select name="advogado_responsavel" class="form-control" required="" id="id_advogado_responsavel">
+                            {% for lawyer in lawyers %}
+                                {% if lawsuit_value.advogado_responsavel.pk == lawyer.pk %}
+                                    <option value="{{ lawsuit_value.advogado_responsavel.pk }}" selected>{{ lawsuit_value.advogado_responsavel }}</option>
+                                {% else %}
+                                    <option value="{{ lawyer.pk }}"> {{ lawyer }} </option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    
+                        <label for="id_valor">Valor:</label>
+                        <input value="{{ lawsuit_value.valor }}" type="text" name="valor" class="form-control money" required="" id="id_valor" inputmode="decimal">
+                    </div>
+                    {% if lawsuit_value.ganho %}
+                    <div class="form-group form-inline">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input checked type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-1" name="customRadioInline" class="custom-control-input">
+                            <label class="custom-control-label" for="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-1">Ganho</label>
+                          </div>
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-2" name="customRadioInline" class="custom-control-input">
+                            <label class="custom-control-label" for="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-2">Custo</label>
+                          </div>
+                    </div>
+                    {% else %}
+                    <div class="form-group form-inline">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-1" name="customRadioInline" class="custom-control-input">
+                            <label class="custom-control-label" for="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-1">Ganho</label>
+                          </div>
+                          <div class="custom-control custom-radio custom-control-inline">
+                            <input checked type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-2" name="customRadioInline" class="custom-control-input">
+                            <label class="custom-control-label" for="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-2">Custo</label>
+                          </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary">Enviar</button>
+                    <a class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

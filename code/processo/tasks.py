@@ -1,5 +1,5 @@
 from celery import shared_task
-from .scraping.tribunais.tj_rj import TjRjScraping
+from utils.tribunais.tj_rj import TjRjScraping
 from processo.models import ProcessosMovimento, Processos
 import logging
 from django.conf import settings

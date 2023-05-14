@@ -1,0 +1,30 @@
+<div class="modal fade" id="file-edit-modal-{{lawsuit_file.pk}}" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST">
+            <div class="modal-content">
+                <div class="modal-header" >
+                    <h4 class="modal-title" >
+                        Editar arquivos do processo
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="id_nome_do_anexo">Nome do anexo:</label>
+                        <input value="{{ lawsuit_file.nome_do_anexo}}" type="text" name="nome_do_anexo" class="form-control" id="id_nome_do_anexo" required>
+                        
+                        <label for="id_arquivo">Novo Arquivo:</label>
+                        <input type="file" name="arquivo" class="custom-file" id="id_arquivo" required>
+
+                        <label>Arquivo atual:</label>
+                        <p>{{ lawsuit_file.arquivo}}</p>
+
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary">Enviar</button>
+                    <a class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

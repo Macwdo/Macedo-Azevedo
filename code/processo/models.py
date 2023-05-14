@@ -33,14 +33,35 @@ class Processos(models.Model):
     def honorarios_registrados(self):
         return ProcessosHonorarios.objects.filter(processo=Processos.objects.get(pk=self.pk))
 
+
     @property
-    def honorarios(self):
+    def profit(self):
         honorarios = ProcessosHonorarios.objects.filter(
             processo=Processos.objects.get(pk=self.pk))
         total = 0
-        for i in honorarios:
-            total += i.valor if i.ganho else (i.valor * -1)
-        return total
+        for honorario in honorarios:
+            total += honorario.valor if honorario.ganho else (honorario.valor * -1)
+        return f"{total:.2f}"
+    
+    @property
+    def gain(self):
+        honorarios = ProcessosHonorarios.objects.filter(
+            processo=Processos.objects.get(pk=self.pk))
+        total = 0
+        for honorario in honorarios:
+            if honorario.ganho:
+                total += honorario.valor
+        return f"{total:.2f}"
+    
+    @property
+    def coust(self):
+        honorarios = ProcessosHonorarios.objects.filter(
+            processo=Processos.objects.get(pk=self.pk))
+        total = 0
+        for honorario in honorarios:
+            if not honorario.ganho:
+                total += honorario.valor
+        return f"{total:.2f}"
 
     def anexos_registrados(self):
         return ProcessosAnexos.objects.filter(processo=Processos.objects.get(pk=self.pk)).order_by("-id")
@@ -97,6 +118,7 @@ class ProcessosAnexos(models.Model):
     arquivo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
     def size(self):
         return self.arquivo.size
     

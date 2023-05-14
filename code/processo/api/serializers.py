@@ -77,7 +77,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
         fields = (
             "id", "codigo_processo", "posicao",
             "assunto", "observacoes",
-            "municipio", "estado", "n_vara", "vara", "tracked",
+            "municipio", "estado", "vara", "tracked",
             "iniciado", "finalizado", "honorarios",
             "advogado_responsavel", "cliente",
             "cliente_de", "colaborador", "parte_adversa", "cliente",

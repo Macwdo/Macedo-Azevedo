@@ -199,7 +199,7 @@ boto3_logs_client = boto3.client(
 
 # AWS S3
 
-if DEBUG:
+if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
     AWS_S3_FILE_OVERWRITE = False
     AWS_S3_REGION_NAME = AWS_REGION
