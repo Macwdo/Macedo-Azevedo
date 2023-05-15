@@ -7,7 +7,6 @@ from user.authentication import EmailAuthBackend
 from django.contrib import messages
 from django.urls import reverse
 
-
 @require_http_methods(["GET", "POST"])
 def login(request: HttpRequest):
     if request.method == "GET":
@@ -26,7 +25,12 @@ def login(request: HttpRequest):
         return redirect(reverse("login"))
 
 @login_required
-@require_http_methods(["GET"])
-def logout(request):
+@require_http_methods(["POST"])
+def logout(request: HttpRequest):
     auth.logout(request)
     return redirect(reverse("login"))
+
+@login_required
+@require_http_methods(["GET"])
+def repository_history(request: HttpRequest):
+    "https://api.github.com/repos/macwdo/Macedo-azevedo"

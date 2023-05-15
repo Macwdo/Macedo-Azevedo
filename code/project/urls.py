@@ -20,7 +20,7 @@ from cliente.urls import cliente_router_nested as client_router_nested
 from cliente.urls import parteadv_router as adverse_part_router
 from cliente.urls import parteadv_router_nested as adverse_part_router_nested
 
-from project.login import login, logout
+from project.views import login, logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),

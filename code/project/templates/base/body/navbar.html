@@ -13,9 +13,10 @@
     </ul>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a class="nav-link text-danger" href="{% url 'logout' %}" role="button">
-             Sair   <i class="fas fa-sign-out-alt"></i>
-            </a>
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn nav-link text-danger"  >Sair<i class="fas fa-sign-out-alt"></i></button>
+            </form>
         </li>
     </ul>
 </nav>

@@ -27,7 +27,7 @@
                     {% for lawsuit_file in lawsuit_files %}
                     <tr>
                         <td>{{ lawsuit_file.nome_do_anexo }}</td>
-                        <td><a href="{{ lawsuit_file.arquivo.url }}"> {{lawsuit_file.arquivo}} </a>  </td>
+                        <td><a target="_blank" href="{{ lawsuit_file.arquivo.url }}"> {{lawsuit_file.arquivo}} </a>  </td>
                         <td>{{lawsuit_file.created_at}}</td>
                         <td><a href="" data-toggle="modal" data-target="#file-edit-modal-{{lawsuit_file.pk}}"><i class="fas fa-edit" style="color: #89a2cd;"></i></a></td>
                         <td><a href="" data-toggle="modal" data-target="#file-delete-modal-{{lawsuit_file.pk}}" ><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>

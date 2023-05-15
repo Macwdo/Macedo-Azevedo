@@ -41,7 +41,7 @@ class Processos(models.Model):
         total = 0
         for honorario in honorarios:
             total += honorario.valor if honorario.ganho else (honorario.valor * -1)
-        return f"{total:.2f}"
+        return float(f"{total:.3f}")
     
     @property
     def gain(self):
@@ -51,7 +51,7 @@ class Processos(models.Model):
         for honorario in honorarios:
             if honorario.ganho:
                 total += honorario.valor
-        return f"{total:.2f}"
+        return float(f"{total:.3f}")
     
     @property
     def coust(self):
@@ -61,7 +61,7 @@ class Processos(models.Model):
         for honorario in honorarios:
             if not honorario.ganho:
                 total += honorario.valor
-        return f"{total:.2f}"
+        return float(f"{total:.3f}")
 
     def anexos_registrados(self):
         return ProcessosAnexos.objects.filter(processo=Processos.objects.get(pk=self.pk)).order_by("-id")
