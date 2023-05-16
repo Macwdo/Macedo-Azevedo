@@ -1,3 +1,5 @@
+{% include "lawsuit_detail/lawsuit_modals/lawsuit_infos_delete.html" %}
+{% include "lawsuit_detail/lawsuit_modals/lawsuit_finalize_modal.html" %}
 <div class="invoice p-3 mb-3">
     <div class="row">
         <div class="col-12">
@@ -99,18 +101,18 @@
             </button>
         </div>
         <div class="form-group" style="margin-left: 10px">
-            <button type="button" class="btn btn-block btn-danger mont-serrat">
+            <button class="btn btn-block btn-danger mont-serrat" data-toggle="modal" data-target="#lawsuit-delete-modal">
                 Apagar
             </button>   
         </div>     
         <div class="form-group" style="margin-left: 10px">
-            {% if lawsuit.finalizado == None %}
-                <button type="button" class="btn btn-block btn-success mont-serrat">
-                    Finalizar
-                </button>
-            {% else %}
+            {% if lawsuit.finalizado %}
                 <button type="button" disabled class="btn btn-block btn-secondary mont-serrat">
                     Finalizado
+                </button>
+            {% else %}
+                <button type="button" class="btn btn-block btn-success mont-serrat" data-toggle="modal" data-target="#lawsuit-finalize-modal">
+                    Finalizar
                 </button>
             {% endif %}
         </div>

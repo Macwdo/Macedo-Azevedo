@@ -26,7 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login, name="login"),
     path('logout/', logout, name="logout"),
-    path('processo/', include("processo.urls"))
+    path('processo/', include("processo.urls")),
+    path('cliente/', include("cliente.urls"))
 ]
 
 
