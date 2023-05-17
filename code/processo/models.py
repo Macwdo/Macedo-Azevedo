@@ -1,7 +1,8 @@
 from advogado.models import Advogado
-from cliente.models import Cliente, ParteADV
+from cliente.models import Cliente
 from django.db import models
 from datetime import datetime
+from parte_adversa.models import ParteADV
 
 
 class ProcessosAssuntos(models.Model):

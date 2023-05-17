@@ -1,14 +1,14 @@
 {% extends 'base/base.html' %}
-{% block title %}<h1>Processos</h1>{% endblock title %}
+{% block title %}<h1 class="mont-serrat">Parte adversa</h1>{% endblock title %}
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="/">Home</a></li>
-    <li class="breadcrumb-item active">Processos</li>
+    <li class="breadcrumb-item active">Parte Adversa</li>
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <h2 class="card-title">Processos</h2>
+            <h2 class="card-title">Parte Adversa</h2>
             <div class="card-tools">
                 <div class="input-group input-group-sm" style="width: 500px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Pesquisar">
@@ -24,33 +24,30 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Codigo do Processo</th>
-                        <th>Cliente</th>
-                        <th>Parte Adversa</th>
-                        <th>Advogado</th>
-                        <th>Iniciado</th>
-                        <th>Finalizado</th>
-                        
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Numero</th>
+                        <th>Cpf/Cnpj</th>
+                        <th>Tipo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for lawsuit in lawsuits %}
+                    {% for adverse_part in adverse_parts %}
                     <tr>
-                            <td><a href="{% url 'lawsuit:detail' lawsuit.pk %}">{{ lawsuit.codigo_processo }}</a></td>
-                            <td>{{ lawsuit.cliente }}</td>
-                            <td>{{ lawsuit.parte_adversa }}</td>
-                            <td>{{ lawsuit.advogado_responsavel }}</td>
-                            <td>{{ lawsuit.iniciado }}</td>
-                            <td>{%if lawsuit.finalizado%} {{ lawsuit.finalizado }} {% else %} Em andamento {%endif%} </td>
-                            <td><a href="{% url 'lawsuit:detail' lawsuit.pk %}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
-                            
+                            <td><a href="{% url 'adverse_part:detail' adverse_part.pk %}">{{ adverse_part }}</a></td>
+                            <td>{{ adverse_part.nome }}</td>
+                            <td>{{ adverse_part.email }}</td>
+                            <td>{{ adverse_part.numero }}</td>
+                            <td>{{ adverse_part.cpf_cnpj }}</td>
+                            <td>{{ adverse_part.tipo }} </td>
+                            <td><a href="{% url 'adverse_part:detail' adverse_part.pk %}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
                     <tr>
                     {% endfor %}
                 </tbody>
             </table>
             <div class="card-footer clearfix">
                 <button class="btn btn-success btn-sm mont-serrat" data-toggle="modal" data-target="" >
-                    Novo Processo
+                    Nova Parte Adversa
                 </button>
 
                 <ul class="pagination pagination-sm m-0 float-right">

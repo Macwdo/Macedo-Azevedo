@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Cliente',
+            name='ParteADV',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nome', models.CharField(max_length=100)),
@@ -26,17 +26,17 @@ class Migration(migrations.Migration):
                 ('endereco', models.TextField(default='Não Informado')),
             ],
             options={
-                'verbose_name_plural': 'Cliente',
+                'verbose_name_plural': 'Parte ADV',
             },
         ),
         migrations.CreateModel(
-            name='ClienteEndereco',
+            name='ParteADVEndereco',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('endereco', models.CharField(default='Não Identificado', max_length=255)),
                 ('complemento', models.CharField(default='Não Identificado', max_length=255)),
-                ('cep', models.CharField(default='Não Identificado', max_length=255)),
-                ('cliente', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cliente.cliente')),
+                ('cep', models.CharField(default='Não Identificado', max_length=30)),
+                ('parte_adv', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='parte_adversa.parteadv')),
             ],
         ),
     ]

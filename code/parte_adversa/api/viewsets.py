@@ -2,7 +2,7 @@ from django.db.models import Q
 from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-from cliente.models import ParteADV, ParteADVEndereco
+from parte_adversa.models import ParteADV, ParteADVEndereco
 from .serializers import ParteADVSerializer, ParteADVEnderecoSerializer
 
 

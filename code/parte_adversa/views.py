@@ -4,37 +4,40 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.contrib import messages
 from django.urls import reverse
-from cliente.models import Cliente
+from parte_adversa.models import ParteADV, ParteADVEndereco
 
 @login_required
 @require_http_methods(["GET"])
 def list(request: HttpRequest):
-    clients = Cliente.objects.all()
+    adverse_parts = ParteADV.objects.all()
 
     context = {
-        "clients": clients
+        "adverse_parts": adverse_parts
     }
-    return render(request, "client_list.html", context)
+    return render(request, "adverse_part_list.html", context)
 
 
 @login_required
 @require_http_methods(["GET"])
 def detail(request: HttpRequest, pk: int):
-    client = Cliente.objects.get(pk=pk)
+    adverse_part = get_object_or_404(ParteADV, pk=pk)
+
     context = {
-        "client": client
+        "adverse_part": adverse_part
     }
-    return render(request, "client_detail.html", context)
+
+    return render(request, "adverse_part_detail.html", context)
 
 
 @login_required
 @require_http_methods(["GET"])
 def delete(request: HttpRequest, pk: int):
-    client = Cliente.objects.get(pk=pk)
+    adverse_part = get_object_or_404(ParteADV, pk=pk)
+
     try:
-        client.delete()
+        adverse_part.delete()
     except:
-        messages.error(request, f"Não foi possível apagar o registro do cliente {client}")
-    return redirect(reverse("client:list"))
+        messages.error(request, f"Não foi possível deletar o registro de {adverse_part}")
+    return redirect(reverse("adverse_part:list"))
 
 

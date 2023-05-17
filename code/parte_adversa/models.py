@@ -1,10 +1,8 @@
 from django.db import models
 
-
-class Cliente(models.Model):
-    choice_tipo = (
-        ("PF", "Pessoa Fisica"), ("PJ", "Pessoa Juridica")
-    )
+# Create your models here.
+class ParteADV(models.Model):
+    choice_tipo = [("PF", "Pessoa Fisica"), ("PJ", "Pessoa Juridica")]
     nome = models.CharField(max_length=100)
     email = models.CharField(max_length=255, blank=True, null=True)
     numero = models.CharField(max_length=20, blank=True, null=True)
@@ -18,16 +16,14 @@ class Cliente(models.Model):
         return f"{self.nome}"
 
     class Meta:
-        verbose_name_plural = 'Cliente'
+        verbose_name_plural = 'Parte ADV'
 
 
-class ClienteEndereco(models.Model):
-    cliente = models.ForeignKey(Cliente, models.CASCADE)
+class ParteADVEndereco(models.Model):
+    parte_adv = models.ForeignKey(ParteADV, models.CASCADE)
     endereco = models.CharField(
         max_length=255, null=False, blank=False, default="Não Identificado")
     complemento = models.CharField(
         max_length=255, null=False, blank=False, default="Não Identificado")
-    cep = models.CharField(max_length=255, null=False,
+    cep = models.CharField(max_length=30, null=False,
                            blank=False, default="Não Identificado")
-
-

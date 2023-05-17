@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'cliente',
     'advogado',
     'django_celery_beat',
-    'user'
+    'user',
+    'parte_adversa'
 
 
 ]
@@ -158,7 +159,7 @@ LOGIN_URL = "/login"
 
 # My User
 
-AUTH_USER_MODEL = "user.User"
+AUTH_USER_MODEL = "user.MAUser"
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

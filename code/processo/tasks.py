@@ -45,7 +45,7 @@ def search_new_lawsuits_changes():
         lawsuits = Processos.objects.filter(
             codigo_processo__icontains=tracked_number
         )
-        for lawsuit in lawsuits:
+        for lawsuit in lawsuit:
             if lawsuit.track_history.count() < 5:
                 track_new_process(lawsuit.codigo_processo, lawsuit.pk)
             else:

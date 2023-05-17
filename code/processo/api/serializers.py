@@ -1,5 +1,5 @@
 from cliente.api.clients.serializers import ClienteSerializer
-from cliente.api.adverse_parts.serializers import ParteADVSerializer
+from parte_adversa.api.serializers import ParteADVSerializer
 from advogado.api.serializers import AdvogadoSerializer
 from rest_framework import serializers
 from processo.models import Processos, ProcessosAnexos, ProcessosHonorarios, ProcessosAssuntos, ProcessosMovimento

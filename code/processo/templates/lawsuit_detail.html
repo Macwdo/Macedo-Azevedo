@@ -2,7 +2,7 @@
 {% block title %}<h1 class="mont-serrat">Processo - {{ lawsuit }} </h1>{% endblock title %}
 {% block breadcrumb %}
     <li class="breadcrumb-item">Home</li>
-    <li class="breadcrumb-item"><a href="{% url 'lawsuits:list' %}" >Processos</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'lawsuit:list' %}" >Processos</a></li>
     <li class="breadcrumb-item active">{{ lawsuit }}</li>
 {% endblock %}
 {% block content %}

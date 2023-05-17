@@ -52,6 +52,6 @@ def delete(request: HttpRequest, pk: int):
         lawsuit.delete()
     except:
         messages.error(request, f"Não foi possível deletar o processo {lawsuit}")
-    return redirect(reverse("lawsuits:list"))
+    return redirect(reverse("lawsuit:list"))
 
 

@@ -1,6 +1,6 @@
 [
     {
-        "model": "cliente.parteadv",
+        "model": "parte_adversa.parteadv",
         "pk": 0,
         "fields": {
             "nome": "Matheus Grundler",
@@ -13,7 +13,7 @@
         }
     },
     {
-        "model": "cliente.parteadv",
+        "model": "parte_adversa.parteadv",
         "pk": 1,
         "fields": {
             "nome": "havaianas ltda",
@@ -25,7 +25,7 @@
             "updated_at": "2023-04-11T18:22:28.652943-03:00"
     }},
     {
-        "model": "cliente.parteadv",
+        "model": "parte_adversa.parteadv",
         "pk": 2,
         "fields": {
             "nome": "Danilo Macedo",
@@ -38,7 +38,7 @@
         }
     },
     {
-        "model": "cliente.parteadv",
+        "model": "parte_adversa.parteadv",
         "pk": 3,
         "fields": {
             "nome": "pijas inglês",
@@ -51,7 +51,7 @@
         }
     },
     {
-        "model": "cliente.parteadv",
+        "model": "parte_adversa.parteadv",
         "pk": 4,
         "fields": {
             "nome": "Braço lanches",
