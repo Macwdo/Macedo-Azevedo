@@ -20,7 +20,7 @@ def list(request: HttpRequest):
 @login_required
 @require_http_methods(["GET"])
 def detail(request: HttpRequest, pk: int):
-    client = Cliente.objects.get(pk=pk)
+    client = get_object_or_404(Cliente, pk=pk)
     context = {
         "client": client
     }
@@ -30,7 +30,7 @@ def detail(request: HttpRequest, pk: int):
 @login_required
 @require_http_methods(["GET"])
 def delete(request: HttpRequest, pk: int):
-    client = Cliente.objects.get(pk=pk)
+    client = get_object_or_404(Cliente, pk=pk)
     try:
         client.delete()
     except:

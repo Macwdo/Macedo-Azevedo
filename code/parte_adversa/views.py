@@ -4,12 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.contrib import messages
 from django.urls import reverse
-from parte_adversa.models import ParteADV, ParteADVEndereco
+from parte_adversa.models import ParteAdv, ParteAdvEndereco
 
 @login_required
 @require_http_methods(["GET"])
 def list(request: HttpRequest):
-    adverse_parts = ParteADV.objects.all()
+    adverse_parts = ParteAdv.objects.all()
 
     context = {
         "adverse_parts": adverse_parts
@@ -20,7 +20,7 @@ def list(request: HttpRequest):
 @login_required
 @require_http_methods(["GET"])
 def detail(request: HttpRequest, pk: int):
-    adverse_part = get_object_or_404(ParteADV, pk=pk)
+    adverse_part = get_object_or_404(ParteAdv, pk=pk)
 
     context = {
         "adverse_part": adverse_part
@@ -32,7 +32,7 @@ def detail(request: HttpRequest, pk: int):
 @login_required
 @require_http_methods(["GET"])
 def delete(request: HttpRequest, pk: int):
-    adverse_part = get_object_or_404(ParteADV, pk=pk)
+    adverse_part = get_object_or_404(ParteAdv, pk=pk)
 
     try:
         adverse_part.delete()

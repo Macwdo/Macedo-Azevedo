@@ -1,14 +1,14 @@
 from rest_framework import serializers
-from parte_adversa.models import ParteADV, ParteADVEndereco
+from parte_adversa.models import ParteAdv, ParteAdvEndereco
 
 
-class ParteADVEnderecoSerializer(serializers.ModelSerializer):
+class ParteAdvEnderecoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ParteADVEndereco
+        model = ParteAdvEndereco
         fields = "__all__"
 
 
-class ParteADVSerializer(serializers.ModelSerializer):
+class ParteAdvSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ParteADV
+        model = ParteAdv
         fields = "__all__"

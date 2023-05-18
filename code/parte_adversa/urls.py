@@ -1,12 +1,12 @@
 from rest_framework_nested.routers import SimpleRouter, NestedSimpleRouter
-from parte_adversa.api.viewsets import ParteADVEnderecoViewSet, ParteADVViewSet
+from parte_adversa.api.viewsets import ParteAdvEnderecoViewSet, ParteAdvViewSet
 from django.urls import path
 from parte_adversa.views import list, detail, delete
 app_name = "adverse_part"
 
 
 parteadv_router = SimpleRouter()
-parteadv_router.register(r'parteadv', ParteADVViewSet)
+parteadv_router.register(r'parteadv', ParteAdvViewSet)
 
 parteadv_router_nested = NestedSimpleRouter(
     parteadv_router,
@@ -15,7 +15,7 @@ parteadv_router_nested = NestedSimpleRouter(
 )
 parteadv_router_nested.register(
     r'endereco',
-    ParteADVEnderecoViewSet,
+    ParteAdvEnderecoViewSet,
     basename='parteadv-endereco'
 )
 

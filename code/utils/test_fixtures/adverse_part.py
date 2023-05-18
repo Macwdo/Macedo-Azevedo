@@ -1,4 +1,4 @@
-from cliente.models import ParteADV, ParteADVEndereco
+from cliente.models import ParteAdv, ParteAdvEndereco
 
 
 class AdversePartMixin:
@@ -12,7 +12,7 @@ class AdversePartMixin:
             "tipo": tipo,
         }
 
-        return ParteADV.objects.create(**adverse_part_data)
+        return ParteAdv.objects.create(**adverse_part_data)
 
     def make_adverse_part_address(parte_adv, endereco, complemento, cep):
         adverse_part_address_data = {
@@ -22,4 +22,4 @@ class AdversePartMixin:
             "parte_adv": parte_adv
         }
 
-        return ParteADVEndereco.objects.create(**adverse_part_address_data)
+        return ParteAdvEndereco.objects.create(**adverse_part_address_data)
