@@ -26,7 +26,7 @@ def list(request: HttpRequest):
 @require_http_methods(["GET"])
 def detail(request: HttpRequest, pk: int):
     client = get_object_or_404(Cliente, pk=pk)
-    form = ClientForm()
+    form = ClientForm(instance=client)
     context = {
         "client": client,
         "form": form

@@ -7,38 +7,55 @@
     <li class="breadcrumb-item active">Clientes</li>
 {% endblock %}
 {% block content %}
-<div class="card card-primary card-outline card-outline-tabs">
-    <div class="card-header p-0 border-bottom-0">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active text-dark" id="home-tab" data-bs-toggle="tab" data-bs-target="#lawsuit-infos" type="button" role="tab" aria-controls="lawsuit" aria-selected="true">
-                    Informações
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link text-dark" id="profile-tab" data-bs-toggle="tab" data-bs-target="#lawsuit-values" type="button" role="tab" aria-controls="lawsuit-values" aria-selected="false">
-                    Endereços
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link text-dark" id="contact-tab" data-bs-toggle="tab" data-bs-target="#lawsuit-files" type="button" role="tab" aria-controls="lawsuit-files" aria-selected="false">
-                    Arquivos
-                </button>
-            </li>
-        </ul>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-outline">
+            <div class="card-body box-profile">
+                <div class="text-center">
+                    {% if client.image %}
+                        <img src="{{ client.image.url }}" alt="user-avatar" style="width: 120px; height: 120px;" class="img-circle img-fluid">
+                    {% else %}
+                        <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 120px; height: 120px;" class="img-circle img-fluid">
+                    {% endif %}   
+                </div>
+                <h3 class="profile-username text-center">{{client.nome}}</h3>
+                <p class="text-muted text-center">{{client.profissao}}</p>
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                        <b>Processos envolvidos</b><a class="float-right">100</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>CPF / CNPJ</b> {{client.cpf_cnpj}}
+                    </li>
+                    <li class="list-group-item">
+                    <b>Chegou no escritorio </b>{{client.created_at}}
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="lawsuit-infos" role="tabpanel" aria-labelledby="lawsuit-tab">
-
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#infos" data-toggle="tab">Editar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Endereços</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact_info" data-toggle="tab">Informações de contato</a></li>
+                </ul>
             </div>
-            <div class="tab-pane fade" id="lawsuit-values" role="tabpanel" aria-labelledby="lawsuit-values-tab">
-
-            </div>
-            <div class="tab-pane fade" id="lawsuit-files" role="tabpanel" aria-labelledby="lawsuit-files-tab">
-
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane" id="address">
+                </div>
+                <div class="tab-pane" id="contact_info">
+                </div>
+                <div class="tab-pane active" id="infos">
+                    {% include "client_detail/client_infos.html" %}
+                </div>
             </div>
         </div>
     </div>
 </div>
+    
+    </div>
 {% endblock %}
