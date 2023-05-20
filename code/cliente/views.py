@@ -5,11 +5,16 @@ from django.http import HttpRequest
 from django.contrib import messages
 from django.urls import reverse
 from cliente.models import Cliente
+from cliente.forms import ClientForm
 
 @login_required
 @require_http_methods(["GET"])
 def list(request: HttpRequest):
     clients = Cliente.objects.all()
+    
+    q = request.GET.get("q", None)
+    if q:
+        clients = clients.filter(nome__icontains=q)
 
     context = {
         "clients": clients
@@ -21,8 +26,10 @@ def list(request: HttpRequest):
 @require_http_methods(["GET"])
 def detail(request: HttpRequest, pk: int):
     client = get_object_or_404(Cliente, pk=pk)
+    form = ClientForm()
     context = {
-        "client": client
+        "client": client,
+        "form": form
     }
     return render(request, "client_detail.html", context)
 

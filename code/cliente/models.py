@@ -9,8 +9,10 @@ class Cliente(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     cpf_cnpj = models.CharField(max_length=30, blank=False)
+    estado_civil = models.CharField(max_length=100)
+    profissao = models.CharField(max_length=100)
     tipo = models.CharField(choices=choice_tipo, max_length=2)
-    imagem = models.ImageField()
+    image = models.ImageField()
 
     def __str__(self) -> str:
         return f"{self.nome} {self.cpf_cnpj}"
@@ -20,7 +22,7 @@ class Cliente(models.Model):
 
 
 class ClienteEndereco(models.Model):
-    cliente = models.ForeignKey(Cliente, models.CASCADE, related_name="client_adress")
+    cliente = models.ForeignKey(Cliente, models.CASCADE, related_name="client_address")
     endereco = models.CharField(max_length=255)
     numero = models.CharField(max_length=50) 
     complemento = models.CharField(max_length=255)
