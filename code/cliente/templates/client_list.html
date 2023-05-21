@@ -1,6 +1,15 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block title %}<h1 class="mont-serrat">Clientes</h1>{% endblock title %}
+{% block title %}
+<h1 class="mont-serrat">
+    Clientes
+    <div class="float-right">
+        <a href="{% url 'client:client_create' %}" class="btn-lg btn-success">
+            Criar cliente
+        </a>
+    </div>
+</h1>
+{% endblock title %}
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="/">Home</a></li>
     <li class="breadcrumb-item active">Clientes</li>
@@ -8,7 +17,7 @@
 {% block content %}
 
 <div class="card card-solid">
-    <form action="{% url 'client:list' %}" method="get">
+    <form action="{% url 'client:client_list' %}" method="get">
         <div class="card-header">
             <div class="input-group">
                 <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar cliente">
@@ -25,7 +34,7 @@
             {% for client in page.object_list %}
                 <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
                     <div class="card bg-light d-flex flex-fill">
-                        <a href="{% url 'client:detail' client.pk %}">
+                        <a href="{% url 'client:client_detail' client.pk %}">
                         <div class="card-header text-muted border-bottom-0">
                             {{client}}
                         </div>

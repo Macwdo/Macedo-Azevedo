@@ -8,14 +8,19 @@
                 </h4>
             </div>
             <div class="modal-body">
-              <form class="form-group">
+                <form action="{% url 'client:client_contact_edit' client.pk contact.pk %}" method="POST">
                 {% for field in client_contact_form|form_instanced_client:contact %}
-                <div class="form-group">
-                    <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    <div>
-                        {{field}}
+                {% if field.label != "Cliente" %}
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div>
+                            {{field}}
+                        </div>
                     </div>
-                </div>
+                {% else %}
+                    <input type="hidden" name="cliente" value="{{client.pk}}">
+                {% endif %}
                 {% endfor %}
                     <div>
                         <button type="submit" class="btn btn-primary">Editar</button>

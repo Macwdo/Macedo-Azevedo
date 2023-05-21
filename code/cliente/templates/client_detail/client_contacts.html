@@ -1,4 +1,4 @@
-{% include "client_detail/client_modals/client_contacts_new.html" %}
+{% include "client_detail/client_modals/client_contacts_create.html" %}
 <div class="card-body p-0">
     {% if client.client_contact.first %}
     <table class="table">
@@ -37,7 +37,7 @@
     </div>
     {% endif %}
     <div>
-        <button class="btn btn-success" data-toggle="modal" data-target="#client-contacts-new">
+        <button class="btn btn-success" data-toggle="modal" data-target="#client-contacts-create">
             Criar novo contato do cliente
         </button>
     </div>

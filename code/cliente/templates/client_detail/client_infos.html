@@ -1,4 +1,6 @@
-<form class="form-horizontal">
+{% include "client_detail/client_modals/client_delete.html" %}
+<form class="form-horizontal" action="{% url 'client:client_edit' client.pk %}" method="POST">
+    {% csrf_token %}
     {% for field in client_form %}
     <div class="form-group row">
         <label for="inputName" class="col-sm-2 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -18,7 +20,7 @@
     <div class="form-group row">
         <div class="col-sm-4 col-form-label">
             <button type="submit" class="btn btn-primary">Editar</button>
-            <button type="submit" class="btn btn-danger">Apagar</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#client-delete-modal-{{client.pk}}">Apagar</button>
         </div>
     </div>
 </form>

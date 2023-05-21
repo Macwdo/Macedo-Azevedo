@@ -6,12 +6,12 @@ class Cliente(models.Model):
         ("PF", "Pessoa Fisica"), ("PJ", "Pessoa Juridica")
     )
     nome = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     cpf_cnpj = models.CharField(max_length=30, blank=False)
     estado_civil = models.CharField(max_length=100)
     profissao = models.CharField(max_length=100)
     tipo = models.CharField(choices=choice_tipo, max_length=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(blank=True, null=True)
 
     def __str__(self) -> str:

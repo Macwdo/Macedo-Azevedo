@@ -15,7 +15,7 @@
               <button type="button" class="btn btn-secondary" data-dismiss="modal">
                 Fechar
               </button>      
-              <form action="" method="post">
+              <form action="{% url 'client:client_contact_delete' client.pk contact.pk %}" method="POST">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-danger">Apagar</button>
               </form>
