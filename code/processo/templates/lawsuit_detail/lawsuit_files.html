@@ -1,0 +1,55 @@
+{% include "lawsuit_detail/lawsuit_modals/lawsuit_files_modal.html" %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title mont-serrat"> Arquivos do Processo</h2>
+            <div class="card-tools">
+                <div class="input-group input-group-sm">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Pesquisar">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome do Anexo</th>
+                        <th>Arquivo</th>
+                        <th>Criado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lawsuit_file in lawsuit_files %}
+                    <tr>
+                        <td>{{ lawsuit_file.nome_do_anexo }}</td>
+                        <td><a target="_blank" href="{{ lawsuit_file.arquivo.url }}"> {{lawsuit_file.arquivo}} </a>  </td>
+                        <td>{{lawsuit_file.created_at}}</td>
+                        <td><a href="" data-toggle="modal" data-target="#file-edit-modal-{{lawsuit_file.pk}}"><i class="fas fa-edit" style="color: #89a2cd;"></i></a></td>
+                        <td><a href="" data-toggle="modal" data-target="#file-delete-modal-{{lawsuit_file.pk}}" ><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
+                    </tr>
+                        {% include "lawsuit_detail/lawsuit_modals/lawsuit_files_delete.html" %}
+                        {% include "lawsuit_detail/lawsuit_modals/lawsuit_files_edit.html" %}
+                        {% endfor %}
+                </tbody>
+            </table>
+            <div class="card-footer clearfix">
+                <button class="btn btn-success btn-sm mont-serrat" data-toggle="modal" data-target="#files-modal" >
+                    Novo Arquivo
+                </button>
+                
+                <ul class="pagination pagination-sm m-0 float-right">
+                <li class="page-item"><a class="page-link" href="#">«</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">»</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

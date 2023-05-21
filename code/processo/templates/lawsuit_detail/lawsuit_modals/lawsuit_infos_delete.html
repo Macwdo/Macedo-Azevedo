@@ -1,0 +1,33 @@
+<div class="modal fade" id="lawsuit-delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <h1 class="modal-title mont-serrat" >
+                    Você está apagando este processo<br>
+                </h1>
+            </div>
+            <div class="modal-body">
+                <span class="text">Codigo do Processo: {{ lawsuit.codigo_processo }}</span><br>
+                <span class="text">Advogado: {{ lawsuit.advogado_responsavel }}</span><br>
+                <span class="text">Colaborador: {{ lawsuit.parte_adversa }}</span><br>   
+                <span class="text">Ganhos: <span class="text-success">R${{lawsuit.gain}} </span></span><br>
+                <span class="text">Custos: <span class="text-danger">R${{lawsuit.coust}} </span></span><br>
+                {% if lawsuit.profit == 0 %}
+                    <span class="text">Lucro: <span class="info-box-number text-center text-muted mb-0">R${{lawsuit.profit}}</span></span><br>
+                {% elif lawsuit.profit > 0 %}
+                    <span class="text">Lucro: <span class="info-box-number text-center text-success mb-0">+R${{lawsuit.profit}}</span></span><br>
+                {% else %}
+                    <span class="text">Lucro: <span class="info-box-number text-center text-danger mb-0">-R${{lawsuit.profit}}</span></span><br>
+                {% endif %}
+
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <form action="" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">Apagar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,5 +1,5 @@
 from cliente.api.clients.serializers import ClienteSerializer
-from cliente.api.adverse_parts.serializers import ParteADVSerializer
+from parte_adversa.api.serializers import ParteAdvSerializer
 from advogado.api.serializers import AdvogadoSerializer
 from rest_framework import serializers
 from processo.models import Processos, ProcessosAnexos, ProcessosHonorarios, ProcessosAssuntos, ProcessosMovimento
@@ -56,7 +56,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
 
     cliente_de = AdvogadoSerializer(many=False, required=False)
 
-    parte_adversa = ParteADVSerializer(many=False, required=False)
+    parte_adversa = ParteAdvSerializer(many=False, required=False)
 
     advogado_responsavel = AdvogadoSerializer(many=False, required=False)
 
@@ -77,7 +77,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
         fields = (
             "id", "codigo_processo", "posicao",
             "assunto", "observacoes",
-            "municipio", "estado", "n_vara", "vara", "tracked",
+            "municipio", "estado", "vara", "tracked",
             "iniciado", "finalizado", "honorarios",
             "advogado_responsavel", "cliente",
             "cliente_de", "colaborador", "parte_adversa", "cliente",

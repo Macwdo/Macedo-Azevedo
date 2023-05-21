@@ -1,5 +1,5 @@
 from celery import shared_task
-from .scraping.tribunais.tj_rj import TjRjScraping
+from utils.tribunais.tj_rj import TjRjScraping
 from processo.models import ProcessosMovimento, Processos
 import logging
 from django.conf import settings
@@ -45,7 +45,7 @@ def search_new_lawsuits_changes():
         lawsuits = Processos.objects.filter(
             codigo_processo__icontains=tracked_number
         )
-        for lawsuit in lawsuits:
+        for lawsuit in lawsuit:
             if lawsuit.track_history.count() < 5:
                 track_new_process(lawsuit.codigo_processo, lawsuit.pk)
             else:

@@ -1,0 +1,32 @@
+<div class="modal fade" id="client-address-create" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Novo endereço de cliente
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" action="{% url 'client:client_address_create' client.pk %}" method="POST">
+                        {% for field in client_address_form %}
+                        {% if field.label != "Cliente" %}
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <div>
+                                    {{field}}
+                                </div>
+                            </div>
+                        {% else %}
+                            <input type="hidden" name="cliente" value="{{client.pk}}">
+                        {% endif %}
+                        {% endfor %}
+                        <div>
+                            <button type="submit" class="btn btn-primary">Criar</button>
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

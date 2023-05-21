@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'cliente',
     'advogado',
     'django_celery_beat',
-    'user'
+    'user',
+    'parte_adversa'
 
 
 ]
@@ -65,7 +66,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -158,7 +159,7 @@ LOGIN_URL = "/login"
 
 # My User
 
-AUTH_USER_MODEL = "user.User"
+AUTH_USER_MODEL = "user.MAUser"
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -199,7 +200,7 @@ boto3_logs_client = boto3.client(
 
 # AWS S3
 
-if DEBUG:
+if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
     AWS_S3_FILE_OVERWRITE = False
     AWS_S3_REGION_NAME = AWS_REGION

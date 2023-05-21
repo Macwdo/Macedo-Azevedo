@@ -17,17 +17,22 @@ from processo.urls import processo_router_nested as lawsuit_nested_router
 from cliente.urls import cliente_router as client_router
 from cliente.urls import cliente_router_nested as client_router_nested
 
-from cliente.urls import parteadv_router as adverse_part_router
-from cliente.urls import parteadv_router_nested as adverse_part_router_nested
+from parte_adversa.urls import parteadv_router as adverse_part_router
+from parte_adversa.urls import parteadv_router_nested as adverse_part_router_nested
 
-from project.login import login, logout
+from project.views import login, logout
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login, name="login"),
-    path('logout/', logout, name="logout")
-
+    path('logout/', logout, name="logout"),
+    path('processo/', include("processo.urls")),
+    path('cliente/', include("cliente.urls")),
+    path('parte-adversa/', include("parte_adversa.urls"))
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 urlpatterns += [
     path('api/token/', TokenObtainPairView.as_view(), name='token'),
@@ -41,7 +46,6 @@ urlpatterns += [
     path('api/v1/', include(laywer_router.urls))
 ]
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     schema_view = get_schema_view(

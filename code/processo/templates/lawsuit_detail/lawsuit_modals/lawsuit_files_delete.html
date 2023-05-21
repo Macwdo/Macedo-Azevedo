@@ -1,0 +1,24 @@
+<div class="modal fade" id="file-delete-modal-{{lawsuit_file.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header " >
+                <h1 class="modal-title mont-serrat" >
+                    Você está prestes a apagar o arquivo
+                </h1>
+            </div>
+            <div class="modal-body">
+                <span class="text">Nome do Anexo: {{ lawsuit_file.nome_do_anexo  }}</span><br>
+                <span class="text">Processo referente: {{lawsuit_file.processo}} </span><br>
+                <span class="text">Link do arquivo:<br> <a target="_blank" href="{{ lawsuit_file.arquivo.url }}" >{{ lawsuit_file.arquivo }}</a></span>
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          
+          <form action="" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">Apagar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

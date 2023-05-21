@@ -1,0 +1,21 @@
+<div class="modal fade" id="lawsuit-finalize-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <h1 class="modal-title mont-serrat" >
+                    Você está finalizado este processo<br>
+                </h1>
+            </div>
+            <div class="modal-body">
+                <span class="text">Codigo do Processo: {{ lawsuit.codigo_processo }}</span><br>
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <form action="" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success">Finalizar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

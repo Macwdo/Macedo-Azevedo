@@ -1,0 +1,121 @@
+{% include "lawsuit_detail/lawsuit_modals/lawsuit_infos_delete.html" %}
+{% include "lawsuit_detail/lawsuit_modals/lawsuit_finalize_modal.html" %}
+<div class="invoice p-3 mb-3">
+    <div class="row">
+        <div class="col-12">
+            <h5>
+                <b>Codigo do Processo</b> <span class="mont-serrat">{{ lawsuit.codigo_processo }} </span>
+                <small class="float-right">
+                    {{ lawsuit.iniciado }} - {% if lawsuit.finalizado %} {{lawsuit.finalizado}} {% else %} Não finalizado {% endif %}
+                 </small>
+            </h5>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-4">
+            <div class="info-box bg-light">
+                <div class="info-box-content">
+                    <span class="info-box-text text-center text-muted mont-serrat">Ganhos do Processo</span>
+                    <span class="info-box-number text-center text-success mb-0 mont-serrat">+ R${{lawsuit.gain}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4">
+            <div class="info-box bg-light">
+                <div class="info-box-content">
+                    <span class="info-box-text text-center text-muted mont-serrat">Custos do Processo</span>
+                    <span class="info-box-number text-center text-danger mb-0 mont-serrat">- R${{lawsuit.coust}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4">
+            <div class="info-box bg-light">
+                <div class="info-box-content">
+                    <span class="info-box-text text-center text-muted mont-serrat">Lucro do Processo</span>
+                    {% if lawsuit.profit == 0 %}
+                        <span class="info-box-number text-center text-muted mb-0 mont-serrat">R${{lawsuit.profit}}</span>
+                    {% elif lawsuit.profit > 0%}
+                        <span class="info-box-number text-center text-success mb-0 mont-serrat">+R${{lawsuit.profit}}</span>
+                    {% else %}
+                        <span class="info-box-number text-center text-danger mb-0 mont-serrat">-R${{lawsuit.profit}}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    
+    <div class="row invoice-info">
+        <div class="col-sm-3 invoice-col">
+            <strong class="mont-serrat">Cliente</strong><br>
+            <li>
+                {{ lawsuit.cliente }}<br>
+            </li>
+            <li>
+                {{ lawsuit.posicao }}<br>
+            </li>
+            <strong class="mont-serrat">Parte Adversa</strong><br>
+            <li>
+                {{ lawsuit.parte_adversa }}<br>
+            </li>
+        </div>
+    
+        <div class="col-sm-3 invoice-col">
+                <strong class="mont-serrat">Advogados</strong><br>
+                <li>
+                    {{ lawsuit.advogado_responsavel }}<br>
+                </li>
+                {% if lawsuit.colaborador %}
+                    <li>
+                        {{ lawsuit.colaborador }}<br>
+                    </li>
+                {% endif %}
+                <strong class="mont-serrat">Cliente de  </strong><br>
+                <li>
+                    {{ lawsuit.cliente_de }}
+                </li>
+        </div>
+    
+        <div class="col-sm-3 invoice-col">
+            <strong class="mont-serrat">Vara</strong><br>
+            {{ lawsuit.vara }}<br>
+            <strong class="mont-serrat">Estado  </strong><br>
+            {{ lawsuit.estado }}<br>
+            <strong class="mont-serrat">Munícpio  </strong><br>
+            {{ lawsuit.municipio }}<br>
+        </div>
+
+        <div class="col-sm-3 invoice-col">
+            <strong class="mont-serrat">Assunto</strong><br>
+            {{ lawsuit.assunto }}<br>
+            <strong class="mont-serrat">Observações</strong><br>
+            {{ lawsuit.observacoes }}<br>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="form-group" >
+            <button type="button" class="btn btn-block btn-primary mont-serrat">
+                Editar
+            </button>
+        </div>
+        <div class="form-group" style="margin-left: 10px">
+            <button class="btn btn-block btn-danger mont-serrat" data-toggle="modal" data-target="#lawsuit-delete-modal">
+                Apagar
+            </button>   
+        </div>     
+        <div class="form-group" style="margin-left: 10px">
+            {% if lawsuit.finalizado %}
+                <button type="button" disabled class="btn btn-block btn-secondary mont-serrat">
+                    Finalizado
+                </button>
+            {% else %}
+                <button type="button" class="btn btn-block btn-success mont-serrat" data-toggle="modal" data-target="#lawsuit-finalize-modal">
+                    Finalizar
+                </button>
+            {% endif %}
+        </div>
+    </div>
+
+</div>

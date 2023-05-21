@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block title %}<h1 class="mont-serrat">Clientes</h1>{% endblock title %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item">Clientes</li>
+    <li class="breadcrumb-item active">{{client}}</li>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-outline">
+            <div class="card-body box-profile">
+                <div class="text-center">
+                    {% if client.image %}
+                        <img src="{{ client.image.url }}" alt="user-avatar" style="width: 120px; height: 120px;" class="img-circle img-fluid">
+                    {% else %}
+                        <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 120px; height: 120px;" class="img-circle img-fluid">
+                    {% endif %}   
+                </div>
+                <h3 class="profile-username text-center">{{client.nome}}</h3>
+                <p class="text-muted text-center">{{client.profissao}}</p>
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                        <b>Processos envolvidos</b><a class="float-right">1</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>CPF / CNPJ</b> {{client.cpf_cnpj}}
+                    </li>
+                    <li class="list-group-item">
+                    <b>Chegou no escritorio </b>{{client.created_at}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#infos" data-toggle="tab">Editar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Endereços</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact_info" data-toggle="tab">Informações de contato</a></li>
+                </ul>
+            </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane active" id="infos">
+                    {% include "client_detail/client_infos.html" %}
+                </div>
+                <div class="tab-pane" id="address">
+                    {% include "client_detail/client_address.html" %}
+                </div>
+                <div class="tab-pane" id="contact_info">
+                    {% include "client_detail/client_contacts.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    </div>
+{% endblock %}

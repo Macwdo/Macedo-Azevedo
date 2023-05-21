@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "base/head.html" %}
+    <style>
+        .sidebar-text{
+            font-size: 18px;
+            color: rgb(255, 255, 255);
+            font-family: 'Montserrat', sans-serif;
+
+        }
+
+        .mont-serrat {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 15px;
+        }
+    </style>
+  </head>
+  <body class="layout-fixed">
+    <div class="wrapper">
+        {% include "base/body/navbar.html" %}
+        {% include "base/body/sidebar.html" %}
+
+        <div class="content-wrapper">
+            <section class="content-header">
+              <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        {% block title %}{% endblock %}
+                    </div>
+                    <div class="col-sm-6">
+                      <ol class="breadcrumb float-sm-right">
+                          {% block breadcrumb %}{% endblock %}
+                      </ol>
+                    </div>
+                </div>
+              </div>
+            </section> 
+            {% include "messages/messages.html" %}
+            <section class="content">
+                {% block content %}{% endblock %}
+            </section>
+        </div>
+        {% include "base/body/footer.html" %}
+    </div>
+    {% include "base/scripts.html" %}
+  </body>
+</html>
