@@ -16,7 +16,9 @@
                         <input type="file" name="arquivo" class="custom-file" id="id_arquivo" required>
 
                         <label>Arquivo atual:</label>
-                        <p>{{ lawsuit_file.arquivo}}</p>
+                        {% if lawsuit_file.arquivo %}
+                            <a href="{{lawsuit_file.arquivo.url}}" target="_blank">{{ lawsuit_file.arquivo}}</a>
+                        {% endif %}
 
                     </div>
                 </div>

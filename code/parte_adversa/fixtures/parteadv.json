@@ -1,11 +1,9 @@
 [
     {
-        "model": "cliente.parteadv",
+        "model": "parte_adversa.parteadv",
         "pk": 0,
         "fields": {
             "nome": "Matheus Grundler",
-            "email": "matheusgurulunder@hotmail.com",
-            "numero": "(21) 97332-5528",
             "cpf_cnpj": "923.888.327-93",
             "tipo": "PF",
             "created_at": "2023-04-11T18:22:28.652943-03:00",
@@ -13,24 +11,20 @@
         }
     },
     {
-        "model": "cliente.parteadv",
+        "model": "parte_adversa.parteadv",
         "pk": 1,
         "fields": {
             "nome": "havaianas ltda",
-            "email": "havainas@chinelos.com",
-            "numero": "+55 21 93632-2628",
             "cpf_cnpj": "62.573.259/0001-89",
             "tipo": "PJ",
             "created_at": "2023-04-11T18:22:28.652943-03:00",
             "updated_at": "2023-04-11T18:22:28.652943-03:00"
     }},
     {
-        "model": "cliente.parteadv",
+        "model": "parte_adversa.parteadv",
         "pk": 2,
         "fields": {
             "nome": "Danilo Macedo",
-            "email": "danilomcdinho@hotmail.com",
-            "numero": "+51 21 98320-1293",
             "cpf_cnpj": "798.921.821-92",
             "tipo": "PF",
             "created_at": "2023-04-11T18:22:28.652943-03:00",
@@ -38,12 +32,10 @@
         }
     },
     {
-        "model": "cliente.parteadv",
+        "model": "parte_adversa.parteadv",
         "pk": 3,
         "fields": {
             "nome": "pijas inglês",
-            "email": "ingledsopijas@hotmail.com",
-            "numero": "+55 21 99231-0321",
             "cpf_cnpj": "62.323.519/0001-39",
             "tipo": "PJ",
             "created_at": "2023-04-11T18:22:28.652943-03:00",
@@ -51,12 +43,10 @@
         }
     },
     {
-        "model": "cliente.parteadv",
+        "model": "parte_adversa.parteadv",
         "pk": 4,
         "fields": {
             "nome": "Braço lanches",
-            "email": "bracinholanchonete@hambuer.com",
-            "numero": "+55 21 93413-0321",
             "cpf_cnpj": "66.333.129/0001-99",
             "tipo": "PJ",
             "created_at": "2023-04-11T18:22:28.652943-03:00",

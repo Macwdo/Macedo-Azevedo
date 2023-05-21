@@ -3,7 +3,7 @@ from processo.api.viewsets import ProcessosViewSet, ProcessosHonorariosViewSet, 
 from django.urls import path
 from .views import list, detail, delete
 
-app_name = "lawsuits"
+app_name = "lawsuit"
 
 processo_router = SimpleRouter()
 processo_router.register(r'processo', ProcessosViewSet)

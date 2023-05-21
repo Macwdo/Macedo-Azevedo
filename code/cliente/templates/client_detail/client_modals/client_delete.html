@@ -1,0 +1,26 @@
+<div class="modal fade" id="client-delete-modal-{{client.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <h4 class="modal-title" >
+                    Você está apagando o cliente <br>{{client}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <span class="text">Cliente: {{ client.nome }}</span><br>
+                <span class="text">CPF/CNPJ: {{ client.cpf_cnpj }} </span><br>
+                <span class="text">Estado Civil: {{ client.estado_civil }}</span><br>
+                <span class="text">Profissão: {{ address.complemento }}</span><br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Fechar
+              </button>
+              <form action="{% url 'client:client_delete' client.pk %}" method="POST">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">Apagar</button>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>

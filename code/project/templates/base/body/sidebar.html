@@ -1,9 +1,9 @@
 {% load static %}
-<aside style="background: #0e1e38" class="main-sidebar main-sidebar-custom sidebar-dark-secondary elevation-4">
+<aside style="background: #18324d" class="main-sidebar main-sidebar-custom sidebar-dark-secondary elevation-4">
     <div class="sidebar">
 
         <div style="align-items: center; justify-content: center;" class="mt-3 pb-3 mb-3 d-flex">
-            <img style="width: 150px; height: 150px; border-radius: 60px;" src="{% static 'dist/img/images/277606405_1177846459642535_7637691257266544301_n.jpg' %}" alt="">
+            <img style="width: 150px; height: 150px; border-radius: 100px;" src="{% static 'dist/img/images/277606405_1177846459642535_7637691257266544301_n.jpg' %}" alt="">
         </div>
 
         <div class="user-panel mt-3 pb-3 mb-3 d-flex"></div>
@@ -20,7 +20,7 @@
         <nav class="mt-4">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{% url 'lawsuits:list' %}" class="nav-link sidebar-text">
+                    <a href="{% url 'lawsuit:list' %}" class="nav-link sidebar-text">
                         <p>
                             <i class="fas fa-gavel" style="color: #ffffff;"></i>
                                 Processos
@@ -36,7 +36,7 @@
                     </a>
                         <ul class="nav nav-treeview" style="display: none; margin-left:20px">
                             <li class="nav-item sidebar-text">
-                                <a href="" class="nav-link">
+                                <a href="{% url 'client:client_list' %}" class="nav-link">
                                     <p>
                                         <i class="fas fa-user" style="color: #ffffff;"></i>
                                         Cliente
@@ -44,7 +44,7 @@
                                 </a>
                             </li>
                             <li class="nav-item sidebar-text">
-                                <a href="" class="nav-link">
+                                <a href="{% url 'adverse_part:list' %}" class="nav-link">
                                     <p>
                                         <i class="fas fa-user-slash" style="color: #ffffff;"></i>
                                         Parte Adversa

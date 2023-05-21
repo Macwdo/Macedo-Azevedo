@@ -7,14 +7,19 @@ from django.urls import reverse
 from processo.models import Processos, ProcessosHonorarios, ProcessosAnexos
 from advogado.models import Advogado
 from processo.forms import LawsuitFileForm, LawsuitValuesForm
+from django.core.paginator import Paginator
 
 @login_required
 @require_http_methods(["GET"])
 def list(request: HttpRequest):
     lawsuits = Processos.objects.all()
 
+    paginator = Paginator(lawsuits, 10)
+    page_num = request.GET.get('page')
+    page = paginator.get_page(page_num)
     context = {
-        "lawsuits": lawsuits
+        "lawsuits": lawsuits,
+        "page": page
     }
     return render(request, "lawsuit_list.html", context)
 
@@ -52,6 +57,6 @@ def delete(request: HttpRequest, pk: int):
         lawsuit.delete()
     except:
         messages.error(request, f"Não foi possível deletar o processo {lawsuit}")
-    return redirect(reverse("lawsuits:list"))
+    return redirect(reverse("lawsuit:list"))
 
 

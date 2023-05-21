@@ -4,7 +4,7 @@
         <div class="card-header">
             <h2 class="card-title mont-serrat"> Arquivos do Processo</h2>
             <div class="card-tools">
-                <div class="input-group input-group-sm" style="width: 500px;">
+                <div class="input-group input-group-sm">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Pesquisar">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-default">
@@ -31,7 +31,7 @@
                         <td>{{lawsuit_file.created_at}}</td>
                         <td><a href="" data-toggle="modal" data-target="#file-edit-modal-{{lawsuit_file.pk}}"><i class="fas fa-edit" style="color: #89a2cd;"></i></a></td>
                         <td><a href="" data-toggle="modal" data-target="#file-delete-modal-{{lawsuit_file.pk}}" ><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
-                    <tr>
+                    </tr>
                         {% include "lawsuit_detail/lawsuit_modals/lawsuit_files_delete.html" %}
                         {% include "lawsuit_detail/lawsuit_modals/lawsuit_files_edit.html" %}
                         {% endfor %}
