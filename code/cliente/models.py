@@ -12,10 +12,10 @@ class Cliente(models.Model):
     estado_civil = models.CharField(max_length=100)
     profissao = models.CharField(max_length=100)
     tipo = models.CharField(choices=choice_tipo, max_length=2)
-    image = models.ImageField()
+    image = models.ImageField(blank=True, null=True)
 
     def __str__(self) -> str:
-        return f"{self.nome} {self.cpf_cnpj}"
+        return f"{self.nome}"
 
     class Meta:
         verbose_name_plural = 'Cliente'
@@ -29,7 +29,7 @@ class ClienteEndereco(models.Model):
     cep = models.CharField(max_length=255)
 
     def __str__(self) -> str:
-        return f"{self.cliente} - {self.endereco} - {self.cep}"
+        return f"{self.endereco}, Nº{self.numero}, {self.cep}"
 
     class Meta:
         verbose_name_plural = 'Endereços do cliente'
@@ -40,7 +40,7 @@ class ClienteContato(models.Model):
     numero = models.CharField(max_length=20,  null=True, blank=False)
 
     def __str__(self) -> str:
-        return f"{self.cliente} - {self.email} - {self.numero}"
+        return f"{self.email}, {self.numero}"
 
     class Meta:
         verbose_name_plural = 'Contatos do cliente'

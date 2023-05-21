@@ -1,0 +1,28 @@
+{% load forms_tag %}
+<div class="modal fade" id="address-edit-modal-{{address.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" >
+                    Você está editando <br> {{address}}
+                </h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-group">
+                {% for field in client_address_form|form_instanced_client:address %}
+                <div class="form-group">
+                    <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <div>
+                        {{field}}
+                    </div>
+                </div>
+                {% endfor %}
+                    <div>
+                        <button type="submit" class="btn btn-primary">Editar</button>
+                        <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>

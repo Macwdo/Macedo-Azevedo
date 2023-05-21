@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block title %}<h1 class="mont-serrat">Processos</h1>{% endblock title %}
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -23,42 +24,43 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Advogados</th>
+                        <th></th>
                         <th>Codigo do Processo</th>
                         <th>Cliente</th>
                         <th>Parte Adversa</th>
-                        <th>Advogado</th>
                         <th>Iniciado</th>
                         <th>Finalizado</th>
                         
                     </tr>
                 </thead>
                 <tbody>
-                    {% for lawsuit in lawsuits %}
+                    {% for lawsuit in page.object_list %}
                     <tr>
-                            <td><a href="{% url 'lawsuit:detail' lawsuit.pk %}">{{ lawsuit.codigo_processo }}</a></td>
-                            <td>{{ lawsuit.cliente }}</td>
-                            <td>{{ lawsuit.parte_adversa }}</td>
-                            <td>{{ lawsuit.advogado_responsavel }}</td>
-                            <td>{{ lawsuit.iniciado }}</td>
-                            <td>{%if lawsuit.finalizado%} {{ lawsuit.finalizado }} {% else %} Em andamento {%endif%} </td>
-                            <td><a href="{% url 'lawsuit:detail' lawsuit.pk %}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
-                            
+                        
+                        <td style="width: 2px;">
+                            {% if lawsuit.advogado_responsavel.image %}
+                            <img src="{{ lawsuit.advogado_responsavel.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
+                                {% if lawsuit.colaborador %}
+                                    <img src="{{ lawsuit.colaborador.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
+                                {% endif %}
+                            {% else %}
+                                <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
+                            {% endif %}
+                        </td>
+                        <td>{{lawsuit.advogado_responsavel}} </td>
+                        <td><a href="{% url 'lawsuit:detail' lawsuit.pk %}">{{ lawsuit.codigo_processo }}</a></td>
+                        <td>{{ lawsuit.cliente }}</td>
+                        <td>{{ lawsuit.parte_adversa }}</td>
+                        <td>{{ lawsuit.iniciado }}</td>
+                        <td>{%if lawsuit.finalizado%} {{ lawsuit.finalizado }} {% else %} Em andamento {%endif%} </td>
+                        <td><a href="{% url 'lawsuit:detail' lawsuit.pk %}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
                     <tr>
                     {% endfor %}
                 </tbody>
             </table>
             <div class="card-footer clearfix">
-                <button class="btn btn-success btn-sm mont-serrat" data-toggle="modal" data-target="" >
-                    Novo Processo
-                </button>
-
-                <ul class="pagination pagination-sm m-0 float-right">
-                <li class="page-item"><a class="page-link" href="#">«</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">»</a></li>
-                </ul>
+                {% include "base/pagination.html" %}
             </div>
         </div>
     </div>

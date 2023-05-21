@@ -1,0 +1,45 @@
+{% include "client_detail/client_modals/client_contacts_new.html" %}
+<div class="card-body p-0">
+    {% if client.client_contact.first %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Numero</th>
+                <th>Editar</th>
+                <th>Apagar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact in client.client_contact.all %}
+            <tr>
+                <td>{{contact.email}}</td>
+                <td>{{contact.numero}}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#contacts-edit-modal-{{contact.pk}}">
+                        Editar
+                    </button>
+                </td>
+                <td>
+                    <a href="" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#contacts-delete-modal-{{contact.pk}}" >
+                        Apagar
+                    </a>
+                </td>
+            </tr>
+            {% include "client_detail/client_modals/client_contacts_delete.html" %}
+            {% include "client_detail/client_modals/client_contacts_edit.html" %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="text text-muted" style="margin-left: 30%;">
+        <h2><i class="fas fa-address-book"></i> Sem contatos por aqui</h2>
+    </div>
+    {% endif %}
+    <div>
+        <button class="btn btn-success" data-toggle="modal" data-target="#client-contacts-new">
+            Criar novo contato do cliente
+        </button>
+    </div>
+</div>
+    

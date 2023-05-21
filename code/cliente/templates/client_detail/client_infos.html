@@ -1,5 +1,5 @@
 <form class="form-horizontal">
-    {% for field in form %}
+    {% for field in client_form %}
     <div class="form-group row">
         <label for="inputName" class="col-sm-2 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
         <div class="col-sm-10">
@@ -7,8 +7,18 @@
         </div>
     </div>
     {% endfor %}
+    {% if client.image %}
     <div class="form-group row">
-        <div class="offset-sm-2 col-sm-10">
-        <button type="submit" class="btn btn-danger">Submit</button>
+        <label for="inputName" class="col-sm-2 col-form-label">Foto atual</label>
+        <div class="col-sm-10">
+            <a href="{{client.image.url}}" target="_blank">{{client.image}}</a>
+        </div>
+    </div>
+    {% endif %}
+    <div class="form-group row">
+        <div class="col-sm-4 col-form-label">
+            <button type="submit" class="btn btn-primary">Editar</button>
+            <button type="submit" class="btn btn-danger">Apagar</button>
+        </div>
     </div>
 </form>

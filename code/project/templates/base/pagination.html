@@ -1,0 +1,21 @@
+<nav style="margin-left:10px; margin-top:10px">
+    <ul class="pagination">
+        {% if page.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page.previous_page_number }}">Anterior</a></li>
+        {% endif %}
+        {% for i in page.paginator.page_range %}
+            {% if page.number == i %}
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="?q={{q}}&page={{i}}">{{i}}<span class="sr-only">(current)</span></a>
+                </li>
+            {% elif i > page.number|add:-4 and i < page.number|add:4  %}
+                <li class="page_item">
+                    <a class="page-link" href="?q={{q}}&page={{i}}">{{i}}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% if page.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">Próximo</a></li>
+        {% endif %}
+    </ul>
+</nav>

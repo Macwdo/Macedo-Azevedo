@@ -1,5 +1,5 @@
 from django import forms
-from cliente.models import Cliente
+from cliente.models import Cliente, ClienteContato, ClienteEndereco
 
 class ClientForm(forms.ModelForm):
     class Meta:
@@ -13,4 +13,30 @@ class ClientForm(forms.ModelForm):
             'profissao': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo': forms.Select(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'custom-file'}),
+        }
+
+
+class ClientContactForm(forms.ModelForm):
+    class Meta:
+        model = ClienteContato
+        fields = "__all__"
+
+        widgets = {
+            'cliente': forms.Select(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class ClientAddressForm(forms.ModelForm):
+    class Meta:
+        model = ClienteEndereco
+        fields = "__all__"
+
+        widgets = {
+            'cliente': forms.Select(attrs={'class': 'form-control'}),
+            'endereco': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero': forms.TextInput(attrs={'class': 'form-control'}),
+            'complemento': forms.TextInput(attrs={'class': 'form-control'}),
+            'cep': forms.TextInput(attrs={'class': 'form-control'}),
         }
