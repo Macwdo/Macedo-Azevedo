@@ -12,7 +12,7 @@ class ClientForm(forms.ModelForm):
             'estado_civil': forms.TextInput(attrs={'class': 'form-control'}),
             'profissao': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo': forms.Select(attrs={'class': 'form-control'}),
-            'image': forms.FileInput(attrs={'class': 'custom-file'}),
+            'image': forms.FileInput(attrs={'class': 'custom-file'})
         }
 
 
@@ -23,7 +23,7 @@ class ClientContactForm(forms.ModelForm):
 
         widgets = {
             'cliente': forms.Select(attrs={'class': 'form-control'}),
-            'email': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'numero': forms.TextInput(attrs={'class': 'form-control'}),
         }
 

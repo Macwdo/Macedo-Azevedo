@@ -1,5 +1,5 @@
 {% include "client_detail/client_modals/client_delete.html" %}
-<form class="form-horizontal" action="{% url 'client:client_edit' client.pk %}" method="POST">
+<form enctype="multipart/form-data" class="form-horizontal" action="{% url 'client:client_edit' client.pk %}" method="POST">
     {% csrf_token %}
     {% for field in client_form %}
     <div class="form-group row">

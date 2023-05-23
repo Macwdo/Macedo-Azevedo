@@ -13,18 +13,18 @@ from django.core.paginator import Paginator
 @require_http_methods(["GET", "POST"])
 def client_create(request: HttpRequest):
     if request.method == "GET":
-        client_form = ClientForm()
+        form = ClientForm()
         context = {
-            "form": client_form
+            "form": form
         }
         return render(request, "client_create.html", context)
     
     if request.method == "POST":
-        client_form = ClientForm(request.POST)
-        if client_form.is_valid():
-            new_client = client_form.save()
+        form = ClientForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_client = form.save()
             messages.success(request, "Cliente criado com sucesso")
-            return redirect(reverse("client:client_detail", kwargs={"pk": new_client.pk}))
+            return redirect(reverse("client:client_detail", kwargs={"client_id": new_client.pk}))
         else:
             messages.error(request, "Não foi possível realizar a criação do cliente")
             return redirect(reverse("client:client_create"))
@@ -53,13 +53,13 @@ def client_list(request: HttpRequest):
 def client_detail(request: HttpRequest, client_id: int):
     client = get_object_or_404(Cliente, pk=client_id)
     
-    client_form = ClientForm(instance=client)
+    form = ClientForm(instance=client)
     client_address_form = ClientAddressForm()
     client_contact_form = ClientContactForm()
 
     context = {
         "client": client,
-        "client_form": client_form,
+        "client_form": form,
         "client_address_form": client_address_form,
         "client_contact_form": client_contact_form
     }
@@ -69,9 +69,9 @@ def client_detail(request: HttpRequest, client_id: int):
 @require_http_methods(["POST"])
 def client_edit(request: HttpRequest, client_id: int):
     client = get_object_or_404(Cliente, pk=client_id)
-    client_form = ClientForm(request.POST, instance=client)
-    if client_form.is_valid():
-        client_form.save()
+    form = ClientForm(request.POST, files=request.FILES, instance=client)
+    if form.is_valid():
+        form.save()
         messages.success(request, f"Cliente {client.nome} editado com sucesso")
     else:
         messages.error(request, f"Não foi possível realizar a edição do cliente {client.nome}")

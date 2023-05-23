@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="{% url 'client:client_create' %}" method="POST">
+            <form enctype="multipart/form-data" action="{% url 'client:client_create' %}" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
                     {{form}}

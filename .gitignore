@@ -13,6 +13,9 @@ code/htmlcov
 code/.coverage
 code/celerybeat-schedule
 
+.idea/**
+.idea
+
 #Project Files
 scripts.js
 # Django #
