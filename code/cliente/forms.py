@@ -2,16 +2,18 @@ from django import forms
 from cliente.models import Cliente, ClienteContato, ClienteEndereco
 
 class ClientForm(forms.ModelForm):
+
+    field_order = ['nome', 'tipo', 'cpf_cnpj', 'estado_civil', 'profissao', 'image']
+
     class Meta:
         model = Cliente
         fields = "__all__"
-
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo': forms.Select(attrs={'class': 'form-control'}),
             'cpf_cnpj': forms.TextInput(attrs={'class': 'form-control'}),
             'estado_civil': forms.TextInput(attrs={'class': 'form-control'}),
             'profissao': forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo': forms.Select(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'custom-file'}),
         }
 
