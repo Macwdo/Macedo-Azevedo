@@ -2,7 +2,7 @@ from advogado.models import Advogado
 from cliente.models import Cliente
 from django.db import models
 from datetime import datetime
-from parte_adversa.models import ParteAdv
+from parte_adversa.models import AdversePart
 
 
 class ProcessosAssuntos(models.Model):
@@ -15,12 +15,12 @@ class Processos(models.Model):
         ("reu", "Réu")
     ]
     codigo_processo = models.CharField(max_length=25, null=False, blank=False)
-    advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="advogado_responsavel")
-    parte_adversa = models.ForeignKey(ParteAdv, on_delete=models.SET_NULL, null=True, blank=False)
-    cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=False, related_name="cliente")
-    cliente_de = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False)
+    advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="lawyer")
+    parte_adversa = models.ForeignKey(AdversePart, on_delete=models.SET_NULL, null=True, blank=False, related_name="adverse_part")
+    cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=False, related_name="client")
+    cliente_de = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="client_of")
     posicao = models.CharField(choices=posicao_choice, max_length=5)
-    colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborador")
+    colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborator_lawyer")
     observacoes = models.CharField(max_length=255, default="Sem observações", null=True, blank=True)
     estado = models.TextField()
     municipio = models.TextField()

@@ -1,4 +1,4 @@
-from cliente.serializers import ClienteSerializer, ParteAdvSerializer
+from cliente.serializers import ClienteSerializer, AdversePartSerializer
 from advogado.api.serializers import AdvogadoSerializer
 from rest_framework import serializers
 from processo.models import Processos, ProcessosAnexos, ProcessosHonorarios, ProcessosAssuntos, ProcessosMovimento
@@ -56,7 +56,7 @@ class ProcessosSerializer(serializers.ModelSerializer):
 
     cliente_de = AdvogadoSerializer(many=False, required=False)
 
-    parte_adversa = ParteAdvSerializer(many=False, required=False)
+    parte_adversa = AdversePartSerializer(many=False, required=False)
 
     advogado_responsavel = AdvogadoSerializer(many=False, required=False)
 
