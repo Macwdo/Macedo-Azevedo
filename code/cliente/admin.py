@@ -3,13 +3,13 @@ from cliente.models import Cliente, ClienteContato, ClienteEndereco
 # Register your models here.
     
 @admin.register(Cliente)
-class ParteAdvAdmin(admin.ModelAdmin):
+class AdversePartAdmin(admin.ModelAdmin):
     ...
 
 @admin.register(ClienteContato)
-class ParteAdvContato(admin.ModelAdmin):
+class AdversePartContact(admin.ModelAdmin):
     ...
 
 @admin.register(ClienteEndereco)
-class ParteAdvEnderecoAdmin(admin.ModelAdmin):
+class AdversePartAddressAdmin(admin.ModelAdmin):
     ...

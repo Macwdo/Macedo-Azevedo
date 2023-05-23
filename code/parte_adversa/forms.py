@@ -1,12 +1,12 @@
 from django import forms
-from cliente.models import Cliente, ClienteContato, ClienteEndereco
+from parte_adversa.models import AdversePart, AdversePartAddress, AdversePartContact
 
-class ClientForm(forms.ModelForm):
+class AdversePartForm(forms.ModelForm):
 
     field_order = ['nome', 'tipo', 'cpf_cnpj', 'estado_civil', 'profissao', 'image']
 
     class Meta:
-        model = Cliente
+        model = AdversePart
         fields = "__all__"
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
@@ -18,25 +18,25 @@ class ClientForm(forms.ModelForm):
         }
 
 
-class ClientContactForm(forms.ModelForm):
+class AdversePartContactForm(forms.ModelForm):
     class Meta:
-        model = ClienteContato
+        model = AdversePartContact
         fields = "__all__"
 
         widgets = {
-            'cliente': forms.Select(attrs={'class': 'form-control'}),
+            'parte_adv': forms.Select(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'numero': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 
-class ClientAddressForm(forms.ModelForm):
+class AdversePartAddressForm(forms.ModelForm):
     class Meta:
-        model = ClienteEndereco
+        model = AdversePartAddress
         fields = "__all__"
 
         widgets = {
-            'cliente': forms.Select(attrs={'class': 'form-control'}),
+            'parte_adv': forms.Select(attrs={'class': 'form-control'}),
             'endereco': forms.TextInput(attrs={'class': 'form-control'}),
             'numero': forms.TextInput(attrs={'class': 'form-control'}),
             'complemento': forms.TextInput(attrs={'class': 'form-control'}),

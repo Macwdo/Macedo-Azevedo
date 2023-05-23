@@ -7,7 +7,7 @@ from django.urls import reverse
 from cliente.models import Cliente
 from cliente.forms import ClientForm, ClientAddressForm, ClientContactForm
 from django.core.paginator import Paginator
-
+from processo.models import Processos
 
 @login_required
 @require_http_methods(["GET", "POST"])
@@ -53,12 +53,14 @@ def client_list(request: HttpRequest):
 def client_detail(request: HttpRequest, client_id: int):
     client = get_object_or_404(Cliente, pk=client_id)
     
+    lawsuits_envolved = Processos.objects.filter(cliente=client)
     client_form = ClientForm(instance=client)
     client_address_form = ClientAddressForm()
     client_contact_form = ClientContactForm()
 
     context = {
         "client": client,
+        "lawsuits_envolved": len(lawsuits_envolved),
         "client_form": client_form,
         "client_address_form": client_address_form,
         "client_contact_form": client_contact_form

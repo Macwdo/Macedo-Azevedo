@@ -1,0 +1,25 @@
+<div class="modal fade" id="contacts-delete-modal-{{contact.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header " >
+                <h4 class="modal-title" >
+                    Você está apagando <br> {{contact}}
+                </h4>
+            </div>
+            <div class="modal-body">
+              <span class="text">Cliente: {{ contact.adverse_part.nome }}</span><br>
+              <span class="text">Email: {{contact.email}} </span><br>
+              <span class="text">Numero: {{contact.numero}}</span><br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Fechar
+              </button>      
+              <form action="{% url 'adverse_part:adverse_part_contact_delete' adverse_part.pk contact.pk %}" method="POST">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">Apagar</button>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
