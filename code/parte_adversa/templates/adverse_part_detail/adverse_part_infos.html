@@ -1,5 +1,5 @@
 {% include "adverse_part_detail/adverse_part_modals/adverse_part_delete.html" %}
-<form class="form-horizontal" action="{% url 'adverse_part:adverse_part_edit' adverse_part.pk %}" method="POST">
+<form enctype='multipart/form-data' class="form-horizontal" action="{% url 'adverse_part:adverse_part_edit' adverse_part.pk %}" method="POST">
     {% csrf_token %}
     {% for field in adverse_part_form %}
     <div class="form-group row">

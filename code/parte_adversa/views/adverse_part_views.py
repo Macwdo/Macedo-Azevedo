@@ -21,7 +21,7 @@ def adverse_part_create(request: HttpRequest):
         return render(request, "adverse_part_create.html", context)
     
     if request.method == "POST":
-        adverse_part_form = AdversePartForm(request.POST)
+        adverse_part_form = AdversePartForm(request.POST, request.FILES)
         print(request.POST)
         if adverse_part_form.is_valid():
             new_adverse_part = adverse_part_form.save()
@@ -73,12 +73,12 @@ def adverse_part_detail(request: HttpRequest, adverse_part_id: int):
 @require_http_methods(["POST"])
 def adverse_part_edit(request: HttpRequest, adverse_part_id: int):
     adverse_part = get_object_or_404(AdversePart, pk=adverse_part_id)
-    adverse_part_form = AdversePartForm(request.POST, instance=adverse_part)
+    adverse_part_form = AdversePartForm(request.POST, request.FILES, instance=adverse_part)
     if adverse_part_form.is_valid():
         adverse_part_form.save()
         messages.success(request, f"adverse_part {adverse_part.nome} editado com sucesso")
     else:
-        messages.error(request, f"Não foi possível realizar a edição do adverse_part {adverse_part.nome}")
+        messages.error(request, f"Não foi possível realizar a edição da Parte adversa {adverse_part.nome}")
     return redirect(reverse("adverse_part:adverse_part_detail", kwargs={"adverse_part_id": adverse_part_id}))
 
 @login_required
@@ -89,7 +89,7 @@ def adverse_part_delete(request: HttpRequest, adverse_part_id: int):
         adverse_part.delete()
         messages.success(request, f"adverse_part {adverse_part.nome} foi excluído com sucesso")
     except:
-        messages.error(request, f"Não foi possível apagar o registro do adverse_part {adverse_part}")
+        messages.error(request, f"Não foi possível apagar o registro da Parte adversa {adverse_part}")
     return redirect(reverse("adverse_part:adverse_part_list"))
 
 
