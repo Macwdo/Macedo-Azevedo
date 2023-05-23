@@ -1,0 +1,32 @@
+<div class="modal fade" id="adverse-part-contacts-create" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Novo contato da Parte Adversa
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-group" action="{% url 'adverse_part:adverse_part_contact_create' adverse_part.pk %}" method="POST">
+                    {% for field in adverse_part_contact_form %}
+                        {% if field.label != "Parte adv" %}
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <div>
+                                    {{field}}
+                                </div>
+                            </div>
+                        {% else %}
+                            <input type="hidden" name="parte_adv" value="{{adverse_part.pk}}">
+                        {% endif %}
+                    {% endfor %}
+                    <div>
+                        <button type="submit" class="btn btn-primary">Criar</button>
+                        <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

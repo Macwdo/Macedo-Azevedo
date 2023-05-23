@@ -1,14 +1,14 @@
 from rest_framework import serializers
-from parte_adversa.models import ParteAdv, ParteAdvEndereco
+from parte_adversa.models import AdversePart, AdversePartAddress
 
 
-class ParteAdvEnderecoSerializer(serializers.ModelSerializer):
+class AdversePartAddressSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ParteAdvEndereco
+        model = AdversePartAddress
         fields = "__all__"
 
 
-class ParteAdvSerializer(serializers.ModelSerializer):
+class AdversePartSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ParteAdv
+        model = AdversePart
         fields = "__all__"
