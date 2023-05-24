@@ -1,37 +1,39 @@
-# pull official base image
+# Imagem base com Python e dependências do sistema
 FROM python:3.11.1
 
-# set work directory
-#WORKDIR /usr/src/app
+# Define o diretório de trabalho dentro do contêiner
 WORKDIR /home/app
 
-# set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install psycopg2
 RUN apt-get clean && apt-get update
 RUN apt-get install -y gcc python3-dev python-dev build-essential default-libmysqlclient-dev musl-dev wkhtmltopdf
 
-# install chromedriver
-# RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-# RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-# RUN apt-get -y clean && apt-get -y update
-# RUN apt-get install -y google-chrome-stable
-# RUN apt-get install -yqq unzip
-# RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
-# RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
-
-# wkhtmltopdf stuff
 ENV XDG_RUNTIME_DIR=/tmp
 
-# install dependencies
 RUN pip install --upgrade pip --user
-# COPY code/requirements.txt /home/app/requirements.txt
 
+# Copia o código da aplicação para o diretório de trabalho
 COPY code /home/app
+
+# Instala as dependências do Python
+RUN pip install gunicorn
 RUN pip install -r /home/app/requirements.txt
 
-EXPOSE 8000
+# Instala as dependências do sistema e o Nginx
+RUN apt-get update && apt-get install -y nginx && apt-get clean
 
+# Copia o arquivo de configuração do Nginx
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
+# Coleta os arquivos estáticos do Django
 RUN #./manage.py collectstatic --noinput
+
+# Expõe a porta do Nginx
+EXPOSE 80
+
+RUN chmod +x ./configs/entrypoint.sh
+
+# execute our entrypoint.sh file
+CMD ["./configs/entrypoint.sh"] 
