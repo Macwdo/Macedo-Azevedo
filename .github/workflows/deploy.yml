@@ -81,9 +81,6 @@ jobs:
 
       - name: Pulling image from Dockerhub
         run: ssh prod 'docker pull macwdo/macedoazevedoapp:latest'
-        
-      - name: Update
-        run: ssh prod 'cd Macedo-Azevedo; sudo docker run macedoazevedoapp:latest'
 
       - name: Build and Run
         run: ssh prod 'cd Macedo-Azevedo; sudo make build_image; sudo make run_prod; sudo make build'
