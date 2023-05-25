@@ -1,11 +1,11 @@
 build_image:
-	docker build -t macedoazevedoapp:latest .
+	docker build -t macwdo/macedoazevedoapp:latest .
 
 attach:
 	docker attach macedoazevedoapp:latest
 
 admin:
-	docker exec -it macedoazevedoapp:latest sh -c 'python manage.py createsuperuser --username admin'
+	docker exec -it macwdo/macedoazevedoapp:latest sh -c 'python manage.py createsuperuser --username admin'
 
 migrations:
 	docker exec -i macedoazevedoapp:latest sh -c 'python manage.py makemigrations user cliente parte_adversa processo advogado'
