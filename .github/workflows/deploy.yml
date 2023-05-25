@@ -31,10 +31,10 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
       - name: Stop the server
-        run: sudo ssh prod 'cd Macedo-Azevedo; make down;'
+        run: ssh prod 'cd Macedo-Azevedo; sudo make down;'
         
       - name: Update
-        run: sudo ssh prod 'cd Macedo-Azevedo; git pull;'
+        run: ssh prod 'cd Macedo-Azevedo; git pull;'
 
       - name: Build and Run
-        run: sudo ssh prod 'cd Macedo-Azevedo; make build_image; make run_prod; make build'
+        run: ssh prod 'cd Macedo-Azevedo; sudo make build_image; sudo make run_prod; sudo make build'
