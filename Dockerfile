@@ -26,7 +26,6 @@ RUN apt-get update && apt-get install -y nginx && apt-get clean
 
 # Copia o arquivo de configuração do Nginx
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY nginx/maintence.html /usr/share/nginx/maintence.html
 
 # Coleta os arquivos estáticos do Django
 RUN #./manage.py collectstatic --noinput
