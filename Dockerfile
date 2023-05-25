@@ -24,6 +24,7 @@ RUN pip install -r /home/app/requirements.txt
 # Instala as dependências do sistema e o Nginx
 RUN apt-get update && apt-get install -y nginx && apt-get clean
 
+
 # Copia o arquivo de configuração do Nginx
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
