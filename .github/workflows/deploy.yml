@@ -1,0 +1,34 @@
+name: Django CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    name: "Deploy to prod"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/prod.key
+          chmod 600 ~/.ssh/prod.key
+          cat >>~/.ssh/config <<END
+          Host prod
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/prod.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.PROD_SSH_USER }}
+          SSH_KEY: ${{ secrets.PROD_SSH_KEY }}
+          SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
+
+      - name: Stop the server
+        run: ssh prod 'cd Macedo-Azevedo; make down;'
+      - name: Update
+        run: ssh prod 'cd Macedo-Azevedo; git pull;'
+      - name: Build and Run
+        run: ssh prod 'cd Macedo-Azevedo; make build_image; make build'
