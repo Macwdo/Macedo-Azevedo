@@ -27,8 +27,8 @@ jobs:
           SSH_HOST: ${{ secrets.PROD_SSH_HOST }}
 
       - name: Stop the server
-        run: ssh prod 'cd realtor; make down;'
+        run: ssh prod 'cd Macedo-Azevedo; make down;'
       - name: Update
-        run: ssh prod 'cd realtor; git pull;'
+        run: ssh prod 'cd Macedo-Azevedo; git pull;'
       - name: Build and Run
-        run: ssh prod 'cd realtor; make build_image; make run_prod; make build'
+        run: ssh prod 'cd Macedo-Azevedo; make build_image; make build'
