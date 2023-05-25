@@ -77,11 +77,11 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Login in Dockerhub
-        run: docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+        run: |
+          docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+
 
       - name: Pulling image from Dockerhub
         run: docker pull macwdo/macedoazevedoapp:latest
