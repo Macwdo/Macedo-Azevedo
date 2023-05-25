@@ -84,11 +84,11 @@ jobs:
       - name: Creating docker-compose file
         run: echo "$DOCKER_COMPOSE" > docker-compose.yml
 
-      - name: Down app
-        run: docker-compose down
+      - name: Down app and cleaning
+        run: ssh prod 'docker-compose down; docker system prune --force'
 
       - name: Pulling image from Dockerhub
         run: ssh prod 'docker pull macwdo/macedoazevedoapp:latest'
 
       - name: Up app
-        run: docker-compose up
+        run: ssh prod 'docker-compose up'
