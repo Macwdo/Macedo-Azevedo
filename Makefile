@@ -23,8 +23,8 @@ run:
 	docker-compose -f docker-compose.yml up
 
 run_prod:
-	docker-compose -f docker-compose.prod.yml down
-	docker-compose -f docker-compose.prod.yml up -d
+	docker-compose -f docker-compose-prod.yml down
+	docker-compose -f docker-compose-prod.yml up -d
 
 unit:
 	docker-compose -f docker-compose.yml run macedoazevedoapp python3 manage.py test
