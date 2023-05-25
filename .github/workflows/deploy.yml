@@ -76,15 +76,19 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
           ENV_VARIABLES: ${{ secrets.ENV_VARIABLES }}
+          DOCKER_COMPOSE: ${{ secrets.DOCKER_COMPOSE }}
 
       - name: Creating .env file
         run: echo "$ENV_VARIABLES" > .env
 
-      - name: Stop the server
-        run: ssh prod 'docker system prune --force'
+      - name: Creating docker-compose file
+        run: echo "$DOCKER_COMPOSE" > docker-compose.yml
+
+      - name: Down app
+        run: docker-compose down
 
       - name: Pulling image from Dockerhub
         run: ssh prod 'docker pull macwdo/macedoazevedoapp:latest'
 
-      - name: Build and Run
-        run: ssh prod 'docker run --env-file ./.env -p 80:8000 -d macwdo/macedoazevedoapp:latest'
+      - name: Up app
+        run: docker-compose up
