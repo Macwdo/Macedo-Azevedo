@@ -1,18 +1,32 @@
 version: '3.8'
 
 services:
-  magunicorn:
-    container_name: magunicorn
-    image: magunicorn
+  macedoazevedoapp:
+    container_name: macedoazevedoapp
+    image: macedoazevedoapp:latest
     ports:
-      - "80:8000"
+      - "8000:8000"
     stdin_open: true 
     tty: true
+    command: python manage.py runserver 0.0.0.0:8000
     env_file: .env
-
+    volumes:
+      - ./code:/home/app
     depends_on:
       - db_macedoazevedoapp
 
+  nginx_macedoazevedoapp:
+    container_name: nginx_macedoazevedoapp
+    build:
+      context: nginx/
+      dockerfile: Dockerfile
+    volumes:
+      - ./code/staticfiles:/home/app/staticfiles
+    ports:
+      - 80:80
+    depends_on:
+      - macedoazevedoapp
+      
   db_macedoazevedoapp:
     container_name: db_macedoazevedoapp
     image: postgres:latest
@@ -25,5 +39,62 @@ services:
     ports:
       - "5431:5432"
 
+  rabbitmq_macedoazevedoapp:
+    container_name: rabbitmq_macedoazevedoapp
+    image: rabbitmq:latest
+    restart: always
+    ports:
+      - 5672:5672
+      - 8080:15672  
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmindata:/var/lib/pgadmin
+
+  worker_macedoazevedoapp:
+    container_name: worker_macedoazevedoapp
+    image: macedoazevedoapp:latest
+    command: celery -A project worker --loglevel=INFO
+    volumes:
+      - ./code:/home/app
+    env_file: .env
+    restart: always
+    depends_on:
+      - rabbitmq_macedoazevedoapp
+
+  celery_beat_macedoazevedoapp:
+    container_name: celery_beat_macedoazevedoapp
+    image: macedoazevedoapp:latest
+    command: celery -A project beat -l debug
+    volumes:
+      - ./code:/home/app
+      
+    env_file: .env
+    restart: always
+    depends_on:
+      - rabbitmq_macedoazevedoapp
+
+  celery_flower_macedoazevedoapp:
+    container_name: celery_flower_macedoazevedoapp
+    image: macedoazevedoapp:latest
+    command: celery -A project flower
+    volumes:
+      - ./code:/home/app
+    ports:
+      - "5555:5555"
+    env_file: .env
+    restart: always
+    depends_on:
+      - rabbitmq_macedoazevedoapp
+
 volumes:
   postgres_data:
+  pgadmindata:

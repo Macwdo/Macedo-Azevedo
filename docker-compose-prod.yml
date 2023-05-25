@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  magunicorn:
+    container_name: magunicorn
+    image: magunicorn
+    ports:
+      - "80:8000"
+    stdin_open: true 
+    tty: true
+    env_file: .env
+    volumes:
+      - ./code:/home/app
