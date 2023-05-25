@@ -83,4 +83,4 @@ jobs:
         run: ssh prod 'docker pull macwdo/macedoazevedoapp:latest'
 
       - name: Build and Run
-        run: ssh prod 'sudo docker run --env-file ./.env -d macwdo/macedoazevedoapp:latest'
+        run: ssh prod 'docker run --env-file ./.env -p 80:8000 -d macwdo/macedoazevedoapp:latest'
