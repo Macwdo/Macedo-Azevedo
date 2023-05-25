@@ -5,7 +5,7 @@ services:
     container_name: magunicorn
     image: magunicorn
     ports:
-      - "8000:8000"
+      - "80:8000"
     stdin_open: true 
     tty: true
     env_file: .env
