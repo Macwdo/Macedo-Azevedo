@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   macedoazevedoapp:
-    container_name: macwdo/macedoazevedoapp:latest
+    container_name: macedoazevedoapp
     image: macwdo/macedoazevedoapp:latest
     ports:
       - "80:8000"

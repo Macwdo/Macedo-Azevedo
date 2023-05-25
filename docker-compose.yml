@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   macedoazevedoapp:
-    container_name: macwdo/macedoazevedoapp:latest
+    container_name: macedoazevedoapp
     image: macwdo/macedoazevedoapp:latest
     ports:
       - "8000:8000"
@@ -61,7 +61,7 @@ services:
 
   worker_macedoazevedoapp:
     container_name: worker_macedoazevedoapp
-    image: macedoazevedoapp:latest
+    image: macwdo/macedoazevedoapp:latest
     command: celery -A project worker --loglevel=INFO
     volumes:
       - ./code:/home/app
@@ -72,7 +72,7 @@ services:
 
   celery_beat_macedoazevedoapp:
     container_name: celery_beat_macedoazevedoapp
-    image: macedoazevedoapp:latest
+    image: macwdo/macedoazevedoapp:latest
     command: celery -A project beat -l debug
     volumes:
       - ./code:/home/app
@@ -84,7 +84,7 @@ services:
 
   celery_flower_macedoazevedoapp:
     container_name: celery_flower_macedoazevedoapp
-    image: macedoazevedoapp:latest
+    image: macwdo/macedoazevedoapp:latest
     command: celery -A project flower
     volumes:
       - ./code:/home/app
