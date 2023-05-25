@@ -77,7 +77,7 @@ jobs:
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Stop the server
-        run: ssh prod 'docker kill $(docker ps -q -a)'
+        run: ssh prod 'docker system prune --force'
 
       - name: Pulling image from Dockerhub
         run: ssh prod 'docker pull macwdo/macedoazevedoapp:latest'
