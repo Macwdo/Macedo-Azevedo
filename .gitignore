@@ -8,7 +8,7 @@ files/
 examples/
 docker-compose-test.yml
 code/celerybeat-schedule
-build/
+Aws/
 code/htmlcov
 code/.coverage
 code/celerybeat-schedule
@@ -133,6 +133,7 @@ venv.bak/
 
 # mypy 
 .mypy_cache/ 
+
 
 # Sublime Text # 
 *.tmlanguage.cache 
