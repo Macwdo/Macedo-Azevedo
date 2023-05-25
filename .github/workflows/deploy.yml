@@ -8,7 +8,11 @@ jobs:
   deploy:
     name: "Deploy to prod"
     runs-on: ubuntu-latest
+
     steps:
+      - name: Checkout Files
+        uses: actions/checkout@v3
+
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
