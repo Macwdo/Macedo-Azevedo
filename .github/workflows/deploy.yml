@@ -28,7 +28,9 @@ jobs:
 
       - name: Stop the server
         run: ssh prod 'cd Macedo-Azevedo; make down;'
+        
       - name: Update
         run: ssh prod 'cd Macedo-Azevedo; git pull;'
+
       - name: Build and Run
         run: ssh prod 'cd Macedo-Azevedo; make build_image; make build'
