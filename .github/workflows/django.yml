@@ -20,7 +20,7 @@ jobs:
       - name: Dotenv Action
         uses: falti/dotenv-action@v1.0.1
         with:
-          path: .env.sample
+          path: .envexample
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
