@@ -75,6 +75,10 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+          ENV_VARIABLES: ${{ secrets.ENV_VARIABLES }}
+
+      - name: Creating .env file
+        run: echo "$ENV_VARIABLES" > .env
 
       - name: Stop the server
         run: ssh prod 'docker system prune --force'
