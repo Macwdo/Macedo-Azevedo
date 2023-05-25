@@ -11,3 +11,18 @@ services:
     env_file: .env
     volumes:
       - ./code:/home/app
+
+  db_macedoazevedoapp:
+    container_name: db_macedoazevedoapp
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: postgres
+      POSTGRES_DB: db_app
+    ports:
+      - "5431:5432"
+
+volumes:
+  postgres_data:
