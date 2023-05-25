@@ -79,10 +79,10 @@ jobs:
           DOCKER_COMPOSE: ${{ secrets.DOCKER_COMPOSE }}
 
       - name: Creating .env file
-        run: echo "$ENV_VARIABLES" > .env
+        run: ssh prod 'echo "$ENV_VARIABLES" > .env'
 
       - name: Creating docker-compose file
-        run: echo "$DOCKER_COMPOSE" > docker-compose.yml
+        run: ssh prod 'echo "$DOCKER_COMPOSE" > docker-compose.yml'
 
       - name: Down app and cleaning
         run: ssh prod 'docker-compose down; docker system prune --force'
