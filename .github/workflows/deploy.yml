@@ -69,6 +69,19 @@ jobs:
             IdentityFile ~/.ssh/prod.key
             StrictHostKeyChecking no
           END
+
+      - name: Creating .env file
+        run: ssh prod "echo '$ENV_VARIABLES' > ./.env"
+
+      - name: Down app and cleaning
+        run: ssh prod "if [ -n '$(docker ps -q)' ]; then docker kill $(docker ps -q); system prune --force"
+
+      - name: Pulling image from Dockerhub
+        run: ssh prod "docker pull macwdo/macedoazevedoapp:latest"
+
+      - name: Up app
+        run: ssh prod "docker run --env-file ./.env -p 80:8000 -d macwdo/macedoazevedoapp:latest"
+
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
@@ -76,19 +89,3 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
           ENV_VARIABLES: ${{ secrets.ENV_VARIABLES }}
-          DOCKER_COMPOSE: ${{ secrets.DOCKER_COMPOSE }}
-
-      - name: Creating .env file
-        run: ssh prod 'echo "$ENV_VARIABLES" > .env'
-
-      - name: Creating docker-compose file
-        run: ssh prod 'echo "$DOCKER_COMPOSE" > docker-compose.yml'
-
-      - name: Down app and cleaning
-        run: ssh prod 'docker-compose down; docker system prune --force'
-
-      - name: Pulling image from Dockerhub
-        run: ssh prod 'docker pull macwdo/macedoazevedoapp:latest'
-
-      - name: Up app
-        run: ssh prod 'docker-compose up'
