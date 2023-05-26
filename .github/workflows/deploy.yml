@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: 22
           key: ${{ secrets.SSH_KEY }}
-          source: "~/envfile/"
+          source: "~/envfile/.env"
           target: ~/
 
       - name: Down app and cleaning
