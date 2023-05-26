@@ -2,7 +2,7 @@ name: Django CD
 
 on:
   push:
-    branches: [ "feature/cicd" ]
+    branches: [ "main" ]
 
 jobs:
   deploy:
@@ -39,8 +39,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: 22
           key: ${{ secrets.SSH_KEY }}
-          source: ".env"
-          target: "~/"
+          source: "~/envfiles/.env"
+          target: home/ubuntu
   
 
       - name: Down app and cleaning
