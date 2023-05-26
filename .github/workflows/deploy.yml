@@ -34,7 +34,6 @@ jobs:
           cd ~/envfile/
           echo "$ENV_VARIABLES" > .env
 
-      - uses: actions/checkout@v3
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.4
         with:
