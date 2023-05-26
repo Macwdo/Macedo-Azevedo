@@ -29,7 +29,8 @@ jobs:
 
       - name: Copying .env file for ec2
         run: |
-          echo "$ENV_VARIABLES" > .env
+          mkdir -p ~/envfiles/
+          echo "$ENV_VARIABLES" > ~/envfiles/.env
 
       - uses: actions/checkout@v3
       - name: copy file via ssh password
@@ -39,8 +40,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: 22
           key: ${{ secrets.SSH_KEY }}
-          source: ".env"
-          target: "~/"
+          source: "~/envfiles/.env"
+          target: "home/ubuntu"
   
 
       - name: Down app and cleaning
