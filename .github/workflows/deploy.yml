@@ -39,7 +39,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: 22
           key: ${{ secrets.SSH_KEY }}
-          source: "~/envfiles/.env"
+          source: ".env"
           target: home/ubuntu
   
 
