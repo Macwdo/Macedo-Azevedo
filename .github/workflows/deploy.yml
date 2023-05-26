@@ -35,10 +35,10 @@ jobs:
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: $SSH_HOST
-          username: $SSH_USER
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
           port: 22
-          key: $SSH_KEY
+          key: ${{ secrets.SSH_KEY }}
           source: ".env"
           target: "~/"
   
