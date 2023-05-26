@@ -70,20 +70,10 @@ jobs:
             StrictHostKeyChecking no
           END
 
-      - name: Creating .env file
+      - name: Copying .env file for ec2
         run: |
-          mkdir -p ~/envfile/
-          echo "$ENV_VARIABLES" > ~/envfile/.env
-
-      - name: Copying .env file for Aws
-        uses: appleboy/scp-action@master
-        with:
-          host: $SSH_HOST
-          username: $SSH_USER
-          key: $SSH_KEY
-          port: 22
-          source: "~/envfile/.env"
-          target: "~/"
+          echo "$ENV_VARIABLES" > .env
+          scp -i ~/.ssh/prod.key .env $SSH_USER@$SSH_HOST:~/
 
       - name: Down app and cleaning
         run: ssh prod 'if [ -n "$(docker ps -q)" ]; then docker kill $(docker ps -q); system prune --force'
