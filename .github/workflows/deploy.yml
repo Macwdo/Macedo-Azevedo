@@ -33,12 +33,29 @@ jobs:
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
           ENV_VARIABLES: ${{ secrets.ENV_VARIABLES }}
 
+
+      - name: Copying .env file for ec2
+        run: |
+          mkdir -p ~/envfile/
+          echo "${{ secrets.ENV_VARIABLES }}" > ~/envfile/env.txt
+
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: 22
+          key: ${{ secrets.SSH_KEY }}
+          source: ~/envfile/.env
+          target: "/home/ubuntu/"
+
       - name: Down app and cleaning
-        run: ssh prod 'if [ -n "$(docker ps -q)" ]; then docker kill $(docker ps -q); system prune --force'
+        run: | 
+          ssh prod 'if [ -n "$(docker ps -q)" ]; then docker kill $(docker ps -q);fi'
+          ssh prod 'system prune --force'
 
       - name: Pulling image from Dockerhub
         run: ssh prod "docker pull macwdo/macedoazevedoapp:latest"
 
       - name: Up app
         run: ssh prod "docker run --env-file ./.env -p 80:8000 -d macwdo/macedoazevedoapp:latest"
-
