@@ -31,8 +31,7 @@ jobs:
       - name: Copying .env file for ec2
         run: |
           mkdir -p ~/envfile/
-          cd ~/envfile/
-          echo "$ENV_VARIABLES" > .env
+          echo "$ENV_VARIABLES" > ~/envfile/.env
 
       - name: copy file via ssh password
         uses: appleboy/scp-action@v0.1.4
