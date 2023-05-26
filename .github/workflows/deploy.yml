@@ -36,7 +36,7 @@ jobs:
       - name: Down app and cleaning
         run: | 
           ssh prod 'if [ -n "$(docker ps -q)" ]; then docker kill $(docker ps -q);fi'
-          ssh prod 'system prune --force'
+          ssh prod 'docker system prune --force'
 
       - name: Pulling image from Dockerhub
         run: ssh prod "docker pull macwdo/macedoazevedoapp:latest"
