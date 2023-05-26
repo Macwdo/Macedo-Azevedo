@@ -41,8 +41,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: 22
           key: ${{ secrets.SSH_KEY }}
-          source: "~/envfile/.env"
-          target: ~/
+          source: ~/envfile/.env
+          target: "/home/ubuntu/"
 
       - name: Down app and cleaning
         run: ssh prod 'if [ -n "$(docker ps -q)" ]; then docker kill $(docker ps -q); system prune --force'
