@@ -72,6 +72,7 @@ jobs:
 
       - name: Creating .env file
         run: |
+          mkdir -p ~/envfile/
           echo "$ENV_VARIABLES" > ~/envfile/.env
 
       - name: Copying .env file for Aws
