@@ -26,8 +26,8 @@ class Processos(models.Model):
     municipio = models.CharField(max_length=255)
     vara = models.CharField(max_length=50)
     observacoes = models.TextField()
-    iniciado = models.DateTimeField(auto_now_add=True)
-    finalizado = models.DateTimeField(auto_now_add=False, blank=True, null=True)
+    iniciado = models.DateTimeField()
+    finalizado = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -110,7 +110,7 @@ class ProcessosHonorarios(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return f"{self.processo} {self.valor}"
+        return f"{'+' if self.ganho else '-' }R${self.valor}"
 
 
 class ProcessosAnexos(models.Model):

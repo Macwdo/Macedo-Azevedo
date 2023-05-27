@@ -10,7 +10,7 @@ class ClientForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo': forms.Select(attrs={'class': 'form-control'}),
+            'tipo': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'cpf_cnpj': forms.TextInput(attrs={'class': 'form-control'}),
             'estado_civil': forms.TextInput(attrs={'class': 'form-control'}),
             'profissao': forms.TextInput(attrs={'class': 'form-control'}),
@@ -24,7 +24,7 @@ class ClientContactForm(forms.ModelForm):
         fields = "__all__"
 
         widgets = {
-            'cliente': forms.Select(attrs={'class': 'form-control'}),
+            'cliente': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'numero': forms.TextInput(attrs={'class': 'form-control'}),
         }
@@ -36,7 +36,7 @@ class ClientAddressForm(forms.ModelForm):
         fields = "__all__"
 
         widgets = {
-            'cliente': forms.Select(attrs={'class': 'form-control'}),
+            'cliente': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'endereco': forms.TextInput(attrs={'class': 'form-control'}),
             'numero': forms.TextInput(attrs={'class': 'form-control'}),
             'complemento': forms.TextInput(attrs={'class': 'form-control'}),

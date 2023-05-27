@@ -5,8 +5,7 @@ from processo.forms import LawsuitFileForm, LawsuitValuesForm
 
 register = template.Library()
 
-@register.filter('form_instanced')
-def form_instanced(form, model):
-    eval_form_string = f"{form.__class__.__name__}(instance=model)"
-    form_instanced = eval(eval_form_string)
-    return form_instanced
+@register.filter('is_select2')
+def is_select2(field):
+    field_string = str(field)
+    return True if "select2" in field_string else False

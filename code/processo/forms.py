@@ -3,8 +3,8 @@ from django.forms import ModelForm
 from processo.models import ProcessosAnexos, ProcessosHonorarios, Processos
 from django.core.exceptions import ValidationError
 
+
 class LawsuitForm(ModelForm):
-    
     def __init__(self, *args, **kwargs):
         super(LawsuitForm, self).__init__(*args, **kwargs)
         self.fields["finalizado"].required = False
@@ -16,7 +16,6 @@ class LawsuitForm(ModelForm):
             'data-inputmask-inputformat': "dd/mm/yyyy",
             'data-mask': 'data-mask',
             'datepicker': 'datepicker',
-            'id': 'id_start_date',
         }
     ), label='Data de início')
     
@@ -27,7 +26,6 @@ class LawsuitForm(ModelForm):
             'data-inputmask-inputformat': "dd/mm/yyyy",
             'data-mask': 'data-mask',
             'datepicker': 'datepicker',
-            'id': 'id_start_date',
         }
     ), label='Data de Fim')
 
@@ -47,10 +45,6 @@ class LawsuitForm(ModelForm):
             'iniciado',
             'finalizado',
         ]
-
-
-
-
     class Meta:
         model = Processos
         fields = "__all__"
@@ -62,12 +56,12 @@ class LawsuitForm(ModelForm):
                 'class': 'form-control lawsuitcode-mask',
                 'placeholder': 'NNNNNNN-DD.AAAA.J.TR.OOOO'
             }),
-            'advogado_responsavel': forms.Select(attrs={'class': 'form-control select2'}),
-            'parte_adversa': forms.Select(attrs={'class': 'form-control select2'}),
-            'cliente': forms.Select(attrs={'class': 'form-control select2'}),
-            'cliente_de': forms.Select(attrs={'class': 'form-control select2'}),
-            'posicao': forms.Select(attrs={'class': 'form-control select2'}),
-            'colaborador': forms.Select(attrs={'class': 'form-control select2'}),
+            'advogado_responsavel': forms.Select(attrs={'class': 'form-control select2bs4', 'style': 'width: 100%;'}),
+            'parte_adversa': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
+            'cliente': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
+            'cliente_de': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
+            'posicao': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
+            'colaborador': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'estado': forms.TextInput(attrs={'class': 'form-control'}),
             'municipio': forms.TextInput(attrs={'class': 'form-control'}),
             'observacoes': forms.Textarea(attrs={'class': 'form-control'}),
@@ -97,10 +91,8 @@ class LawsuitForm(ModelForm):
     def clean_colaborador(self):
         data = self.cleaned_data['colaborador']
         if self.cleaned_data['colaborador'] == self.cleaned_data['advogado_responsavel']:
-            raise ValidationError("O colaborador não pode ser advogado do caso.")
+            raise ValidationError("O colaborador não pode ser o advogado do caso.")
         return data
-            
-
 
 
 class LawsuitFileForm(ModelForm):
@@ -114,6 +106,7 @@ class LawsuitFileForm(ModelForm):
             'arquivo': forms.FileInput(attrs={'class': 'custom-file'}),
         }
 
+
 class LawsuitValuesForm(ModelForm):
     class Meta:
         model = ProcessosHonorarios
@@ -122,7 +115,7 @@ class LawsuitValuesForm(ModelForm):
 
         widgets = {
             'referente': forms.TextInput(attrs={'class': 'form-control'}),
-            'advogado_responsavel': forms.Select(attrs={'class': 'form-control'}),
+            'advogado_responsavel': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'valor': forms.TextInput(attrs={'class': 'form-control money'}),
 
         }
