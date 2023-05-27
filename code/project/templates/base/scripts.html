@@ -10,14 +10,28 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="{% static 'dist/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
+<!-- Date-picker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
+
 <!-- overlayScrollbars -->
 <script src="{% static 'dist/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
 
+<!-- InputMask -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+
+<!-- Select2 -->
+<script src="{% static 'dist/plugins/select2/js/select2.full.min.js' %}"></script>
+
+
 <script>
     $(document).ready(function(){
         $('.toast').toast('show')
+        $('.lawsuitcode-mask').inputmask('9999999-99.9999.9.99.9999')
         $(".money").inputmask('decimal', {
             'alias': 'numeric',
             'groupSeparator': '.',
@@ -30,7 +44,44 @@
             'unmaskAsNumber': true,
             'removeMaskOnSubmit': true,
     });
+
+    $(".phone").inputmask({"mask": "(99) 99999-9999"});
+
+    $('[data-mask]').inputmask({ placeholder: '__/__/____' })
+
+    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+
+    $('[datepicker]').datepicker ({
+        format:"dd/mm/yyyy",
+        days: days,
+        daysShort: daysShort,
+        months: months,
+        monthsShort: monthsShort,
+        today: "Hoje",
+        suffix: [],
+        meridiem: [],
+        autoHide: true,
+    });
+
+    setTimeout(function(){
+        $('.alert-message').fadeOut('slow');
+    }, 5000);
+
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
     ;})
+
+    $(function () { 
+        $('.select2').select2()
+        
+        $('.select2bs4').select2({
+          theme: 'bootstrap4'
+        })
+    })
+
+
     
 
 </script>

@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block title %}<h1 class="mont-serrat">Processo</h1>{% endblock title %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item">Processo</li>
+{% endblock %}
+{% block content %}
+<div class="container col-md-8">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="mont-serrat" style="font-size: 24px;">Criando novo processo</span>
+            </div>
+        </div>
+        <div class="card-body">
+            {% if lawsuit %}
+                <form action="{% url 'lawsuit:lawsuit_edit' lawsuit.pk %}" method="POST">
+            {% else %}
+                <form action="{% url 'lawsuit:lawsuit_create' %}" method="POST">
+            {% endif %}
+            {% for field in form %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <div>
+                        {{field}}
+                    </div>
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                        {{field.help_text}}
+                    </small>
+                    <div class="text-danger">
+                            {{field.errors }}
+                    </div>
+                </div>
+            {% endfor %}
+                <div>
+                    <button type="submit" class="btn btn-success">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

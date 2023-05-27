@@ -96,9 +96,9 @@
 
     <div class="row" >
         <div class="form-group" >
-            <button type="button" class="btn btn-block btn-primary mont-serrat">
+            <a href="{% url 'lawsuit:lawsuit_edit' lawsuit.pk %}" type="button" class="btn btn-block btn-primary mont-serrat">
                 Editar
-            </button>
+            </a>
         </div>
         <div class="form-group" style="margin-left: 10px">
             <button class="btn btn-block btn-danger mont-serrat" data-toggle="modal" data-target="#lawsuit-delete-modal">

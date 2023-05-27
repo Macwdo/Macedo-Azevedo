@@ -20,7 +20,7 @@ def login(request: HttpRequest):
         if user:
             auth.login(request, user, backend="user.authentication.EmailAuthBackend")
             messages.success(request, f"Logado com sucesso!")
-            return redirect(reverse("lawsuit:list"))
+            return redirect(reverse("lawsuit:lawsuit_list"))
         messages.error(request, "Erro ao realizar login")
         return redirect(reverse("login"))
 
