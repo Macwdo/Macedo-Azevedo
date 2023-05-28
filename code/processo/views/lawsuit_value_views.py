@@ -16,6 +16,7 @@ def lawsuit_value_create(request: HttpRequest, lawsuit_id: int):
     if lawsuit_value_form.is_valid():
         lawsuit_value = lawsuit_value_form.save(commit=False)
         lawsuit_value.processo_id = lawsuit_id
+        lawsuit_value.ganho = True if request.POST.get("ganho") == "on" else False
         lawsuit_value.save()
         messages.success(request, f"Valor de processo criado com sucesso.")
         return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}))

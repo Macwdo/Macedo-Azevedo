@@ -1,4 +1,4 @@
-<div class="modal fade" id="lawsuit-delete-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="lawsuit-delete-modal-{{lawsuit.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" >
@@ -15,9 +15,9 @@
                 {% if lawsuit.profit == 0 %}
                     <span class="text">Lucro: <span class="info-box-number text-center text-muted mb-0">R${{lawsuit.profit}}</span></span><br>
                 {% elif lawsuit.profit > 0 %}
-                    <span class="text">Lucro: <span class="info-box-number text-center text-success mb-0">+R${{lawsuit.profit}}</span></span><br>
+                    <span class="text">Lucro: <span class="info-box-number text-center text-success mb-0">R${{lawsuit.profit}}</span></span><br>
                 {% else %}
-                    <span class="text">Lucro: <span class="info-box-number text-center text-danger mb-0">-R${{lawsuit.profit}}</span></span><br>
+                    <span class="text">Lucro: <span class="info-box-number text-center text-danger mb-0">R${{lawsuit.profit}}</span></span><br>
                 {% endif %}
 
             </div>

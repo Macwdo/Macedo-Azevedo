@@ -1,7 +1,7 @@
 {% include "lawsuit_detail/lawsuit_modals/lawsuit_values_modal.html" %}
 <div class="container-fluid">
     <div class="card">
-        <form action="{% url 'lawsuit:lawsuit_list' %}" method="get">
+        <form action="{% url 'lawsuit:lawsuit_detail' lawsuit.pk %}" method="get">
             <div class="card-header">
                 <div class="input-group">
                     <a data-toggle="modal" data-target="#values-modal" class="btn btn-success btn-sm mont-serrat">
@@ -10,7 +10,7 @@
                     <span>
                         &nbsp  &nbsp
                     </span>
-                    <input type="search" class="form-control form-control-md" name="q" placeholder="Pesquisar processo">
+                    <input type="search" class="form-control form-control-md" name="q_values" placeholder="Pesquisar valores de processo ">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-md btn-default">
                             <i class="fa fa-search"></i>

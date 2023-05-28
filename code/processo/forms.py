@@ -115,7 +115,7 @@ class LawsuitValuesForm(ModelForm):
 
         widgets = {
             'referente': forms.TextInput(attrs={'class': 'form-control'}),
-            'advogado_responsavel': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
+            'advogado_responsavel': forms.Select(attrs={'class': 'form-control', 'style': 'width: 100%;'}),
             'valor': forms.TextInput(attrs={'class': 'form-control money'}),
 
         }

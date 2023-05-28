@@ -1,7 +1,7 @@
 {% include "lawsuit_detail/lawsuit_modals/lawsuit_files_modal.html" %}
 <div class="container-fluid">
     <div class="card">
-        <form action="{% url 'lawsuit:lawsuit_list' %}" method="get">
+        <form action="{% url 'lawsuit:lawsuit_detail' lawsuit.pk %}" method="get">
             <div class="card-header">
                 <div class="input-group">
                     <a class="btn btn-success btn-sm mont-serrat" data-toggle="modal" data-target="#files-modal" >
@@ -10,7 +10,7 @@
                     <span>
                         &nbsp  &nbsp
                     </span>
-                    <input type="search" class="form-control form-control-md" name="q" placeholder="Pesquisar processo">
+                    <input type="search" class="form-control form-control-md" name="q_files" placeholder="Pesquisar processo">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-md btn-default">
                             <i class="fa fa-search"></i>
@@ -26,6 +26,8 @@
                         <th>Nome do Anexo</th>
                         <th>Arquivo</th>
                         <th>Criado</th>
+                        <th>Editar</th>
+                        <th>Apagar</th>
                     </tr>
                 </thead>
                 <tbody>
