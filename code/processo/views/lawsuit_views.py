@@ -94,7 +94,12 @@ def lawsuit_detail(request: HttpRequest, lawsuit_id: int):
     lawsuit_files_form = LawsuitFileForm()
     
     q_values = request.GET.get("q_values", None)
+    q_values = q_values.strip() if q_values else None
+    
     q_files = request.GET.get("q_files", None)
+    q_files = q_files.strip() if q_files else None
+
+    print(q_files)
     
     if q_values:
         lawsuit_values = lawsuit_values.filter(

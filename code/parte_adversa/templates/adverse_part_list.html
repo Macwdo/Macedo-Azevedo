@@ -3,11 +3,6 @@
 {% block title %}
 <h1 class="mont-serrat">
     Parte Adversa
-    <div class="float-right">
-        <a href="{% url 'adverse_part:adverse_part_create' %}" class="btn-lg btn-success">
-            Criar Parte Adversa
-        </a>
-    </div>
 </h1>
 {% endblock title %}
 {% block breadcrumb %}
@@ -15,20 +10,25 @@
     <li class="breadcrumb-item active">Clientes</li>
 {% endblock %}
 {% block content %}
-
 <div class="card card-solid">
-    <form action="{% url 'adverse_part:adverse_part_list' %}" method="get">
-        <div class="card-header">
+    <div class="card-header">
+        <form action="{% url 'adverse_part:adverse_part_create' %}" method="get">
             <div class="input-group">
-                <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar Parte Adversa">
+                <a href="{% url 'adverse_part:adverse_part_create' %}" class="btn-lg btn-success">
+                    Criar Parte Adversa
+                </a>
+                <span>
+                    &nbsp  &nbsp
+                </span>
+                <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar parte adversa">
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-lg btn-default">
                         <i class="fa fa-search"></i>
                     </button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     <div class="card-body pb-0">
         <div class="row">
             {% for adverse_part in page.object_list %}

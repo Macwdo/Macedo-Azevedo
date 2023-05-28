@@ -3,11 +3,6 @@
 {% block title %}
 <h1 class="mont-serrat">
     Clientes
-    <div class="float-right">
-        <a href="{% url 'client:client_create' %}" class="btn-lg btn-success">
-            Criar cliente
-        </a>
-    </div>
 </h1>
 {% endblock title %}
 {% block breadcrumb %}
@@ -17,9 +12,15 @@
 {% block content %}
 
 <div class="card card-solid">
-    <form action="{% url 'client:client_list' %}" method="get">
-        <div class="card-header">
+    <div class="card-header">
+        <form action="{% url 'client:client_create' %}" method="get">
             <div class="input-group">
+                <a href="{% url 'client:client_create' %}" class="btn-lg btn-success">
+                    Criar Cliente
+                </a>
+                <span>
+                    &nbsp  &nbsp
+                </span>
                 <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar cliente">
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-lg btn-default">
@@ -27,8 +28,8 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     <div class="card-body pb-0">
         <div class="row">
             {% for client in page.object_list %}

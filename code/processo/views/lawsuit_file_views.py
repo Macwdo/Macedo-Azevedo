@@ -33,7 +33,7 @@ def lawsuit_file_edit(request: HttpRequest, lawsuit_id: int, lawsuit_file_id: in
         lawsuit_file = lawsuit_file_form.save(commit=False)
         lawsuit_file.processo_id = lawsuit_id
         lawsuit_file.save()
-        messages.success(request, f"O Valor de processo de Arquivo {lawsuit_file} foi editado com sucesso.")
+        messages.success(request, f"O Arquivo de processo {lawsuit_file} foi editado com sucesso.")
         return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}))
     else:
         messages.error(request, "Erro na edição do Arquivo de processo")
@@ -45,7 +45,7 @@ def lawsuit_file_edit(request: HttpRequest, lawsuit_id: int, lawsuit_file_id: in
 def lawsuit_file_delete(request: HttpRequest, lawsuit_id: int, lawsuit_file_id: int):
     lawsuit = get_object_or_404(ProcessosAnexos, pk=lawsuit_file_id)
     try:
-        messages.success(request, f"Valor de processo deletado com sucesso")
+        messages.success(request, f"Arquivo de processo deletado com sucesso")
         lawsuit.delete()
     except:
         messages.error(request, f"Não foi possível deletar o Arquivo processo {lawsuit}")
