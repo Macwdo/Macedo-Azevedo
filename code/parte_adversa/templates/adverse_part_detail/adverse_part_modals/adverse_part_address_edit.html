@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
               <form class="form-group" method="POST" action="{% url 'adverse_part:adverse_part_address_edit' adverse_part.pk address.pk %}">
-                {% for field in adverse_part_address_form|form_instanced_adverse_part:address %}
+                {% for field in adverse_part_address_form|form_instanced:address %}
                 {% if field.label != "Parte adv" %}
                     {% csrf_token %}
                     <div class="form-group">

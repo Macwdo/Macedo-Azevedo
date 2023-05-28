@@ -1,6 +1,7 @@
 <div class="modal fade" id="files-modal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="POST">
+        <form enctype='multipart/form-data' method="POST" action="{% url 'lawsuit:lawsuit_file_create' lawsuit.pk %}">
+            {% csrf_token %}
             <div class="modal-content">
                 <div class="modal-header" >
                     <h4 class="modal-title" >

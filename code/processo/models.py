@@ -21,13 +21,13 @@ class Processos(models.Model):
     cliente_de = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="client_of")
     posicao = models.CharField(choices=posicao_choice, max_length=5)
     colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborator_lawyer")
-    observacoes = models.CharField(max_length=255, default="Sem observações", null=True, blank=True)
-    estado = models.TextField()
-    municipio = models.TextField()
-    assunto = models.CharField(max_length=255)
+    assunto = models.CharField(max_length=255, null=True, blank=True)
+    estado = models.CharField(max_length=255)
+    municipio = models.CharField(max_length=255)
     vara = models.CharField(max_length=50)
-    iniciado = models.DateTimeField(auto_now_add=True)
-    finalizado = models.DateTimeField(auto_now_add=False, blank=True, null=True)
+    observacoes = models.TextField()
+    iniciado = models.DateTimeField()
+    finalizado = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -110,7 +110,7 @@ class ProcessosHonorarios(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return f"{self.processo} {self.valor}"
+        return f"{'+' if self.ganho else '-' }R${self.valor}"
 
 
 class ProcessosAnexos(models.Model):

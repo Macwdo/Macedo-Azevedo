@@ -13,11 +13,7 @@
             </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-          
-          <form action="" method="post">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-primary">Apagar</button>
-          </form>
+          <a href="{% url 'lawsuit:lawsuit_file_delete' lawsuit.pk lawsuit_file.pk %}"  class="btn btn-primary">Apagar</a>
         </div>
       </div>
     </div>

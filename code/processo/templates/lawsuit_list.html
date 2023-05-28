@@ -1,70 +1,72 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block title %}<h1 class="mont-serrat">Processos</h1>{% endblock title %}
+{% block title %}<h1 class="mont-serrat">Processos</h1>{% endblock %}
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="/">Home</a></li>
 <li class="breadcrumb-item active">
-    <h1 class="mont-serrat">
-        Clientes
-        <div class="float-right">
-            <a href="{% url 'client:client_create' %}" class="btn-lg btn-success">
-                Criar Processo
-            </a>
-        </div>
-    </h1>    
+    <a>Processo</a>  
 </li>
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
     <div class="card">
-        <form action="{% url 'lawsuit:list' %}" method="get">
-            <div class="card-header">
+        <div class="card-header">
+            <form action="{% url 'lawsuit:lawsuit_list' %}" method="get">
                 <div class="input-group">
-                    <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar processos">
+                    <a href="{% url 'lawsuit:lawsuit_create' %}" class="btn-lg btn-success">
+                        Criar Processo
+                    </a>
+                    <span>
+                        &nbsp  &nbsp
+                    </span>
+                    <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar processo">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-lg btn-default">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
         <div class="card-body p-0">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Advogados</th>
+                        <th>Advogado</th>
                         <th></th>
                         <th>Codigo do Processo</th>
                         <th>Cliente</th>
                         <th>Parte Adversa</th>
                         <th>Iniciado</th>
                         <th>Finalizado</th>
-                        
+                        <th>Apagar</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for lawsuit in page.object_list %}
                     <tr>
-                        
                         <td style="width: 2px;">
                             {% if lawsuit.advogado_responsavel.image %}
-                            <img src="{{ lawsuit.advogado_responsavel.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
-                                {% if lawsuit.colaborador %}
-                                    <img src="{{ lawsuit.colaborador.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
-                                {% endif %}
+                                <img src="{{ lawsuit.advogado_responsavel.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
+                            {% else %}
+                                <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
+                            {% endif %}
+
+                            {% if lawsuit.colaborador.image %}
+                                <img src="{{ lawsuit.colaborador.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
                             {% else %}
                                 <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
                             {% endif %}
                         </td>
                         <td>{{lawsuit.advogado_responsavel}} </td>
-                        <td><a href="{% url 'lawsuit:detail' lawsuit.pk %}">{{ lawsuit.codigo_processo }}</a></td>
+                        <td><a href="{% url 'lawsuit:lawsuit_detail' lawsuit.pk %}">{{ lawsuit.codigo_processo }}</a></td>
                         <td>{{ lawsuit.cliente }}</td>
                         <td>{{ lawsuit.parte_adversa }}</td>
                         <td>{{ lawsuit.iniciado }}</td>
                         <td>{%if lawsuit.finalizado%} {{ lawsuit.finalizado }} {% else %} Em andamento {%endif%} </td>
-                        <td><a href="{% url 'lawsuit:detail' lawsuit.pk %}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
-                    <tr>
+                        <td><a href="" data-toggle="modal" data-target="#lawsuit-delete-modal-{{lawsuit.pk}}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
+                        {% include "lawsuit_detail/lawsuit_modals/lawsuit_delete.html" %}
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>

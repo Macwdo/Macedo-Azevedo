@@ -1,6 +1,7 @@
 <div class="modal fade" id="values-edit-modal-{{lawsuit_value.pk}}" style="display: none;" aria-hidden="true">
     <div class="modal-dialog">
-        <form method="POST">
+        <form method="POST" action="{% url 'lawsuit:lawsuit_value_edit' lawsuit.pk lawsuit_value.pk %}">
+            {% csrf_token %}
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
@@ -29,22 +30,22 @@
                     {% if lawsuit_value.ganho %}
                     <div class="form-group form-inline">
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input checked type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-1" name="customRadioInline" class="custom-control-input">
+                            <input value="on" checked type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-1" name="ganho" class="custom-control-input">
                             <label class="custom-control-label" for="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-1">Ganho</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-2" name="customRadioInline" class="custom-control-input">
+                            <input value="off" type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-2" name="ganho"  class="custom-control-input">
                             <label class="custom-control-label" for="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-2">Custo</label>
                           </div>
                     </div>
                     {% else %}
                     <div class="form-group form-inline">
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-1" name="customRadioInline" class="custom-control-input">
+                            <input value="on" type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-1" name="ganho" class="custom-control-input">
                             <label class="custom-control-label" for="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-1">Ganho</label>
                           </div>
                           <div class="custom-control custom-radio custom-control-inline">
-                            <input checked type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-2" name="customRadioInline" class="custom-control-input">
+                            <input value="off" checked type="radio" id="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-2" name="ganho" class="custom-control-input">
                             <label class="custom-control-label" for="lawsuit-gain-radio-edit-{{lawsuit_value.pk}}-2">Custo</label>
                           </div>
                     </div>

@@ -1,19 +1,24 @@
 {% include "lawsuit_detail/lawsuit_modals/lawsuit_files_modal.html" %}
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header">
-            <h2 class="card-title mont-serrat"> Arquivos do Processo</h2>
-            <div class="card-tools">
-                <div class="input-group input-group-sm">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Pesquisar">
+        <form action="{% url 'lawsuit:lawsuit_detail' lawsuit.pk %}" method="get">
+            <div class="card-header">
+                <div class="input-group">
+                    <a class="btn btn-success btn-sm mont-serrat" data-toggle="modal" data-target="#files-modal" >
+                        Novo Arquivo
+                    </a>
+                    <span>
+                        &nbsp  &nbsp
+                    </span>
+                    <input type="search" class="form-control form-control-md" name="q_files" placeholder="Pesquisar processo">
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-default">
-                            <i class="fas fa-search"></i>
+                        <button type="submit" class="btn btn-md btn-default">
+                            <i class="fa fa-search"></i>
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
         <div class="card-body p-0">
             <table class="table">
                 <thead>
@@ -21,6 +26,8 @@
                         <th>Nome do Anexo</th>
                         <th>Arquivo</th>
                         <th>Criado</th>
+                        <th>Editar</th>
+                        <th>Apagar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,19 +44,6 @@
                         {% endfor %}
                 </tbody>
             </table>
-            <div class="card-footer clearfix">
-                <button class="btn btn-success btn-sm mont-serrat" data-toggle="modal" data-target="#files-modal" >
-                    Novo Arquivo
-                </button>
-                
-                <ul class="pagination pagination-sm m-0 float-right">
-                <li class="page-item"><a class="page-link" href="#">«</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">»</a></li>
-                </ul>
-            </div>
         </div>
     </div>
 </div>
