@@ -84,4 +84,4 @@ jobs:
         run: ssh prod "docker run --env-file ./.env -p 80:8000 -d macwdo/macedoazevedoapp:latest"
 
       - name: Collect static
-        run: ssh prod "docker exec -it macedoazevedoapp sh -c 'python manage.py collectstatic'"
+        run: ssh prod "docker exec -it $(docker ps -q) sh -c 'python manage.py collectstatic'"
