@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  ci:
+  build_ci:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
