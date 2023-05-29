@@ -11,7 +11,7 @@ class AdversePartForm(forms.ModelForm):
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
-            'cpf_cnpj': forms.TextInput(attrs={'class': 'form-control'}),
+            'cpf_cnpj': forms.TextInput(attrs={'class': 'form-control type_select'}),
             'estado_civil': forms.TextInput(attrs={'class': 'form-control'}),
             'profissao': forms.TextInput(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'custom-file'}),
@@ -26,7 +26,7 @@ class AdversePartContactForm(forms.ModelForm):
         widgets = {
             'parte_adv': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero': forms.TextInput(attrs={'class': 'form-control phone'}),
         }
 
 
@@ -40,5 +40,5 @@ class AdversePartAddressForm(forms.ModelForm):
             'endereco': forms.TextInput(attrs={'class': 'form-control'}),
             'numero': forms.TextInput(attrs={'class': 'form-control'}),
             'complemento': forms.TextInput(attrs={'class': 'form-control'}),
-            'cep': forms.TextInput(attrs={'class': 'form-control'}),
+            'cep': forms.TextInput(attrs={'class': 'form-control cep'}),
         }
