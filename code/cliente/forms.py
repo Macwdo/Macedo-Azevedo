@@ -26,7 +26,7 @@ class ClientContactForm(forms.ModelForm):
         widgets = {
             'cliente': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero': forms.TextInput(attrs={'class': 'form-control phone'}),
         }
 
 
@@ -40,5 +40,5 @@ class ClientAddressForm(forms.ModelForm):
             'endereco': forms.TextInput(attrs={'class': 'form-control'}),
             'numero': forms.TextInput(attrs={'class': 'form-control'}),
             'complemento': forms.TextInput(attrs={'class': 'form-control'}),
-            'cep': forms.TextInput(attrs={'class': 'form-control'}),
+            'cep': forms.TextInput(attrs={'class': 'form-control cep'}),
         }
