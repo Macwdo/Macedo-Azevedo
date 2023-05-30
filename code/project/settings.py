@@ -36,14 +36,12 @@ INSTALLED_APPS = [
     'easyaudit',
     'drf_yasg',
     'storages',
+    'django_celery_beat',
 
     'processo',
-    'cliente',
+    'registry',
     'advogado',
-    'django_celery_beat',
     'user',
-    'parte_adversa'
-
 
 ]
 

@@ -1,6 +1,5 @@
 from django import template
-from cliente.forms import ClientAddressForm, ClientContactForm, ClientForm
-from parte_adversa.forms import AdversePartAddressForm, AdversePartContactForm, AdversePartForm
+from registry.forms import RegistryAddressForm, RegistryContactForm, RegistryForm
 from processo.forms import LawsuitFileForm, LawsuitValuesForm
 
 register = template.Library()

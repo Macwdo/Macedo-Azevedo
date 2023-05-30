@@ -1,0 +1,77 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+<h1 class="mont-serrat">
+    Clientes
+</h1>
+{% endblock title %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active">Clientes</li>
+{% endblock %}
+{% block content %}
+
+<div class="card card-solid">
+    <div class="card-header">
+        <form action="{% url 'registry:registry_list' %}" method="get">
+            <div class="input-group">
+                <a href="{% url 'registry:registry_create' %}" class="btn-lg btn-success">
+                    Criar Cliente
+                </a>
+                <span>
+                    &nbsp  &nbsp
+                </span>
+                <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar registro">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-lg btn-default">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-body pb-0">
+        <div class="row">
+            {% for registry in page.object_list %}
+                <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                    <div class="card bg-white d-flex flex-fill">
+                        <div class="card-header bg-light">
+                            <div class="card-title">
+                                <span>{{registry.name}}</span>
+                            </div>
+                            <span class="float-right btn-sm bg-green rounded-pill" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"><i class="fas fa-user"></i> Cliente</span>
+                        </div>
+                        <a href="{% url 'registry:registry_detail' registry.pk %}">
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col-7">
+                                    <span class="text-muted "><b>Profissão </b> {{registry.profession}} </span><br>
+                                    <span class="text-muted "><b>Estado Civil </b> {{registry.civil_state}} </span><br>
+                                    {% if registry.cpf %}<span class="text-muted "><b>CPF</b> {{registry.cpf}}</span><br>{% endif %}
+                                    {% if registry.cnpj %}<span class="text-muted "><b>CNPJ</b> {{registry.cnpj}}</span><br>{% endif %}
+                                </div>
+                                <div class="col-5 text-center">
+                                    {% if registry.image %}
+                                        <img src="{{ registry.image.url }}" alt="user-avatar" style="width: 100px; height: 100px; margin-top: 10px;" class="img-circle img-fluid">
+                                    {% else %}
+                                        <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 100px; height: 100px; margin-top: 10px;" class="img-circle img-fluid">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            </a>
+                        </div>
+                        <div class="card-footer">
+                            <span class="text-muted "><b>Registrado</b> {{registry.created_at}} </span><br>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+
+        </div>
+    </div>
+    
+    <div class="card-footer">
+        {% include "base/pagination.html" %}
+    </div>
+</div>
+{% endblock %}

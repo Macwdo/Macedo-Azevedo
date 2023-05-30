@@ -40,30 +40,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link sidebar-text">
+                    <a href="{% url 'registry:registry_list' %}" class="nav-link">
                         <p>
-                            <i class="fas fa-users" style="color: #ffffff;"></i>
-                            &nbsp Registros
+                            <i class="fas fa-user" style="color: #ffffff;"></i>
+                            &nbsp Cliente
                         </p>
                     </a>
-                        <ul class="nav nav-treeview" style="display: none; margin-left:20px">
-                            <li class="nav-item sidebar-text">
-                                <a href="{% url 'client:client_list' %}" class="nav-link">
-                                    <p>
-                                        <i class="fas fa-user" style="color: #ffffff;"></i>
-                                        &nbsp Cliente
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item sidebar-text">
-                                <a href="{% url 'adverse_part:adverse_part_list' %}" class="nav-link">
-                                    <p>
-                                        <i class="fas fa-user-slash" style="color: #ffffff;"></i>
-                                        &nbsp Parte Adversa
-                                    </p>
-                                </a>
-                            </li>
-                        </ul>
                 </li>
         </ul>
         

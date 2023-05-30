@@ -1,8 +1,7 @@
 from advogado.models import Advogado
-from cliente.models import Cliente
 from django.db import models
 from datetime import datetime
-from parte_adversa.models import AdversePart
+from registry.models import Registry
 
 
 class ProcessosAssuntos(models.Model):
@@ -16,8 +15,8 @@ class Processos(models.Model):
     ]
     codigo_processo = models.CharField(max_length=25, null=False, blank=False)
     advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="lawyer")
-    parte_adversa = models.ForeignKey(AdversePart, on_delete=models.SET_NULL, null=True, blank=False, related_name="adverse_part")
-    cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=False, related_name="client")
+    parte_adversa = models.ForeignKey(Registry, on_delete=models.SET_NULL, null=True, blank=False, related_name="adverse_part")
+    cliente = models.ForeignKey(Registry, on_delete=models.SET_NULL, null=True, blank=False, related_name="client")
     cliente_de = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="client_of")
     posicao = models.CharField(choices=posicao_choice, max_length=5)
     colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborator_lawyer")
