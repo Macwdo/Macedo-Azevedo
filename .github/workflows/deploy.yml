@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  ci:
+  build_ci:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -45,6 +45,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     name: "Deploy to prod"
 
     steps:
@@ -80,4 +81,7 @@ jobs:
         run: ssh prod "docker pull macwdo/macedoazevedoapp:latest"
 
       - name: Up app
-        run: ssh prod "docker run --env-file ./.env -p 80:8000 -d macwdo/macedoazevedoapp:latest"
+        run: ssh prod "docker run --name macedoazevedoapp --env-file ./.env -p 80:8000 -d macwdo/macedoazevedoapp:latest"
+
+      - name: Collect static
+        run: ssh prod "docker exec -i macedoazevedoapp sh -c 'python manage.py collectstatic --noinput --clear'"
