@@ -27,6 +27,7 @@ class Processos(models.Model):
     observacoes = models.TextField()
     iniciado = models.DateTimeField()
     finalizado = models.DateTimeField(blank=True, null=True)
+    indicado_por = models.ForeignKey(Registry, on_delete=models.SET_NULL, null=True, blank=True, related_name="indicated_by")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
