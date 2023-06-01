@@ -4,6 +4,7 @@ from pathlib import Path
 import boto3
 from dotenv import load_dotenv
 import sentry_sdk
+from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 from json import loads
 
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'easyaudit.middleware.easyaudit.EasyAuditMiddleware',
+    'django.middleware.locale.LocaleMiddleware'
 
 ]
 
@@ -129,13 +131,22 @@ TRACKED = ["8.19"]
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'pt-br'
+LANGUAGE_CODE = 'pt-BR'
+LANGUAGES = [
+    ('pt-BR', _('Brazil')),
+]
+
+DATE_FORMAT = "Y-m-d"
+DATE_INPUT_FORMATS = ['%Y-%m-%d', '%d/%m/%Y']
 
 TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
+
 
 # Rest Framework
 

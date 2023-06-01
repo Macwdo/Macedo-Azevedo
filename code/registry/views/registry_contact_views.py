@@ -14,9 +14,9 @@ def registry_contact_create(request: HttpRequest, registry_id: int):
     registry_contact_form = RegistryContactForm(request.POST)
     if registry_contact_form.is_valid():
         registry_contact_form.save()
-        messages.success(request, "Contato de registry criado com sucesso")
+        messages.success(request, "Contato de registro criado com sucesso")
     else:
-        messages.error(request, "Não foi possível realizar a criação do contato de registry")
+        messages.error(request, "Não foi possível realizar a criação do contato de registro")
     return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
 
 @login_required()
@@ -37,9 +37,9 @@ def registry_contact_delete(request: HttpRequest, registry_id: int, contact_id: 
     registry_contact = get_object_or_404(RegistryContact, pk=contact_id)
     try:
         registry_contact.delete()
-        messages.success(request, "Contato de registry apagado com sucesso")
+        messages.success(request, "Contato de registro apagado com sucesso")
     except:
-        messages.error(request, f"Não foi possível apagar o contato do registry {registry_contact}")
+        messages.error(request, f"Não foi possível apagar o contato do registro {registry_contact}")
 
     return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
 

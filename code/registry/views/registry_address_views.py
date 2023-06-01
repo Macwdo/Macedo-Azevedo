@@ -14,9 +14,9 @@ def registry_address_create(request: HttpRequest, registry_id: int):
     registry_address_form = RegistryAddressForm(request.POST)
     if registry_address_form.is_valid():
         registry_address_form.save()
-        messages.success(request, "Endereço de registry criado com sucesso")
+        messages.success(request, "Endereço de registro criado com sucesso")
     else:
-        messages.error(request, "Não foi possível realizar a criação de endereço de registry")
+        messages.error(request, "Não foi possível realizar a criação de endereço de registro")
     return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
 
 @login_required()
@@ -37,9 +37,9 @@ def registry_address_delete(request: HttpRequest, registry_id: int, address_id: 
     registry_address = get_object_or_404(RegistryAddress, pk=address_id)
     try:
         registry_address.delete()
-        messages.success(request, "Endereço de registry apagado com sucesso")
+        messages.success(request, "Endereço de registro apagado com sucesso")
     except:
-        messages.error(request, f"Não foi possível apagar o endereço do registry {registry_address}")
+        messages.error(request, f"Não foi possível apagar o endereço de registro {registry_address}")
     return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
 
 

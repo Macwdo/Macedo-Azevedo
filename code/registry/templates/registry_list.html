@@ -37,18 +37,23 @@
                     <div class="card bg-white d-flex flex-fill">
                         <div class="card-header bg-light">
                             <div class="card-title">
-                                <span>{{registry.name}}</span>
+                                <span><b>Cliente</b>
+                                    {{registry.name}}
+                                </span> 
                             </div>
-                            <span class="float-right btn-sm bg-green rounded-pill" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"><i class="fas fa-user"></i> Cliente</span>
+                            <span class="float-right text-success" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                                Cliente
+                                <i class="fas fa-user"></i>
+                                </span>
                         </div>
                         <a href="{% url 'registry:registry_detail' registry.pk %}">
                         <div class="card-body pt-0">
                             <div class="row">
-                                <div class="col-7">
-                                    <span class="text-muted "><b>Profissão </b> {{registry.profession}} </span><br>
-                                    <span class="text-muted "><b>Estado Civil </b> {{registry.civil_state}} </span><br>
-                                    {% if registry.cpf %}<span class="text-muted "><b>CPF</b> {{registry.cpf}}</span><br>{% endif %}
-                                    {% if registry.cnpj %}<span class="text-muted "><b>CNPJ</b> {{registry.cnpj}}</span><br>{% endif %}
+                                <div class="col-7 mt-2">
+                                    <span class="text-dark"><b>Profissão </b> {{registry.profession}} </span><br>
+                                    <span class="text-dark"><b>Estado Civil </b> {{registry.civil_state}} </span><br>
+                                    {% if registry.cpf %}<span class="text-dark"><b>CPF</b> {{registry.cpf}}</span><br>{% endif %}
+                                    {% if registry.cnpj %}<span class="text-dark"><b>CNPJ</b> {{registry.cnpj}}</span><br>{% endif %}
                                 </div>
                                 <div class="col-5 text-center">
                                     {% if registry.image %}
@@ -58,13 +63,13 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            </a>
                         </div>
                         <div class="card-footer">
                             <span class="text-muted "><b>Registrado</b> {{registry.created_at}} </span><br>
                         </div>
                     </div>
                 </div>
+            </a>
         {% endfor %}
 
         </div>

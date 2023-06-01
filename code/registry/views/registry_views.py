@@ -100,7 +100,7 @@ def registry_edit(request: HttpRequest, registry_id: int):
         registry.save()
         messages.success(request, f"Registry {registry.name} editado com sucesso")
     else:
-        messages.error(request, f"Não foi possível realizar a edição do registry {registry.name}")
+        messages.error(request, f"Não foi possível realizar a edição do registro {registry.name}")
     return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
 
 @login_required
@@ -111,7 +111,7 @@ def registry_delete(request: HttpRequest, registry_id: int):
         registry.delete()
         messages.success(request, f"Registry {registry.name} foi excluído com sucesso")
     except:
-        messages.error(request, f"Não foi possível apagar o registro do registry {registry}")
+        messages.error(request, f"Não foi possível apagar o registro do {registry}")
     return redirect(reverse("registry:registry_list"))
 
 
