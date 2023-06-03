@@ -1,20 +1,20 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block title %}<h1 class="mont-serrat">Processos</h1>{% endblock %}
+{% block title %}<h1 class="mont-serrat">Advogado</h1>{% endblock %}
 {% block breadcrumb %}
 <li class="breadcrumb-item"><a href="/">Home</a></li>
 <li class="breadcrumb-item active">
-    <a>Processo</a>  
+    <a>Advogado</a>  
 </li>
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <form action="{% url 'lawsuit:lawsuit_list' %}" method="get">
+            <form action="{% url 'lawyer:lawyer_list' %}" method="get">
                 <div class="input-group">
-                    <a href="{% url 'lawsuit:lawsuit_create' %}" class="btn-lg btn-success">
-                        Registrar Processo
+                    <a href="{% url 'lawyer:lawyer_create' %}" class="btn-lg btn-success">
+                        Registrar Advogado
                     </a>
                     <span>
                         &nbsp  &nbsp
@@ -34,7 +34,7 @@
                     <tr>
                         <th>Advogado</th>
                         <th></th>
-                        <th>Codigo do Processo</th>
+                        <th>Codigo do Advogado</th>
                         <th>Cliente</th>
                         <th>Parte Adversa</th>
                         <th>Iniciado</th>
@@ -43,31 +43,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for lawsuit in page.object_list %}
+                    {% for lawyer in page.object_list %}
                     <tr>
                         <td style="width: 2px;">
-                            {% if lawsuit.advogado_responsavel.image %}
-                                <img src="{{ lawsuit.advogado_responsavel.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
+                            {% if lawyer.advogado_responsavel.image %}
+                                <img src="{{ lawyer.advogado_responsavel.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
                             {% else %}
                                 <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
                             {% endif %}
 
-                            {% if lawsuit.colaborador %}
-                            {% if lawsuit.colaborador.image %}
-                                <img src="{{ lawsuit.colaborador.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
+                            {% if lawyer.colaborador %}
+                            {% if lawyer.colaborador.image %}
+                                <img src="{{ lawyer.colaborador.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
                             {% else %}
                                 <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
                             {% endif %}
                             {% endif %}
                         </td>
-                        <td>{{lawsuit.advogado_responsavel}} </td>
-                        <td><a href="{% url 'lawsuit:lawsuit_detail' lawsuit.pk %}">{{ lawsuit.codigo_processo }}</a></td>
-                        <td>{{ lawsuit.cliente }}</td>
-                        <td>{{ lawsuit.parte_adversa }}</td>
-                        <td>{{ lawsuit.iniciado }}</td>
-                        <td>{%if lawsuit.finalizado%} {{ lawsuit.finalizado }} {% else %} Em andamento {%endif%} </td>
-                        <td><a href="" data-toggle="modal" data-target="#lawsuit-delete-modal-{{lawsuit.pk}}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
-                        {% include "lawsuit_detail/lawsuit_modals/lawsuit_delete.html" %}
+                        <td>{{lawyer.advogado_responsavel}} </td>
+                        <td><a href="{% url 'lawyer:lawyer_detail' lawyer.pk %}">{{ lawyer.codigo_processo }}</a></td>
+                        <td>{{ lawyer.cliente }}</td>
+                        <td>{{ lawyer.parte_adversa }}</td>
+                        <td>{{ lawyer.iniciado }}</td>
+                        <td>{%if lawyer.finalizado%} {{ lawyer.finalizado }} {% else %} Em andamento {%endif%} </td>
+                        <td><a href="" data-toggle="modal" data-target="#lawyer-delete-modal-{{lawyer.pk}}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
+                        {% include "lawyer_detail/lawyer_modals/lawyer_delete.html" %}
                     </tr>
                     {% endfor %}
                 </tbody>

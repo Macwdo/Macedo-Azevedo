@@ -2,12 +2,12 @@
 {% load static %}
 {% block title %}
 <h1 class="mont-serrat">
-    Clientes
+    Registros
 </h1>
 {% endblock title %}
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="/">Home</a></li>
-    <li class="breadcrumb-item active">Clientes</li>
+    <li class="breadcrumb-item active">Registros</li>
 {% endblock %}
 {% block content %}
 
@@ -16,7 +16,7 @@
         <form action="{% url 'registry:registry_list' %}" method="get">
             <div class="input-group">
                 <a href="{% url 'registry:registry_create' %}" class="btn-lg btn-success">
-                    Criar Registro
+                    Criando Registro
                 </a>
                 <span>
                     &nbsp  &nbsp

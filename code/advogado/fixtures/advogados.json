@@ -3,7 +3,7 @@
         "model": "advogado.advogado",
         "pk": 0,
         "fields":{
-            "nome": "Sandra Cristina",
+            "name": "Sandra Cristina",
             "email": "sandrama@adv.com",
             "oab": "RJ126128"
         }
@@ -12,7 +12,7 @@
         "model": "advogado.advogado",
         "pk": 1,
         "fields":{
-            "nome": "Silvia Regina",
+            "name": "Silvia Regina",
             "email": "silviaregina@adv.com",
             "oab": "RJ064135"
         }
@@ -21,7 +21,7 @@
         "model": "advogado.advogado",
         "pk": 2,
         "fields":{
-            "nome": "Daniel Macedo",
+            "name": "Daniel Macedo",
             "email": "danielmacedo@adv.com",
             "oab": "RJ221153E"
         }
@@ -30,7 +30,7 @@
         "model": "advogado.advogado",
         "pk": 3,
         "fields": {
-            "nome": "Rafael Azevedo",
+            "name": "Rafael Azevedo",
             "email": "rafaelazevedo@adv.com",
             "oab": "RJ243193"
         }

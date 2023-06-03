@@ -1,0 +1,23 @@
+<div class="modal fade" id="files-modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <form enctype='multipart/form-data' method="POST" action="{% url 'lawsuit:lawsuit_file_create' lawsuit.pk %}">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header" >
+                    <h4 class="modal-title" >
+                        Arquivos do processo
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        {{ lawsuit_files_form }}
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn btn-primary">Enviar</button>
+                    <a class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

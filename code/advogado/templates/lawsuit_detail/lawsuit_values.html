@@ -1,0 +1,51 @@
+{% include "lawsuit_detail/lawsuit_modals/lawsuit_values_modal.html" %}
+<div class="container-fluid">
+    <div class="card">
+        <form action="{% url 'lawsuit:lawsuit_detail' lawsuit.pk %}" method="get">
+            <div class="card-header">
+                <div class="input-group">
+                    <a data-toggle="modal" data-target="#values-modal" class="btn btn-success btn-sm mont-serrat">
+                        Novo valor
+                    </a>
+                    <span>
+                        &nbsp  &nbsp
+                    </span>
+                    <input value="{{ request.GET.q_values }}" required type="search" class="form-control form-control-md" name="q_values" placeholder="Pesquisar valores de processo ">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-md btn-default">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card-body table-responsive p-0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Referente</th>
+                        <th>Advogado</th>
+                        <th>Valor</th>
+                        <th>Criado</th>
+                        <th>Editar</th>
+                        <th>Apagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lawsuit_value in lawsuit_values %}
+                    <tr>
+                        <td>{{ lawsuit_value.referente }}</td>
+                        <td>{{ lawsuit_value.advogado_responsavel }}</td>
+                        <td>{% if lawsuit_value.ganho %}<span class="text-success">+R${{ lawsuit_value.valor }}</span>{% else %} <span class="text-danger">-R${{ lawsuit_value.valor }}</span>  {% endif %}</td>
+                        <td>{{ lawsuit_value.created_at }}</td>
+                        <td><a href="" data-toggle="modal" data-target="#values-edit-modal-{{lawsuit_value.pk}}"><i class="fas fa-edit" style="color: #89a2cd;"></i></a></td>
+                        <td><a href="" data-toggle="modal" data-target="#value-delete-modal-{{lawsuit_value.pk}}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
+                    <tr>
+                    {% include "lawsuit_detail/lawsuit_modals/lawsuit_values_edit.html" %}
+                    {% include "lawsuit_detail/lawsuit_modals/lawsuit_values_delete.html" %}
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

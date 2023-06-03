@@ -1,0 +1,32 @@
+<div class="modal fade" id="value-delete-modal-{{lawsuit_value.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header " >
+                <h1 class="modal-title mont-serrat" >
+                    Você está prestes a apagar um valor do processo
+                </h1>
+            </div>
+            <div class="modal-body">
+                <span class="text">Referente: {{ lawsuit_value.referente  }}</span><br>
+                <span class="text">Processo referente: {{ lawsuit_value.processo }} </span><br>
+                <span class="text">Advogado: {{ lawsuit_value.advogado_responsavel }}</span><br>
+                <span class="text">Valor: 
+                    {% if lawsuit_value.ganho %}
+                        <span class="text-success">
+                            +R${{ lawsuit_value.valor }}
+                        </span>
+                    {% else %}
+                        <span class="text-danger">
+                            -R${{ lawsuit_value.valor }}
+                        </span>
+                    {% endif %}
+                </span><br>
+                <span class="text">Criado: {{lawsuit_value.created_at}} </span>
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <a href="{% url 'lawsuit:lawsuit_value_delete' lawsuit.pk lawsuit_value.pk %}"  class="btn btn-primary">Apagar</a>
+        </div>
+      </div>
+    </div>
+  </div>

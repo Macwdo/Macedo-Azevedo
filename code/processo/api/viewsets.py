@@ -32,7 +32,7 @@ class ProcessosViewSet(ModelViewSet):
 
     def get_queryset(self):
         q = self.request.query_params.get("q", None)
-        laywer = self.request.query_params.get("advogado", None)
+        lawyer = self.request.query_params.get("advogado", None)
         finished = self.request.query_params.get("finalizado", None)
         lawsuits = Processos.objects.all()
 
@@ -64,9 +64,9 @@ class ProcessosViewSet(ModelViewSet):
                 Q(cliente__endereco__icontains=q) 
             )
         
-        if laywer:
+        if lawyer:
             lawsuits = lawsuits.filter(
-                advogado_responsavel_id=laywer
+                advogado_responsavel_id=lawyer
             )
 
         if finished:
