@@ -1,4 +1,5 @@
 from django.db import models
+from advogado.models import Advogado
 
 
 class Registry(models.Model):
@@ -8,12 +9,26 @@ class Registry(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(blank=True, null=True)
+    client_of = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="client_of")
+    
 
     def __str__(self) -> str:
         return f"{self.name}"
 
     class Meta:
         verbose_name_plural = 'Registro'
+        
+    @property
+    def is_client(self) -> bool:
+        return self.client.exists()
+    
+    @property
+    def is_adverse_part(self) -> bool:
+        return self.adverse_part.exists()
+    
+    @property
+    def is_indicator(self) -> bool:
+        return self.indicated_by.exists()
         
 
 class RegistryCpf(models.Model):

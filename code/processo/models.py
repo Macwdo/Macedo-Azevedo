@@ -17,7 +17,6 @@ class Processos(models.Model):
     advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="lawyer")
     parte_adversa = models.ForeignKey(Registry, on_delete=models.SET_NULL, null=True, blank=False, related_name="adverse_part")
     cliente = models.ForeignKey(Registry, on_delete=models.SET_NULL, null=True, blank=False, related_name="client")
-    cliente_de = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="client_of")
     posicao = models.CharField(choices=posicao_choice, max_length=5)
     colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborator_lawyer")
     assunto = models.CharField(max_length=255, null=True, blank=True)

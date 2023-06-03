@@ -16,7 +16,7 @@
         <form action="{% url 'registry:registry_list' %}" method="get">
             <div class="input-group">
                 <a href="{% url 'registry:registry_create' %}" class="btn-lg btn-success">
-                    Criar Cliente
+                    Criar Registro
                 </a>
                 <span>
                     &nbsp  &nbsp
@@ -37,14 +37,33 @@
                     <div class="card bg-white d-flex flex-fill">
                         <div class="card-header bg-light">
                             <div class="card-title">
-                                <span><b>Cliente</b>
+                                <span><b>Registro</b>
                                     {{registry.name}}
                                 </span> 
                             </div>
-                            <span class="float-right text-success" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
-                                Cliente
-                                <i class="fas fa-user"></i>
-                                </span>
+                            <div>
+                                {% if registry.is_client  %}
+                                    <span class="float-right text-success">
+                                        &nbsp
+                                        Cliente
+                                    </span>
+                                {% endif %}
+                                {% if registry.is_client  %}
+                                    <span class="float-right text-danger">
+                                        &nbsp
+                                        Parte Adversa
+                                    </span>
+                                {% endif %}
+                                {% if registry.is_indicator %}
+                                    <span class="float-right text-primary">
+                                        &nbsp
+                                        Indicou
+                                    </span>
+                                {% endif %}
+                            </div>
+
+
+
                         </div>
                         <a href="{% url 'registry:registry_detail' registry.pk %}">
                         <div class="card-body pt-0">

@@ -7,11 +7,12 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <span class="text">Cliente: {{ address.registry.nome }}</span><br>
-                <span class="text">Endereço: {{address.endereco}} </span><br>
-                <span class="text">Numero: {{address.numero}}</span><br>
-                <span class="text">Complemento: {{address.complemento}}</span><br>
-                <span class="text">Cep: {{address.cep}}</span><br>
+                <span class="text"><b>Cliente</b> {{ address.registry.name }}</span><br>
+                <span class="text"><b>Endereço</b> {{address.address}} </span><br>
+                <span class="text"><b>Numero</b> {{address.address_number}}</span><br>
+                <span class="text"><b>Complemento</b> {{address.complement}}</span><br>
+                <span class="text"><b>Cep</b> {{address.cep}}</span><br>
+                <span class="text"><b>Referencia</b> {{address.reference}}</span><br>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">
