@@ -1,6 +1,6 @@
 from user.models import MAUser
 from django.db import models
-
+from django.conf import settings
 
 class Advogado(models.Model):
 
@@ -9,7 +9,7 @@ class Advogado(models.Model):
 
     nome = models.CharField(max_length=40, blank=False)
     email = models.CharField(max_length=50)
-    usuario = models.ForeignKey(MAUser, on_delete=models.SET_NULL, null=True, blank=True, related_name="lawyer_user")
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="lawyer_user")
     oab = models.CharField(max_length=10, unique=True, null=False, blank=True)
     image = models.ImageField(upload_to="images/", default=None, null=True)
 

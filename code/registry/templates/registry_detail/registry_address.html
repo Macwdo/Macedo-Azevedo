@@ -1,0 +1,49 @@
+{% include "registry_detail/registry_modals/registry_address_create.html" %}
+<div class="card" style="width: 100%">
+    <div class="card-body table-responsive p-0">
+        <div class="card-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Endereço</th>
+                        <th>Numero</th>
+                        <th>Complemento</th>
+                        <th>Cep</th>
+                        <th>Referência</th>
+                        <th>Editar</th>
+                        <th>Apagar</th>
+                    </tr>
+                </thead>
+                {% for address in registry.registry_address.all %}
+                <tbody>
+                    <tr>
+                        <td>{{address.address}}</td>
+                        <td>{{address.address_number}}</td>
+                        <td>{{address.complement}}</td>
+                        <td>{{address.cep}}</td>
+                        <td>{{address.reference}}</td>
+                        <td>
+                            <a href="" data-toggle="modal" data-target="#address-edit-modal-{{address.pk}}">
+                                <i class="fas fa-edit" style="color: #89a2cd;"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="" data-toggle="modal" data-target="#address-delete-modal-{{address.pk}}" >
+                                <i class="fas fa-trash-alt" style="color: #ff0000;"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% include "registry_detail/registry_modals/registry_address_delete.html" %}
+                    {% include "registry_detail/registry_modals/registry_address_edit.html" %}
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <button class="btn btn-success" data-toggle="modal" data-target="#registry-address-create">
+        Criar novo endereço de registro
+    </button>
+</div>
+    

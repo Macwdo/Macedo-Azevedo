@@ -1,0 +1,32 @@
+<div class="modal fade" id="registry-address-create" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Novo endereço de registro
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" action="{% url 'registry:registry_address_create' registry.pk %}" method="POST">
+                        {% for field in registry_address_form %}
+                        {% if field.name != "registry" %}
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <div>
+                                    {{field}}
+                                </div>
+                            </div>
+                        {% else %}
+                            <input type="hidden" name="registry" value="{{registry.pk}}">
+                        {% endif %}
+                        {% endfor %}
+                        <div>
+                            <button type="submit" class="btn btn-primary">Criar</button>
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

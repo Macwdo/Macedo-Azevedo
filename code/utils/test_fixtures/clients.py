@@ -1,4 +1,4 @@
-from cliente.models import Cliente, ClienteEndereco
+from registry.models import Re, ClienteEndereco
 
 
 class ClientsMixin:

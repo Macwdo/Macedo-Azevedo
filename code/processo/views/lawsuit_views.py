@@ -99,8 +99,6 @@ def lawsuit_detail(request: HttpRequest, lawsuit_id: int):
     q_files = request.GET.get("q_files", None)
     q_files = q_files.strip() if q_files else None
 
-    print(q_files)
-    
     if q_values:
         lawsuit_values = lawsuit_values.filter(
             referente__icontains=q_values,

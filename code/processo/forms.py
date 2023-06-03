@@ -59,7 +59,7 @@ class LawsuitForm(ModelForm):
             'advogado_responsavel': forms.Select(attrs={'class': 'form-control select2bs4', 'style': 'width: 100%;'}),
             'parte_adversa': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'cliente': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
-            'cliente_de': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
+            'indicado_por': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'posicao': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'colaborador': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'estado': forms.TextInput(attrs={'class': 'form-control'}),
