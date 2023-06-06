@@ -1,0 +1,22 @@
+<div class="modal fade" id="lawyer-delete-modal-{{lawyer.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <h1 class="modal-title mont-serrat" >
+                    Você está apagando este processo<br>
+                </h1>
+            </div>
+            <div class="modal-body">
+                <span class="text">Codigo do Processo: {{ lawyer.codigo_processo }}</span><br>
+
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <form action="{% url 'lawyer:lawyer_delete' lawyer.pk %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">Apagar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

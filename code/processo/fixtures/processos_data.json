@@ -4,7 +4,6 @@
     "pk": 0,
     "fields": {
         "cliente": 1,
-        "cliente_de": 1,
         "codigo_processo": "0002169-90.2022.8.19.0031",
         "advogado_responsavel": 0,
         "parte_adversa": 1,
@@ -24,7 +23,6 @@
     "pk": 1,
     "fields": {
         "cliente": 1,
-        "cliente_de": 1,
         "codigo_processo": "0000678-73.2022.8.19.0055",
         "advogado_responsavel": 0,
         "parte_adversa": 1,
@@ -44,7 +42,6 @@
     "pk": 2,
     "fields": {
         "cliente": 1,
-        "cliente_de": 1,
         "codigo_processo": "0030307-60.2022.8.19.0001",
         "advogado_responsavel": 1,
         "parte_adversa": 1,
@@ -63,7 +60,6 @@
     "pk": 3,
     "fields": {
         "cliente": 1,
-        "cliente_de": 1,
         "codigo_processo": "0000434-88.2022.8.19.0203",
         "advogado_responsavel": 1,
         "parte_adversa": 1,

@@ -19,7 +19,7 @@
                     <span>
                         &nbsp  &nbsp
                     </span>
-                    <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar processo">
+                    <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar advogado">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-lg btn-default">
                             <i class="fa fa-search"></i>
@@ -34,11 +34,9 @@
                     <tr>
                         <th>Advogado</th>
                         <th></th>
-                        <th>Codigo do Advogado</th>
-                        <th>Cliente</th>
-                        <th>Parte Adversa</th>
-                        <th>Iniciado</th>
-                        <th>Finalizado</th>
+                        <th>Email</th>
+                        <th>Usuario</th>
+                        <th>Oab</th>
                         <th>Apagar</th>
                     </tr>
                 </thead>
@@ -47,28 +45,26 @@
                     <tr>
                         <td style="width: 2px;">
                             {% if lawyer.advogado_responsavel.image %}
-                                <img src="{{ lawyer.advogado_responsavel.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
+                            <img src="{{ lawyer.advogado_responsavel.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
                             {% else %}
-                                <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
-                            {% endif %}
-
-                            {% if lawyer.colaborador %}
-                            {% if lawyer.colaborador.image %}
-                                <img src="{{ lawyer.colaborador.image.url }}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
-                            {% else %}
-                                <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
-                            {% endif %}
+                            <img src="{% static 'dist/img/images/unknown_user.jpg' %}" alt="user-avatar" style="width: 28px; height: 28px;" class="img-circle img-fluid">
                             {% endif %}
                         </td>
-                        <td>{{lawyer.advogado_responsavel}} </td>
-                        <td><a href="{% url 'lawyer:lawyer_detail' lawyer.pk %}">{{ lawyer.codigo_processo }}</a></td>
-                        <td>{{ lawyer.cliente }}</td>
-                        <td>{{ lawyer.parte_adversa }}</td>
-                        <td>{{ lawyer.iniciado }}</td>
-                        <td>{%if lawyer.finalizado%} {{ lawyer.finalizado }} {% else %} Em andamento {%endif%} </td>
-                        <td><a href="" data-toggle="modal" data-target="#lawyer-delete-modal-{{lawyer.pk}}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
+                        <td>
+                            <a href="{% url 'lawyer:lawyer_detail' lawyer.pk %}">
+                                {{ lawyer.name }}
+                            </a>
+                        </td>
+                        <td>{{ lawyer.email }}</td>
+                        <td>{% if lawyer.user %}{{ lawyer.user }}{% else %} Sem usuário{% endif %}</td>
+                        <td>{{ lawyer.oab }}</td>
+                        <td>
+                            <a href="" data-toggle="modal" data-target="#lawyer-delete-modal-{{lawyer.pk}}">
+                                <i class="fas fa-trash-alt" style="color: #ff0000;"></i>
+                            </a>
+                        </td>
                         {% include "lawyer_detail/lawyer_modals/lawyer_delete.html" %}
-                    </tr>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
