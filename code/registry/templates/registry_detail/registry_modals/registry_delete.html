@@ -7,10 +7,15 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <span class="text">Cliente: {{ registry.nome }}</span><br>
-                <span class="text">CPF/CNPJ: {{ registry.cpf_cnpj }} </span><br>
-                <span class="text">Estado Civil: {{ registry.estado_civil }}</span><br>
-                <span class="text">Profissão: {{ address.complemento }}</span><br>
+                <span class="text">Cliente: {{ registry.name }}</span><br>
+                {% if registry.cpf %}
+                    <span class="text">CPF: {{ registry.cpf }} </span><br>
+                {% endif %}
+                {% if registry.cnpj %}
+                    <span class="text">CNPJ: {{ registry.cpf }} </span><br>
+                {% endif%}
+                <span class="text">Estado Civil: {{ registry.civil_state }}</span><br>
+                <span class="text">Profissão: {{ registry.profession }}</span><br>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">

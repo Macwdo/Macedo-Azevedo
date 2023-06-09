@@ -19,10 +19,10 @@ def lawsuit_value_create(request: HttpRequest, lawsuit_id: int):
         lawsuit_value.ganho = True if request.POST.get("ganho") == "on" else False
         lawsuit_value.save()
         messages.success(request, f"Valor de processo criado com sucesso.")
-        return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}))
+        return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}) + "?q_values= ")
     else:
         messages.error(request, "Erro na criação do valor de processo")
-        return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}))
+        return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}) + "?q_values= ")
 
 @login_required
 @require_http_methods(["POST"])
@@ -36,10 +36,10 @@ def lawsuit_value_edit(request: HttpRequest, lawsuit_id: int, lawsuit_value_id: 
         lawsuit_value.ganho = True if request.POST.get("ganho") == "on" else False
         lawsuit_value.save()
         messages.success(request, f"O Valor de processo de valor {lawsuit_value} foi editado com sucesso.")
-        return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}))
+        return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}) + "?q_values= ")
     else:
         messages.error(request, "Erro na edição do valor de processo")
-        return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}))
+        return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}) + "?q_values= ")
 
 
 @login_required
@@ -51,4 +51,4 @@ def lawsuit_value_delete(request: HttpRequest, lawsuit_id: int, lawsuit_value_id
         lawsuit.delete()
     except:
         messages.error(request, f"Não foi possível deletar o valor processo {lawsuit}")
-    return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}))
+    return redirect(reverse("lawsuit:lawsuit_detail", kwargs={"lawsuit_id": lawsuit_id}) + "?q_values= ")
