@@ -43,20 +43,20 @@
         <div class="card">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#infos" data-toggle="tab">Editar</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Endereços</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact_info" data-toggle="tab">Informações de contato</a></li>
+                    <li class="nav-item"><a class="nav-link {% if not request.GET %} active {% endif %}" href="#infos" data-toggle="tab">Editar</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.GET.q_address %} active {% endif %}" href="#address" data-toggle="tab">Endereços</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.GET.q_contacts %} active {% endif %}" href="#contact_info" data-toggle="tab">Informações de contato</a></li>
                 </ul>
             </div>
         <div class="card-body">
             <div class="tab-content">
-                <div class="tab-pane active" id="infos">
+                <div class="tab-pane {% if not request.GET %} show active {% endif %}" id="infos">
                     {% include "registry_detail/registry_infos.html" %}
                 </div>
-                <div class="tab-pane" id="address">
+                <div class="tab-pane {% if request.GET.q_address %} show active {% endif %}" id="address">
                     {% include "registry_detail/registry_address.html" %}
                 </div>
-                <div class="tab-pane" id="contact_info">
+                <div class="tab-pane {% if request.GET.q_contacts %} show active {% endif %}" id="contact_info">
                     {% include "registry_detail/registry_contacts.html" %}
                 </div>
             </div>

@@ -17,7 +17,7 @@ def registry_address_create(request: HttpRequest, registry_id: int):
         messages.success(request, "Endereço de registro criado com sucesso")
     else:
         messages.error(request, "Não foi possível realizar a criação de endereço de registro")
-    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
+    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}) + "?q_address= ")
 
 @login_required()
 @require_http_methods(["POST"])
@@ -29,7 +29,7 @@ def registry_address_edit(request: HttpRequest, registry_id: int, address_id: in
         messages.success(request, f"O endereço {registry_address} foi editado com sucesso")
     else:
         messages.error(request, f"Não foi possível realizar a edição do endereço {registry_address}")
-    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
+    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}) + "?q_address= ")
 
 @login_required()
 @require_http_methods(["POST"])
@@ -40,6 +40,6 @@ def registry_address_delete(request: HttpRequest, registry_id: int, address_id: 
         messages.success(request, "Endereço de registro apagado com sucesso")
     except:
         messages.error(request, f"Não foi possível apagar o endereço de registro {registry_address}")
-    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
+    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}) + "?q_address= ")
 
 

@@ -17,7 +17,7 @@ def registry_contact_create(request: HttpRequest, registry_id: int):
         messages.success(request, "Contato de registro criado com sucesso")
     else:
         messages.error(request, "Não foi possível realizar a criação do contato de registro")
-    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
+    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}) + "?q_contacts= ")
 
 @login_required()
 @require_http_methods(["POST"])
@@ -29,7 +29,7 @@ def registry_contact_edit(request: HttpRequest, registry_id: int, contact_id: in
         messages.success(request, f"O contato {registry_contact} foi editado com sucesso")
     else:
         messages.error(request, f"Não foi possível realizar a edição do contato {registry_contact}")
-    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
+    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}) + "?q_contacts= ")
 
 @login_required()
 @require_http_methods(["POST"])
@@ -41,7 +41,7 @@ def registry_contact_delete(request: HttpRequest, registry_id: int, contact_id: 
     except:
         messages.error(request, f"Não foi possível apagar o contato do registro {registry_contact}")
 
-    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
+    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}) + "?q_contacts= ")
 
 
 
