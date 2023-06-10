@@ -20,12 +20,16 @@ def lawyer_create(request: HttpRequest):
         }
         if form.is_valid():
             lawyer = form.save()
-            messages.success(request, f"Advogado {lawyer.name} Registrado com sucesso.")
-            return redirect(reverse("lawyer:lawyer_create"))
-        messages.error(request, "Erro na criação do advogado")
-        return render(request, "lawyer_create.html", context)
 
-        
+            cpf = request.POST.get("cpf", None)
+
+
+            messages.success(request, f"Advogado {lawyer.name} Registrado com sucesso.")
+            return redirect(reverse("lawyer:lawyer_list"))
+        else:
+            messages.error(request, "Erro na criação do advogado")
+            return render(request, "lawyer_create.html", context)
+
     return render(request, "lawyer_create.html", context)
     
 
@@ -40,18 +44,40 @@ def lawyer_list(request: HttpRequest):
     }
     return render(request, "lawyer_list.html", context)
 
+
 def lawyer_detail(request: HttpRequest, lawyer_id):
     lawyer = get_object_or_404(Advogado, pk=lawyer_id)
+    lawyer_form = LawyerForm(instance=lawyer)
     
     context = {
-        "lawyer": lawyer
+        "lawyer": lawyer,
+        "lawyer_form": lawyer_form
     }
     
     return render(request, "lawyer_detail.html", context)
-    
-def lawyer_edit(request: HttpRequest):
-    ...
-    
-def lawyer_delete(request: HttpRequest):
-    ...
+
+
+def lawyer_edit(request: HttpRequest, lawyer_id: int):
+    lawyer = get_object_or_404(Advogado, pk=lawyer_id)
+    lawyer_form = LawyerForm(request.POST, request.FILES, instance=lawyer)
+
+    if lawyer_form.is_valid():
+        lawyer = lawyer_form.save()
+        messages.success(request, f"Advogado {lawyer.name} editado com sucesso")
+    else:
+        messages.success(request, f"Não foi possível realizar a edição do advogado {lawyer.name}")
+
+    return redirect(reverse("lawyer:lawyer_detail", kwargs={"lawyer_id": lawyer_id}))
+
+
+def lawyer_delete(request: HttpRequest, lawyer_id: int):
+    lawyer = get_object_or_404(Advogado, pk=lawyer_id)
+    try:
+        lawyer.delete()
+        messages.success(request, f"Advogado {lawyer.name} foi excluído com sucesso")
+    except:
+        messages.error(request, f"Não foi possível apagar o registro do { lawyer.name }")
+    return redirect(reverse("lawyer:lawyer_list"))
+
+
 
