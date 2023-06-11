@@ -10,14 +10,14 @@
 
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                {% if request.user.lawyer_user.first.image %}
-                <img src="{{request.user.lawyer_user.first.image.url}}" class="img-circle elevation-2" alt="User Image">
+                {% if request.user.image %}
+                    <img src="{{request.user.lawyer_user.first.image.url}}" class="img-circle elevation-2" alt="User Image">
                 {% else %}
                     <img src="{% static 'dist/img/images/unknown_user.jpg' %}" class="img-circle elevation-2" alt="User Image">
                 {% endif %}
             </div>
             <div class="info">
-                <a href="#" class="d-block"> Dr(a) {{ request.user.lawyer_user.first.nome }}</a>
+                <a href="#" class="d-block"> Dr(a) {{ request.user }}</a>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link sidebar-text">
+                    <a href="{% url 'lawyer:lawyer_list' %}" class="nav-link sidebar-text">
                         <p>
                             <i class="fas fa-user-tie" style="color: #ffffff;"></i>
                             &nbsp Advogados

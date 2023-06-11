@@ -1,0 +1,49 @@
+{% include "lawsuit_detail/lawsuit_modals/lawsuit_files_modal.html" %}
+<div class="container-fluid">
+    <div class="card">
+        <form action="{% url 'lawsuit:lawsuit_detail' lawsuit.pk %}" method="get">
+            <div class="card-header">
+                <div class="input-group">
+                    <a class="btn btn-success btn-sm mont-serrat" data-toggle="modal" data-target="#files-modal" >
+                        Novo Arquivo
+                    </a>
+                    <span>
+                        &nbsp  &nbsp
+                    </span>
+                    <input type="search" class="form-control form-control-md" required name="q_files" placeholder="Pesquisar processo">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-md btn-default">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card-body table-responsive p-0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome do Anexo</th>
+                        <th>Arquivo</th>
+                        <th>Criado</th>
+                        <th>Editar</th>
+                        <th>Apagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lawsuit_file in lawsuit_files %}
+                    <tr>
+                        <td>{{ lawsuit_file.nome_do_anexo }}</td>
+                        <td><a target="_blank" href="{{ lawsuit_file.arquivo.url }}"> {{lawsuit_file.arquivo}} </a>  </td>
+                        <td>{{lawsuit_file.created_at}}</td>
+                        <td><a href="" data-toggle="modal" data-target="#file-edit-modal-{{lawsuit_file.pk}}"><i class="fas fa-edit" style="color: #89a2cd;"></i></a></td>
+                        <td><a href="" data-toggle="modal" data-target="#file-delete-modal-{{lawsuit_file.pk}}" ><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
+                    </tr>
+                        {% include "lawsuit_detail/lawsuit_modals/lawsuit_files_delete.html" %}
+                        {% include "lawsuit_detail/lawsuit_modals/lawsuit_files_edit.html" %}
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

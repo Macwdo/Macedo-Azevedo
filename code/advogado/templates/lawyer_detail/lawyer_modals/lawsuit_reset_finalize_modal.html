@@ -1,0 +1,23 @@
+<div class="modal fade" id="lawsuit-reset-finalize-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <h1 class="modal-title mont-serrat" >
+                    Você está revertendo a situação de finalizado deste processo<br>
+                </h1>
+            </div>
+            <div class="modal-body">
+                <span class="text">
+                    O processo de codigo {{ lawsuit.codigo_processo }}será revertido para não finalizado
+                </span><br>
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <form action="{% url 'lawsuit:lawsuit_revert_state' lawsuit.pk %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary">Reverter situação</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

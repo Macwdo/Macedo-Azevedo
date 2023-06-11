@@ -28,7 +28,7 @@ class CustomUserManager(BaseUserManager):
 class MAUser(AbstractUser):
     email = models.EmailField(('email address'), max_length=255, unique=True)
     username = models.CharField(max_length=50, unique=True)
-    is_laywer = models.BooleanField(default=True)
+    is_lawyer = models.BooleanField(default=True)
 
     objects = CustomUserManager()
     USERNAME_FIELD: str = "email"

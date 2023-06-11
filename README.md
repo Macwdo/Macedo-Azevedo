@@ -4,7 +4,7 @@
 <ul>
     <li> Realizar o git clone da aplicação
     <li>Realizar a instalação do  <a href="https://www.docker.com/"><b style="color: #12addf"> Docker </b></a>
-    <li>Copiar o arquivo <b>.envexamples</b> e criar com conteudo copiado <b>.env</b>
+    <li>Copiar o arquivo <b>.envexamples</b> e Criando com conteudo copiado <b>.env</b>
 </ul>
 
 ### Após a instalação do docker devemos rodar os seguintes comandos.
