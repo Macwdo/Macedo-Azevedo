@@ -64,7 +64,7 @@ jobs:
 
 
       - name: Pulling github code
-        run: ssh prod "git pull"
+        run: ssh prod "cd Macedo-Azevedo/; git pull;"
 
       - name: Restarting service
         run: ssh prod "systemctl restart nginx | systemctl restart gunicorn"
