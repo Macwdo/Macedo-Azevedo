@@ -8,7 +8,8 @@ class LawsuitForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(LawsuitForm, self).__init__(*args, **kwargs)
         self.fields["finalizado"].required = False
-    
+        self.fields["observacoes"].required = False
+
     iniciado = forms.DateField(widget=forms.DateInput(attrs=
         {
             'class': 'form-control',
@@ -92,6 +93,12 @@ class LawsuitForm(ModelForm):
         data = self.cleaned_data['colaborador']
         if self.cleaned_data['colaborador'] == self.cleaned_data['advogado_responsavel']:
             raise ValidationError("O colaborador não pode ser o advogado do caso.")
+        return data
+
+    def clean_cliente(self):
+        data = self.cleaned_data['cliente']
+        if self.cleaned_data['cliente'] == self.cleaned_data['parte_adversa']:
+            raise ValidationError("O Cliente não pode ser a parte adversa")
         return data
 
 

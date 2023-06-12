@@ -11,7 +11,7 @@
                 <span class="text">Advogado: {{ lawsuit.advogado_responsavel }}</span><br>
                 <span class="text">Colaborador: {{ lawsuit.parte_adversa }}</span><br>   
                 <span class="text">Ganhos: <span class="text-success">R${{lawsuit.gain}} </span></span><br>
-                <span class="text">Custos: <span class="text-danger">R${{lawsuit.coust}} </span></span><br>
+                <span class="text">Custos: <span class="text-danger">R${{lawsuit.cost}} </span></span><br>
                 {% if lawsuit.profit == 0 %}
                     <span class="text">Lucro: <span class="info-box-number text-center text-muted mb-0">R${{lawsuit.profit}}</span></span><br>
                 {% elif lawsuit.profit > 0 %}

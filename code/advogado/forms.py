@@ -4,6 +4,11 @@ from advogado.models import Advogado
 
 
 class LawyerForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(LawyerForm, self).__init__(*args, **kwargs)
+        self.fields["name"].label = "Nome"
+
     class Meta:
         model = Advogado
         fields = ['name', 'email', 'oab', 'cpf', 'image']

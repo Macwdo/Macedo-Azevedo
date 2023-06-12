@@ -4,9 +4,9 @@
         <form action="{% url 'lawsuit:lawsuit_detail' lawsuit.pk %}" method="get">
             <div class="card-header">
                 <div class="input-group">
-                    <a data-toggle="modal" data-target="#values-modal" class="btn btn-success btn-sm mont-serrat">
+                    <button type="button" data-toggle="modal" data-target="#values-modal" class="btn btn-success">
                         Novo valor
-                    </a>
+                    </button>
                     <span>
                         &nbsp  &nbsp
                     </span>
@@ -20,7 +20,7 @@
             </div>
         </form>
         <div class="card-body table-responsive p-0">
-            <table class="table">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Referente</th>

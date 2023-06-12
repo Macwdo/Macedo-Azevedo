@@ -16,7 +16,7 @@
             <form action="{% url 'registry:registry_list' %}" method="get">
                 <div class="input-group">
                     <a href="{% url 'registry:registry_create' %}" class="btn-lg btn-success">
-                        Criando Registro
+                        Novo Registro
                     </a>
                     <span>
                         &nbsp  &nbsp
@@ -41,22 +41,19 @@
                                         {{registry.name}}
                                     </span> 
                                 </div>
-                                <div>
+                                <div class="float-right">
                                     {% if registry.is_client  %}
-                                        <span class="float-right text-success">
-                                            &nbsp
+                                        <span class="badge rounded-pill bg-success">
                                             Cliente
                                         </span>
                                     {% endif %}
-                                    {% if registry.is_client  %}
-                                        <span class="float-right text-danger">
-                                            &nbsp
+                                    {% if registry.is_adverse_part  %}
+                                        <span class="badge rounded-pill bg-danger">
                                             Parte Adversa
                                         </span>
                                     {% endif %}
                                     {% if registry.is_indicator %}
-                                        <span class="float-right text-primary">
-                                            &nbsp
+                                        <span class="badge rounded-pill bg-primary">
                                             Indicou
                                         </span>
                                     {% endif %}
@@ -71,8 +68,8 @@
                                     <div class="col-7 mt-2">
                                         <span class="text-dark"><b>Profissão </b> {{registry.profession}} </span><br>
                                         <span class="text-dark"><b>Estado Civil </b> {{registry.civil_state}} </span><br>
-                                        {% if registry.cpf %}<span class="text-dark"><b>CPF</b> {{registry.cpf}}</span><br>{% endif %}
-                                        {% if registry.cnpj %}<span class="text-dark"><b>CNPJ</b> {{registry.cnpj}}</span><br>{% endif %}
+                                        {% if registry.registry_cpf %}<span class="text-dark"><b>CPF</b> {{registry.registry_cpf}}</span><br>{% endif %}
+                                        {% if registry.registry_cnpj %}<span class="text-dark"><b>CNPJ</b> {{registry.registry_cnpj}}</span><br>{% endif %}
                                     </div>
                                     <div class="col-5 text-center">
                                         {% if registry.image %}
@@ -84,7 +81,12 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <span class="text-muted "><b>Registrado</b> {{registry.created_at}} </span><br>
+                                <span class="text-muted "><b>Registrado</b> {{registry.created_at}}
+                                    {% include "registry_detail/registry_modals/registry_delete.html" %}
+                                    <a href="" class="float-right" data-toggle="modal" data-target="#registry-delete-modal-{{registry.pk}}">
+                                        <i class="fas fa-trash-alt" style="color: #ff0000;"></i>
+                                    </a>
+                                </span><br>
                             </div>
                         </div>
                     </div>

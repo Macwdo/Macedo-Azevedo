@@ -8,6 +8,7 @@ from registry.models import Registry, RegistryCnpj, RegistryCpf
 from registry.forms import RegistryForm, RegistryContactForm, RegistryAddressForm
 from django.core.paginator import Paginator
 from processo.models import Processos
+from django.db.models import Q
 
 @login_required
 @require_http_methods(["GET", "POST"])
@@ -24,14 +25,14 @@ def registry_create(request: HttpRequest):
         if registry_form.is_valid():
             registry = registry_form.save()
             
-            cpf = request.POST.get("cpf", None)
-            cnpj = request.POST.get("cnpj", None)
+            cpf = request.POST.get("registry_cpf", None)
+            cnpj = request.POST.get("registry_cnpj", None)
             
             if cpf:
-                registry.cpf = RegistryCpf.objects.create(registry=registry, cpf=cpf)
+                registry.registry_cpf = RegistryCpf.objects.create(registry=registry, cpf=cpf)
                 
             if cnpj:
-                registry.cnpj = RegistryCnpj.objects.create(registry=registry, cnpj=cnpj)
+                registry.registry_cnpj = RegistryCnpj.objects.create(registry=registry, cnpj=cnpj)
                 
             registry.save()
             
@@ -65,7 +66,10 @@ def registry_list(request: HttpRequest):
 def registry_detail(request: HttpRequest, registry_id: int):
     registry = get_object_or_404(Registry, pk=registry_id)
     
-    lawsuits_envolved = Processos.objects.filter(cliente=registry)
+    lawsuits_envolved = Processos.objects.filter(
+        Q(cliente=registry) |
+        Q(parte_adversa=registry)
+    )
     registry_form = RegistryForm(instance=registry)
     registry_address_form = RegistryAddressForm()
     registry_contact_form = RegistryContactForm()
@@ -86,16 +90,22 @@ def registry_edit(request: HttpRequest, registry_id: int):
     registry_form = RegistryForm(request.POST, request.FILES, instance=registry)
     if registry_form.is_valid():
         registry = registry_form.save()
-        cpf = request.POST.get("cpf", None)
-        cnpj = request.POST.get("cnpj", None)
-        
+        cpf = request.POST.get("registry_cpf", None)
+        cnpj = request.POST.get("registry_cnpj", None)
+
         if cpf:
-            registry.cpf.cpf = cpf
-            registry.cpf.save()
-            
+            try:
+                registry.registry_cpf.cpf = cpf
+                registry.registry_cpf.save()
+            except Registry.registry_cpf.RelatedObjectDoesNotExist:
+                registry.registry_cpf = RegistryCpf.objects.create(registry=registry, cpf=cpf)
+
         if cnpj:
-            registry.cnpj.cnpj = cnpj
-            registry.cnpj.save()
+            try:
+                registry.registry_cnpj.cnpj = cnpj
+                registry.registry_cnpj.save()
+            except Registry.registry_cnpj.RelatedObjectDoesNotExist:
+                registry.registry_cnpj = RegistryCnpj.objects.create(registry=registry, cnpj=cnpj)
             
         registry.save()
         messages.success(request, f"Registry {registry.name} editado com sucesso")

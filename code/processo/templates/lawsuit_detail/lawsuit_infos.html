@@ -7,7 +7,16 @@
             <h5>
                 <b>Codigo do Processo</b> <span class="mont-serrat">{{ lawsuit.codigo_processo }} </span>
                 <small class="float-right">
-                    {{ lawsuit.iniciado }} - {% if lawsuit.finalizado %} {{lawsuit.finalizado}} {% else %} Não finalizado {% endif %}
+                  {% if lawsuit.indicado_por %}
+                   <strong>Indicado por</strong> {{ lawsuit.indicado_por }} &nbsp &nbsp - &nbsp &nbsp
+                  {% endif %}
+                  <strong>Iniciado</strong>
+                  {{ lawsuit.iniciado }} -
+                    {% if lawsuit.finalizado %}
+                        {{lawsuit.finalizado}}
+                    {% else %}
+                        Não finalizado
+                    {% endif %}
                  </small>
             </h5>
             <hr>
@@ -26,7 +35,7 @@
             <div class="info-box bg-light">
                 <div class="info-box-content">
                     <span class="info-box-text text-center text-muted mont-serrat">Custos do Processo</span>
-                    <span class="info-box-number text-center text-danger mb-0 mont-serrat">- R${{lawsuit.coust}}</span>
+                    <span class="info-box-number text-center text-danger mb-0 mont-serrat">- R${{lawsuit.cost}}</span>
                 </div>
             </div>
         </div>
@@ -45,61 +54,42 @@
             </div>
         </div>
     </div>
-    <hr>
-    
+
     <div class="row invoice-info" style="margin: 10px" >
-        <div class="col-sm-3 invoice-col">
-            <strong class="mont-serrat">Cliente</strong><br>
-            <li>
-                {{ lawsuit.cliente }}<br>
-            </li>
-            <li>
-                {{ lawsuit.posicao }}<br>
-            </li>
-            <strong class="mont-serrat">Parte Adversa</strong><br>
-            <li>
-                {{ lawsuit.parte_adversa }}<br>
-            </li>
-        </div>
-    
-        <div class="col-sm-3 invoice-col">
-                <strong class="mont-serrat">Advogados</strong><br>
-                <li>
-                    {{ lawsuit.advogado_responsavel }}<br>
-                </li>
-                {% if lawsuit.colaborador %}
-                    <li>
-                        {{ lawsuit.colaborador }}<br>
-                    </li>
-                {% endif %}
-                <strong class="mont-serrat">Cliente de  </strong><br>
-                <li>
-                    {{ lawsuit.cliente_de }}
-                </li>
-        </div>
-    
-        <div class="col-sm-3 invoice-col">
-            <strong class="mont-serrat">Vara</strong><br>
-            {{ lawsuit.vara }}<br>
-            <strong class="mont-serrat">Estado  </strong><br>
-            {{ lawsuit.estado }}<br>
-            <strong class="mont-serrat">Munícpio  </strong><br>
-            {{ lawsuit.municipio }}<br>
-        </div>
-
-        <div class="col-sm-3 invoice-col">
-            <strong class="mont-serrat">Assunto</strong><br>
-            {{ lawsuit.assunto }}<br>
-        </div>
-
-        <div class="col-sm-12 invoice-col">
-            <strong class="mont-serrat">Observações</strong><br>
-            {{ lawsuit.observacoes }}<br>
+        <div class="col-sm-3 invoice-col border border-bottom-0 border-right-0 p-4">
+            <h5>Cliente</h5>{{ lawsuit.cliente }}
             <br>
+            <br>
+            <h5>Parte Adversa</h5>{{ lawsuit.parte_adversa }}
+        </div>
+        <div class="col-sm-3 invoice-col border border-bottom-0 border-right-0 border-left-0 p-4">
+            <h5>Advogado</h5> {{ lawsuit.advogado_responsavel }}
+            <br>
+            <br>
+            <h5>Colaborador</h5>
+            {% if lawsuit.colaborador %} {{ lawsuit.colaborador }} {% else %} Sem colaborador {% endif %}
+        </div>
+    
+        <div class="col-sm-3 invoice-col border border-bottom-0 border-right-0 border-left-0 p-4">
+            <h5>Estado</h5>{{ lawsuit.estado }}
+            <br>
+            <br>
+            <h5>Município</h5>{{ lawsuit.municipio }}
+        </div>
+
+        <div class="col-sm-3 invoice-col border border-bottom-0 border-left-0 p-4">
+            <h5>Vara</h5>{{ lawsuit.vara }}
+            <br>
+            <br>
+            <h5>Assunto</h5>{{ lawsuit.assunto }}
+        </div>
+
+        <div class="col-sm-12 invoice-col border border-top-0 p-4">
+            <h5>Observações</h5>{{ lawsuit.observacoes }}
         </div>
     </div>
 
-    <div class="row" >
+    <div class="row">
         <div class="form-group" style="margin-left: 10px">
             <a href="{% url 'lawsuit:lawsuit_edit' lawsuit.pk %}" type="button" class="btn btn-block btn-primary mont-serrat">
                 Editar

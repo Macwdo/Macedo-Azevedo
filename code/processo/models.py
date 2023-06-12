@@ -14,11 +14,11 @@ class Processos(models.Model):
         ("reu", "Réu")
     ]
     codigo_processo = models.CharField(max_length=25, null=False, blank=False)
-    advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="lawyer")
-    parte_adversa = models.ForeignKey(Registry, on_delete=models.SET_NULL, null=True, blank=False, related_name="adverse_part")
-    cliente = models.ForeignKey(Registry, on_delete=models.SET_NULL, null=True, blank=False, related_name="client")
+    advogado_responsavel = models.ForeignKey(Advogado, on_delete=models.PROTECT, null=True, blank=False, related_name="lawsuit_lawyer")
+    parte_adversa = models.ForeignKey(Registry, on_delete=models.PROTECT, null=True, blank=False, related_name="lawsuit_adverse_part")
+    cliente = models.ForeignKey(Registry, on_delete=models.PROTECT, null=True, blank=False, related_name="lawsuit_client")
     posicao = models.CharField(choices=posicao_choice, max_length=5)
-    colaborador = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="colaborator_lawyer")
+    colaborador = models.ForeignKey(Advogado, on_delete=models.PROTECT, null=True, blank=True, related_name="lawsuit_colaborator")
     assunto = models.CharField(max_length=255, null=True, blank=True)
     estado = models.CharField(max_length=255)
     municipio = models.CharField(max_length=255)
@@ -26,7 +26,7 @@ class Processos(models.Model):
     observacoes = models.TextField()
     iniciado = models.DateTimeField()
     finalizado = models.DateTimeField(blank=True, null=True)
-    indicado_por = models.ForeignKey(Registry, on_delete=models.SET_NULL, null=True, blank=True, related_name="indicated_by")
+    indicado_por = models.ForeignKey(Registry, on_delete=models.SET_NULL, null=True, blank=True, related_name="lawsuit_indicated_by")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -54,7 +54,7 @@ class Processos(models.Model):
         return float(f"{total:.3f}")
     
     @property
-    def coust(self):
+    def cost(self):
         honorarios = ProcessosHonorarios.objects.filter(
             processo=Processos.objects.get(pk=self.pk))
         total = 0
@@ -101,8 +101,8 @@ class ProcessosMovimento(models.Model):
 
 class ProcessosHonorarios(models.Model):
     referente = models.CharField(max_length=255,)
-    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False, related_name="processo_honorarios")
-    advogado_responsavel = models.ForeignKey(Advogado, models.SET_NULL, null=True, blank=False)
+    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False, related_name="lawsuit_values")
+    advogado_responsavel = models.ForeignKey(Advogado, models.SET_NULL, null=True, blank=False, related_name="lawsuit_values_lawyer")
     valor = models.FloatField()
     ganho = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -114,7 +114,7 @@ class ProcessosHonorarios(models.Model):
 
 class ProcessosAnexos(models.Model):
     nome_do_anexo = models.CharField(max_length=100, null=False, blank=False)
-    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False, related_name="processo_anexos")
+    processo = models.ForeignKey(Processos, models.CASCADE, null=False, blank=False, related_name="lawsuit_files")
     arquivo = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
 

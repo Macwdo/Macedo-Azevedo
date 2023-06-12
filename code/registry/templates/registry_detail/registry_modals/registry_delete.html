@@ -3,14 +3,18 @@
         <div class="modal-content">
             <div class="modal-header" >
                 <h4 class="modal-title" >
-                    Você está apagando o registry <br>{{registry}}
+                    Você está apagando o Registro <br>{{registry}}
                 </h4>
             </div>
             <div class="modal-body">
-                <span class="text">Cliente: {{ registry.nome }}</span><br>
-                <span class="text">CPF/CNPJ: {{ registry.cpf_cnpj }} </span><br>
-                <span class="text">Estado Civil: {{ registry.estado_civil }}</span><br>
-                <span class="text">Profissão: {{ address.complemento }}</span><br>
+                {% if registry.registry_cpf %}
+                    <span class="text"><b>CPF</b> {{ registry.registry_cpf }} </span><br>
+                {% endif %}
+                {% if registry.registry_cnpj %}
+                    <span class="text"><b>CNPJ</b> {{ registry.registry_cnpj }} </span><br>
+                {% endif %}
+                <span class="text"><b>Estado Civil</b> {{ registry.civil_state }}</span><br>
+                <span class="text"><b>Profissão</b> {{ registry.profession }}</span><br>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">

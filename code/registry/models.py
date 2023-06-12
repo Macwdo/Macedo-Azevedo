@@ -9,7 +9,7 @@ class Registry(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(blank=True, null=True)
-    client_of = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=False, related_name="client_of")
+    client_of = models.ForeignKey(Advogado, on_delete=models.SET_NULL, null=True, blank=True, related_name="registry_client_of")
     
 
     def __str__(self) -> str:
@@ -20,19 +20,19 @@ class Registry(models.Model):
         
     @property
     def is_client(self) -> bool:
-        return self.client.exists()
+        return self.lawsuit_client.exists()
     
     @property
     def is_adverse_part(self) -> bool:
-        return self.adverse_part.exists()
+        return self.lawsuit_adverse_part.exists()
     
     @property
     def is_indicator(self) -> bool:
-        return self.indicated_by.exists()
+        return self.lawsuit_indicated_by.exists()
         
 
 class RegistryCpf(models.Model):
-    registry = models.OneToOneField(Registry, on_delete=models.CASCADE, primary_key=True, related_name="cpf")
+    registry = models.OneToOneField(Registry, on_delete=models.CASCADE, primary_key=True, related_name="registry_cpf")
     cpf = models.CharField(max_length=14)
 
     def __str__(self) -> str:
@@ -40,7 +40,7 @@ class RegistryCpf(models.Model):
 
     
 class RegistryCnpj(models.Model):
-    registry = models.OneToOneField(Registry, on_delete=models.CASCADE, primary_key=True, related_name="cnpj")
+    registry = models.OneToOneField(Registry, on_delete=models.CASCADE, primary_key=True, related_name="registry_cnpj")
     cnpj = models.CharField(max_length=18)
 
     def __str__(self) -> str:

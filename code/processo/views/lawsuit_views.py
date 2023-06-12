@@ -44,29 +44,31 @@ def lawsuit_list(request: HttpRequest):
     if q:
         lawsuits = lawsuits.filter(
             Q(codigo_processo__icontains=q) |
-            Q(advogado_responsavel__nome__icontains=q) |
+            Q(advogado_responsavel__name__icontains=q) |
             Q(advogado_responsavel__oab__icontains=q) |
             
-            Q(cliente_de__nome__icontains=q) |
+            Q(cliente_de__name__icontains=q) |
             Q(cliente_de__oab__icontains=q) |
             
-            Q(colaborador__nome__icontains=q) |
+            Q(colaborador__name__icontains=q) |
             Q(colaborador__oab__icontains=q) |
             
-            Q(parte_adversa__nome__cpf_cnpj__icontains=q) |
-            Q(parte_adversa__nome__icontains=q) |
-            Q(parte_adversa__estado_civil__icontains=q) |
-            Q(parte_adversa__profissao__icontains=q) |
+            Q(parte_adversa__cpf__icontains=q) |
+            Q(parte_adversa__cnpj__icontains=q) |
+            Q(parte_adversa__name__icontains=q) |
+            Q(parte_adversa__civil_state__icontains=q) |
+            Q(parte_adversa__profession__icontains=q) |
             
-            Q(cliente__cpf_cnpj__icontains=q) |
-            Q(cliente__nome__icontains=q) |
-            Q(cliente__estado_civil__icontains=q) |
-            Q(cliente__profissao__icontains=q) |
+            Q(cliente__cpf__icontains=q) |
+            Q(cliente__cnpj__icontains=q) |
+            Q(cliente__name__icontains=q) |
+            Q(cliente__civil_state__icontains=q) |
+            Q(cliente__profession__icontains=q) |
             
             Q(assunto__icontains=q) |
-            Q(estado__icontains=q)|
-            Q(municipio__icontains=q)|
-            Q(vara__icontains=q)|
+            Q(estado__icontains=q) |
+            Q(municipio__icontains=q) |
+            Q(vara__icontains=q) |
             Q(observacoes__icontains=q) 
         )
 
@@ -101,14 +103,14 @@ def lawsuit_detail(request: HttpRequest, lawsuit_id: int):
 
     if q_values:
         lawsuit_values = lawsuit_values.filter(
-            referente__icontains=q_values,
-            advogado_responsavel__nome__icontains=q_values,
+            Q(referente__icontains=q_values) |
+            Q(advogado_responsavel__name__icontains=q_values)
         )
         
     if q_files:
         lawsuit_files = lawsuit_files.filter(
-            nome_do_anexo__icontains=q_files,
-            arquivo__icontains=q_files
+            Q(nome_do_anexo__icontains=q_files) |
+            Q(arquivo__icontains=q_files)
         )
         
 

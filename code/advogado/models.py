@@ -1,6 +1,6 @@
-from user.models import MAUser
 from django.db import models
 from django.conf import settings
+
 
 class Advogado(models.Model):
     name = models.CharField(max_length=255, blank=False, null=True)
@@ -17,7 +17,8 @@ class Advogado(models.Model):
 
     @property
     def revenue(self):
-        return sum([gain.profit for gain in self.lawyer.all()])
+        from processo.models import ProcessosHonorarios
+        return sum([(lawsuit_value.valor if lawsuit_value.ganho else (lawsuit_value.valor * -1))for lawsuit_value in ProcessosHonorarios.objects.filter(advogado_responsavel=self)])
 
     class Meta:
         verbose_name_plural = 'Advogado'

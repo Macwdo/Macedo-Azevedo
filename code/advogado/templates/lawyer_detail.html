@@ -3,8 +3,8 @@
 {% load static %}
 {% block title %}<h1 class="mont-serrat">Advogados - {{lawyer}}</h1>{% endblock title %}
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/">Home</a></li>
-    <li class="breadcrumb-item">Advogados</li>
+    <li class="breadcrumb-item">Home</li>
+    <li class="breadcrumb-item"><a href="{% url 'lawyer:lawyer_list' %}">Advogados</a></li>
     <li class="breadcrumb-item active">{{lawyer}}</li>
 {% endblock %}
 {% block content %}
@@ -23,7 +23,7 @@
                 <p class="text-muted text-center">{{lawyer.profission}}</p>
                 <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item">
-                        <b>Processos envolvidos</b><a class="float-right">{{ lawyer.lawyer.count }}</a>
+                        <b>Processos envolvidos</b><a class="float-right">{{ lawyer.lawsuit_lawyer.count }}</a>
                     </li>
                     <li class="list-group-item">
                         <b>Chegou no escritorio </b>{{lawyer.created_at}}

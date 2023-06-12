@@ -3,8 +3,8 @@
 {% load static %}
 {% block title %}<h1 class="mont-serrat">Registros - {{registry}}</h1>{% endblock title %}
 {% block breadcrumb %}
-    <li class="breadcrumb-item"><a href="/">Home</a></li>
-    <li class="breadcrumb-item">Registros</li>
+    <li class="breadcrumb-item">Home</li>
+    <li class="breadcrumb-item"><a href="{% url 'registry:registry_list' %}">Registros</a></li>
     <li class="breadcrumb-item active">{{registry}}</li>
 {% endblock %}
 {% block content %}
@@ -26,13 +26,13 @@
                         <b>Processos envolvidos</b><a class="float-right">{{ lawsuits_envolved }}</a>
                     </li>
                     <li class="list-group-item">
-                    <b>Chegou no escritorio </b>{{registry.created_at}}
+                        <b>Chegou no escritorio </b>{{registry.created_at}}
                     </li>
                     <li class="list-group-item">
-                        <b>CPF</b>{% if registry.cpf %} {{registry.cpf}}{% else %} Nenhum CPF registrado{% endif %}
+                        <b>CPF</b>{% if registry.registry_cpf %} {{registry.registry_cpf}}{% else %} Nenhum CPF registrado{% endif %}
                     </li>
                     <li class="list-group-item">
-                        <b>CNPJ</b>{% if registry.cnpj %} {{registry.cnpj}}{% else %} Nenhum CNPJ registrado{% endif %}
+                        <b>CNPJ</b>{% if registry.registry_cnpj %} {{registry.registry_cnpj}}{% else %} Nenhum CNPJ registrado{% endif %}
                     </li>
                 </ul>
                 

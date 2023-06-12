@@ -29,7 +29,7 @@
             </form>
         </div>
         <div class="card-body table-responsive p-0">
-            <table class="table">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Advogado</th>
@@ -37,6 +37,9 @@
                         <th>Codigo do Processo</th>
                         <th>Cliente</th>
                         <th>Parte Adversa</th>
+                        <th>Ganho</th>
+                        <th>Custo</th>
+                        <th>Lucro</th>
                         <th>Iniciado</th>
                         <th>Finalizado</th>
                         <th>Apagar</th>
@@ -64,7 +67,15 @@
                         <td><a href="{% url 'lawsuit:lawsuit_detail' lawsuit.pk %}">{{ lawsuit.codigo_processo }}</a></td>
                         <td>{{ lawsuit.cliente }}</td>
                         <td>{{ lawsuit.parte_adversa }}</td>
-                        <td>{{ lawsuit.iniciado }}</td>
+                        <td class="text-success">+R${{ lawsuit.gain }}</td>
+                        <td class="text-danger">R$-{{ lawsuit.cost }}</td>
+                        {% if lawsuit.profit == 0 %}
+                            <td class="text-muted">R${{lawsuit.profit}}</td>
+                        {% elif lawsuit.profit > 0%}
+                            <td class="text-success">+R${{lawsuit.profit}}</td>
+                        {% else %}
+                            <td class="text-danger">R${{lawsuit.profit}}</td>
+                        {% endif %}                        <td>{{ lawsuit.iniciado }}</td>
                         <td>{%if lawsuit.finalizado%} {{ lawsuit.finalizado }} {% else %} Em andamento {%endif%} </td>
                         <td><a href="" data-toggle="modal" data-target="#lawsuit-delete-modal-{{lawsuit.pk}}"><i class="fas fa-trash-alt" style="color: #ff0000;"></i></a></td>
                         {% include "lawsuit_detail/lawsuit_modals/lawsuit_delete.html" %}

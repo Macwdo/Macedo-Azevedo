@@ -8,6 +8,14 @@
         </div>
     </div>
     {% endfor %}
+    {% if lawyer.image %}
+    <div class="form-group row">
+        <label for="inputName" class="col-sm-2 col-form-label">Foto atual</label>
+        <div class="col-sm-10">
+            <a href="{{lawyer.image.url}}" target="_blank">{{lawyer.image}}</a>
+        </div>
+    </div>
+    {% endif %}
     <div class="form-group row">
         <div class="col-sm-4 col-form-label">
             <button type="submit" class="btn btn-primary">Editar</button>
