@@ -108,7 +108,7 @@ def registry_edit(request: HttpRequest, registry_id: int):
                 registry.registry_cnpj = RegistryCnpj.objects.create(registry=registry, cnpj=cnpj)
             
         registry.save()
-        messages.success(request, f"Registry {registry.name} editado com sucesso")
+        messages.success(request, f"Registro {registry.name} editado com sucesso")
     else:
         messages.error(request, f"Não foi possível realizar a edição do registro {registry.name}")
     return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
@@ -119,7 +119,7 @@ def registry_delete(request: HttpRequest, registry_id: int):
     registry = get_object_or_404(Registry, pk=registry_id)
     try:
         registry.delete()
-        messages.success(request, f"Registry {registry.name} foi excluído com sucesso")
+        messages.success(request, f"Registro {registry.name} foi excluído com sucesso")
     except:
         messages.error(request, f"Não foi possível apagar o registro do {registry}")
     return redirect(reverse("registry:registry_list"))

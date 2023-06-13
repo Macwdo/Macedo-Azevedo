@@ -21,7 +21,7 @@ class LawyerForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.TextInput(attrs={'class': 'form-control'}),
-            'user': forms.Select(attrs={'class': 'form-control select2'}),
+            'user': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
             'cpf': forms.TextInput(attrs={'class': 'form-control cpf', 'name': 'cpf'}),
             'oab': forms.TextInput(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'custom-file'})
