@@ -20,7 +20,13 @@
                 {% for field in form %}
                 <div class="form-group">
                     <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{field}}
+                    {{field}}
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                        {{field.help_text}}
+                    </small>
+                    <div class="text-danger">
+                        {{field.errors }}
+                    </div>
                 </div>
                 {% endfor %}
                 <button type="submit" class="btn btn-lg btn-success">

@@ -8,7 +8,9 @@ class RegistryForm(forms.ModelForm):
         self.fields["civil_state"].label = "Estado civil"
         self.fields["profession"].label = "Profissão"
         self.fields["client_of"].label = "Cliente de"
-
+        for k, v in self.fields.items():
+            if self.fields[k].required == False:
+                self.fields[k].label += " *"
 
     field_order = ['name', 'civil_state', 'profession','client_of', 'cnpj', 'cpf', 'image']
 
@@ -29,6 +31,9 @@ class RegistryContactForm(forms.ModelForm):
         super(RegistryContactForm, self).__init__(*args, **kwargs)
         self.fields["email"].label = "Email"
         self.fields["phone_number"].label = "Celular"
+        for k, v in self.fields.items():
+            if self.fields[k].required == False:
+                self.fields[k].label += " *"
 
     class Meta:
         model = RegistryContact
@@ -47,6 +52,9 @@ class RegistryAddressForm(forms.ModelForm):
         self.fields["address_number"].label = "Número"
         self.fields["complement"].label = "Complemento"
         self.fields["reference"].label = "Referência"
+        for k, v in self.fields.items():
+            if self.fields[k].required == False:
+                self.fields[k].label += " *"
 
     class Meta:
         model = RegistryAddress

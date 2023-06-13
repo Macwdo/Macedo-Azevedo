@@ -1,12 +1,15 @@
 <form enctype='multipart/form-data' class="form-horizontal" action="{% url 'lawyer:lawyer_edit' lawyer.pk %}" method="POST">
     {% csrf_token %}
     {% for field in lawyer_form %}
-    <div class="form-group row">
-        <label for="inputName" class="col-sm-2 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-        <div class="col-sm-10">
-            {{field}}
+        <div class="form-group row">
+            <label for="inputName" class="col-sm-2 col-form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <div class="col-sm-10">
+                {{ field }}
+            </div>
+            <div class="text-danger">
+                {{ field.errors }}
+            </div>
         </div>
-    </div>
     {% endfor %}
     {% if lawyer.image %}
     <div class="form-group row">

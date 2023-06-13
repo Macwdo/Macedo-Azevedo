@@ -9,6 +9,9 @@ class LawsuitForm(ModelForm):
         super(LawsuitForm, self).__init__(*args, **kwargs)
         self.fields["finalizado"].required = False
         self.fields["observacoes"].required = False
+        for k, v in self.fields.items():
+            if self.fields[k].required == False:
+                self.fields[k].label += " *"
 
     iniciado = forms.DateField(widget=forms.DateInput(attrs=
         {
@@ -31,12 +34,13 @@ class LawsuitForm(ModelForm):
     ), label='Data de Fim')
 
     field_order = [
-            'codigo_processo',
             'advogado_responsavel',
             'parte_adversa',
             'cliente',
-            'cliente_de',
             'posicao',
+            'codigo_processo',
+            'indicado_por',
+            'cliente_de',
             'colaborador',
             'assunto',
             'vara',
@@ -86,7 +90,8 @@ class LawsuitForm(ModelForm):
             'vara': 'Vara ou Cormarca do processo',
             'inicializado': 'Dia em que se iniciou o processo',
             'finalizado': 'Dia em que se finalizou o processo (Caso estiver em andamento deixar em branco).',
-            'assunto': 'Indique o assunto do processo'
+            'assunto': 'Indique o assunto do processo',
+            'indicado_por': 'Indique se esse processo foi indicação de alguem'
         }
         
     def clean_colaborador(self):

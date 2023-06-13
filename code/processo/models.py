@@ -19,7 +19,7 @@ class Processos(models.Model):
     cliente = models.ForeignKey(Registry, on_delete=models.PROTECT, null=True, blank=False, related_name="lawsuit_client")
     posicao = models.CharField(choices=posicao_choice, max_length=5)
     colaborador = models.ForeignKey(Advogado, on_delete=models.PROTECT, null=True, blank=True, related_name="lawsuit_colaborator")
-    assunto = models.CharField(max_length=255, null=True, blank=True)
+    assunto = models.CharField(max_length=255, null=True)
     estado = models.CharField(max_length=255)
     municipio = models.CharField(max_length=255)
     vara = models.CharField(max_length=50)

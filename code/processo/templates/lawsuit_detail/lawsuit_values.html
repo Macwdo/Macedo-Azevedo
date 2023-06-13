@@ -35,7 +35,11 @@
                     {% for lawsuit_value in lawsuit_values %}
                     <tr>
                         <td>{{ lawsuit_value.referente }}</td>
-                        <td>{{ lawsuit_value.advogado_responsavel }}</td>
+                        {% if lawsuit_value.advogado_responsavel %}
+                            <td>{{ lawsuit_value.advogado_responsavel }}</td>
+                        {% else %}
+                        <td>Sem Advogado/Excluido</td>
+                        {% endif %}
                         <td>{% if lawsuit_value.ganho %}<span class="text-success">+R${{ lawsuit_value.valor }}</span>{% else %} <span class="text-danger">-R${{ lawsuit_value.valor }}</span>  {% endif %}</td>
                         <td>{{ lawsuit_value.created_at }}</td>
                         <td><a href="" data-toggle="modal" data-target="#values-edit-modal-{{lawsuit_value.pk}}"><i class="fas fa-edit" style="color: #89a2cd;"></i></a></td>
