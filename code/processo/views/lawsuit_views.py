@@ -46,24 +46,29 @@ def lawsuit_list(request: HttpRequest):
             Q(codigo_processo__icontains=q) |
             Q(advogado_responsavel__name__icontains=q) |
             Q(advogado_responsavel__oab__icontains=q) |
-            
-            Q(cliente_de__name__icontains=q) |
-            Q(cliente_de__oab__icontains=q) |
+            Q(advogado_responsavel__cpf__icontains=q) |
             
             Q(colaborador__name__icontains=q) |
             Q(colaborador__oab__icontains=q) |
+            Q(colaborador__cpf__icontains=q) |
             
-            Q(parte_adversa__cpf__icontains=q) |
-            Q(parte_adversa__cnpj__icontains=q) |
+            Q(parte_adversa__registry_cpf__cpf__icontains=q) |
+            Q(parte_adversa__registry_cnpj__cnpj__icontains=q) |
             Q(parte_adversa__name__icontains=q) |
             Q(parte_adversa__civil_state__icontains=q) |
             Q(parte_adversa__profession__icontains=q) |
             
-            Q(cliente__cpf__icontains=q) |
-            Q(cliente__cnpj__icontains=q) |
+            Q(cliente__registry_cpf__cpf__icontains=q) |
+            Q(cliente__registry_cnpj__cnpj__icontains=q) |
             Q(cliente__name__icontains=q) |
             Q(cliente__civil_state__icontains=q) |
             Q(cliente__profession__icontains=q) |
+            
+            Q(indicado_por__registry_cpf__cpf__icontains=q) |
+            Q(indicado_por__registry_cnpj__cnpj__icontains=q) |
+            Q(indicado_por__name__icontains=q) |
+            Q(indicado_por__civil_state__icontains=q) |
+            Q(indicado_por__profession__icontains=q) |
             
             Q(assunto__icontains=q) |
             Q(estado__icontains=q) |

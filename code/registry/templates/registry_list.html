@@ -21,7 +21,7 @@
                     <span>
                         &nbsp  &nbsp
                     </span>
-                    <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar registro">
+                    <input type="search" class="form-control form-control-lg" name="q" placeholder="Pesquisar registro" value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-lg btn-default">
                             <i class="fa fa-search"></i>
