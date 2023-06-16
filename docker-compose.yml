@@ -39,14 +39,6 @@ services:
     ports:
       - "5431:5432"
 
-  rabbitmq_macedoazevedoapp:
-    container_name: rabbitmq_macedoazevedoapp
-    image: rabbitmq:latest
-    restart: always
-    ports:
-      - 5672:5672
-      - 8080:15672  
-
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4
@@ -59,41 +51,49 @@ services:
     volumes:
       - pgadmindata:/var/lib/pgadmin
 
-  worker_macedoazevedoapp:
-    container_name: worker_macedoazevedoapp
-    image: macwdo/macedoazevedoapp:latest
-    command: celery -A project worker --loglevel=INFO
-    volumes:
-      - ./code:/home/app
-    env_file: .env
-    restart: always
-    depends_on:
-      - rabbitmq_macedoazevedoapp
+  # rabbitmq_macedoazevedoapp:
+  #   container_name: rabbitmq_macedoazevedoapp
+  #   image: rabbitmq:latest
+  #   restart: always
+  #   ports:
+  #     - 5672:5672
+  #     - 8080:15672  
 
-  celery_beat_macedoazevedoapp:
-    container_name: celery_beat_macedoazevedoapp
-    image: macwdo/macedoazevedoapp:latest
-    command: celery -A project beat -l debug
-    volumes:
-      - ./code:/home/app
+  # worker_macedoazevedoapp:
+  #   container_name: worker_macedoazevedoapp
+  #   image: macwdo/macedoazevedoapp:latest
+  #   command: celery -A project worker --loglevel=INFO
+  #   volumes:
+  #     - ./code:/home/app
+  #   env_file: .env
+  #   restart: always
+  #   depends_on:
+  #     - rabbitmq_macedoazevedoapp
+
+  # celery_beat_macedoazevedoapp:
+  #   container_name: celery_beat_macedoazevedoapp
+  #   image: macwdo/macedoazevedoapp:latest
+  #   command: celery -A project beat -l debug
+  #   volumes:
+  #     - ./code:/home/app
       
-    env_file: .env
-    restart: always
-    depends_on:
-      - rabbitmq_macedoazevedoapp
+  #   env_file: .env
+  #   restart: always
+  #   depends_on:
+  #     - rabbitmq_macedoazevedoapp
 
-  celery_flower_macedoazevedoapp:
-    container_name: celery_flower_macedoazevedoapp
-    image: macwdo/macedoazevedoapp:latest
-    command: celery -A project flower
-    volumes:
-      - ./code:/home/app
-    ports:
-      - "5555:5555"
-    env_file: .env
-    restart: always
-    depends_on:
-      - rabbitmq_macedoazevedoapp
+  # celery_flower_macedoazevedoapp:
+  #   container_name: celery_flower_macedoazevedoapp
+  #   image: macwdo/macedoazevedoapp:latest
+  #   command: celery -A project flower
+  #   volumes:
+  #     - ./code:/home/app
+  #   ports:
+  #     - "5555:5555"
+  #   env_file: .env
+  #   restart: always
+  #   depends_on:
+  #     - rabbitmq_macedoazevedoapp
 
 volumes:
   postgres_data:

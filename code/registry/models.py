@@ -4,8 +4,8 @@ from advogado.models import Advogado
 
 class Registry(models.Model):
     name = models.CharField(max_length=100)
-    civil_state = models.CharField(max_length=100)
-    profession = models.CharField(max_length=100)
+    civil_state = models.CharField(max_length=100, null=True, blank=True)
+    profession = models.CharField(max_length=100, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(blank=True, null=True)

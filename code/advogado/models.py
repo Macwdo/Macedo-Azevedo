@@ -7,7 +7,7 @@ class Advogado(models.Model):
     email = models.CharField(max_length=255)
     cpf = models.CharField(max_length=14, null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="lawyer_user")
-    oab = models.CharField(max_length=12, unique=True, null=False, blank=False)
+    oab = models.CharField(max_length=12, null=False, blank=False)
     image = models.ImageField(default=None, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
