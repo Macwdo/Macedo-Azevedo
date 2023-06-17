@@ -8,13 +8,44 @@
             </div>
             <div class="modal-body">
                 {% if registry.registry_cpf %}
-                    <span class="text"><b>CPF</b> {{ registry.registry_cpf }} </span><br>
+                    {% if registry.registry_cpf.cpf %}
+                    <span class="text-dark">
+                        <b>CPF </b>
+                        <span class="float-right">{{registry.registry_cpf.cpf}}</span>
+                        <br>
+                    </span>
+                    {% endif %}
+                    {% if registry.registry_cpf.profession %}
+                    <span class="text-dark">
+                        <b>Profissão </b> 
+                        <span class="float-right">{{registry.registry_cpf.profession}}</span>
+                        <br>
+                    </span>
+                    {% endif %}
+                    {% if registry.registry_cpf.civil_state %}
+                    <span class="text-dark">
+                        <b>Estado Civil </b>
+                        <span class="float-right">{{registry.registry_cpf.civil_state}}</span>
+                        <br>
+                    </span>
+                    {% endif %}
                 {% endif %}
                 {% if registry.registry_cnpj %}
-                    <span class="text"><b>CNPJ</b> {{ registry.registry_cnpj }} </span><br>
+                    {% if registry.registry_cnpj.cnpj %}
+                    <span class="text-dark">
+                        <b>CNPJ</b>
+                        <span class="float-right">{{registry.registry_cnpj}}</span>
+                        <br>
+                    </span>
+                    {% endif %}
+                    {% if registry.registry_cnpj.interprise_type %}
+                    <span class="text-dark">
+                        <b>Tipo da empresa</b>
+                        <span class="float-right">{{registry.registry_cnpj.interprise_type}}</span>
+                        <br>
+                    </span>
+                    {% endif %}
                 {% endif %}
-                <span class="text"><b>Estado Civil</b> {{ registry.civil_state }}</span><br>
-                <span class="text"><b>Profissão</b> {{ registry.profession }}</span><br>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">

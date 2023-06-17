@@ -18,7 +18,7 @@
                     </span>
                     <span class="text-dark">
                         <b>Chegou no escritorio </b>
-                        <span class="float-right">{{registry.created_at}}</span>
+                        <span class="float-right">{{registry.created_at.day}}/{{registry.created_at.month}}/{{registry.created_at.year}}</span>
                         <br>
                     </span>
                 {% if registry.registry_cpf %}

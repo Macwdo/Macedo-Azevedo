@@ -96,8 +96,15 @@ def registry_detail(request: HttpRequest, registry_id: int):
     registry_address_form = RegistryAddressForm()
     registry_contact_form = RegistryContactForm()
     
-    registry_cpf_form = RegistryCpfForm(instance=registry.registry_cpf)
-    registry_cnpj_form = RegistryCnpjForm(instance=registry.registry_cnpj)
+    try:
+        registry_cpf_form = RegistryCpfForm(instance=registry.registry_cpf)
+    except RegistryCpf.DoesNotExist:
+        registry_cpf_form = RegistryCpfForm()
+        
+    try:
+        registry_cnpj_form = RegistryCnpjForm(instance=registry.registry_cnpj)
+    except RegistryCnpj.DoesNotExist:
+        registry_cnpj_form = RegistryCnpjForm()
     
     registry_form_fields_id = [field.id_for_label for field in registry_form]
     registry_cpf_form_fields_id = [field.id_for_label for field in registry_cpf_form]

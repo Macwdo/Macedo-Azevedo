@@ -83,12 +83,21 @@
                     
                     <div id="cnpj_person" class="collapse">
                         {% csrf_token %}
-                        {% for field in registry_cpf_form|form_instanced:registry.registry_cpf %}
-                        <div class="form-group">
-                            <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                {{field}}
-                        </div>
-                        {% endfor %}
+                        {% if registry.registry_cpf %}
+                            {% for field in registry_cpf_form|form_instanced:registry.registry_cpf %}
+                            <div class="form-group">
+                                <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{field}}
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            {% for field in registry_cpf_form %}
+                            <div class="form-group">
+                                <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{field}}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
 
                     <span role="button" data-toggle="collapse" data-target="#cpf_person" aria-expanded="false" aria-controls="cpf_person" class="mont-serrat" style="font-size: 24px;">
@@ -97,12 +106,21 @@
                     <hr>
                     <div id="cpf_person" class="collapse">
                         {% csrf_token %}
-                        {% for field in registry_cnpj_form|form_instanced:registry.registry_cnpj %}
-                        <div class="form-group">
-                            <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                {{field}}
-                        </div>
-                        {% endfor %}
+                        {% if registry.registry_cnpj %}
+                            {% for field in registry_cnpj_form|form_instanced:registry.registry_cnpj %}
+                            <div class="form-group">
+                                <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{field}}
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            {% for field in registry_cnpj_form %}
+                            <div class="form-group">
+                                <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{field}}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                     <button id="submit_button" type="submit" class="btn btn-lg btn-success">
                         {% if registry %}Salvar{% else %} Criar {% endif %}
