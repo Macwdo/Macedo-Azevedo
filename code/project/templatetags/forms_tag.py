@@ -1,5 +1,5 @@
 from django import template
-from registry.forms import RegistryAddressForm, RegistryContactForm, RegistryForm
+from registry.forms import RegistryAddressForm, RegistryContactForm, RegistryForm, RegistryCnpjForm, RegistryCpfForm
 from processo.forms import LawsuitFileForm, LawsuitValuesForm
 
 register = template.Library()

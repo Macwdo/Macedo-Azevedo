@@ -1,0 +1,42 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block title %}<h1 class="mont-serrat">Registros</h1>{% endblock title %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item">Registros</li>
+{% endblock %}
+{% block content %}
+{% if not registry %}
+    {% include "registry_detail/registry_data.html" %}
+{% else %}
+    {% include "registry_detail/registry_data.html" %}
+    {% include "registry_detail/registry_detail.html" %}
+{% endif %}
+<script>
+    var registry_form_fields_id = "{{ forms_fields.registry_form_fields_id }}"
+    registry_form_fields_id = JSON.parse(registry_form_fields_id.replace(/&#x27;/g, '"'));
+    
+    var registry_cpf_form_fields_id = "{{ forms_fields.registry_cpf_form_fields_id }}"
+    registry_cpf_form_fields_id = JSON.parse(registry_cpf_form_fields_id.replace(/&#x27;/g, '"'));
+
+    var registry_cnpj_form_fields_id = "{{ forms_fields.registry_cnpj_form_fields_id }}"
+    registry_cnpj_form_fields_id = JSON.parse(registry_cnpj_form_fields_id.replace(/&#x27;/g, '"'));
+    
+    document.getElementById('submit_button').addEventListener('click', function(event) {
+        const all_fields = [registry_form_fields_id, registry_cpf_form_fields_id, registry_cnpj_form_fields_id]
+        for (let fields of all_fields){
+            for (let field of fields ){
+                var inputNome = document.getElementById(field);
+                if (inputNome.required && inputNome.value === "") {
+                    inputNome.classList.add('is-invalid'); 
+                    const parentElement = document.getElementById(field).parentNode.parentNode.id;
+                    console.log(inputNome.required)
+                    document.getElementById(parentElement).classList.add('show');
+                    event.preventDefault();
+                }
+            }
+        }
+      });
+</script>
+{% endblock %}

@@ -4,8 +4,6 @@ from advogado.models import Advogado
 
 class Registry(models.Model):
     name = models.CharField(max_length=100)
-    civil_state = models.CharField(max_length=100, null=True, blank=True)
-    profession = models.CharField(max_length=100, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(blank=True, null=True)
@@ -34,6 +32,8 @@ class Registry(models.Model):
 class RegistryCpf(models.Model):
     registry = models.OneToOneField(Registry, on_delete=models.CASCADE, primary_key=True, related_name="registry_cpf")
     cpf = models.CharField(max_length=14)
+    civil_state = models.CharField(max_length=100, null=True, blank=True)
+    profession = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.cpf
@@ -41,6 +41,7 @@ class RegistryCpf(models.Model):
     
 class RegistryCnpj(models.Model):
     registry = models.OneToOneField(Registry, on_delete=models.CASCADE, primary_key=True, related_name="registry_cnpj")
+    interprise_type = models.CharField(max_length=100, null=True, blank=True)
     cnpj = models.CharField(max_length=18)
 
     def __str__(self) -> str:
@@ -53,7 +54,7 @@ class RegistryAddress(models.Model):
     address_number = models.CharField(max_length=50) 
     complement = models.CharField(max_length=255)
     cep = models.CharField(max_length=255)
-    reference = models.CharField(max_length=255)
+    reference = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.address}, Nº{self.address_number}, {self.cep}"

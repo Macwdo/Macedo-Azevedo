@@ -23,7 +23,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
 
-
 <!-- Select2 -->
 <script src="{% static 'dist/plugins/select2/js/select2.full.min.js' %}"></script>
 
@@ -43,8 +42,11 @@
             'rightAlign': false,
             'unmaskAsNumber': true,
             'removeMaskOnSubmit': true,
-    });
+        });
 
+
+
+    
     $(".phone").inputmask({"mask": "(99) 99999-9999"});
 
     $(".cnpj").inputmask({"mask": "99.999.999/9999-99"});
@@ -84,8 +86,5 @@
           theme: 'bootstrap4'
         })
     })
-
-
-    
 
 </script>

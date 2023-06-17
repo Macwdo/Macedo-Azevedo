@@ -1,0 +1,115 @@
+{% load static %}
+{% load forms_tag %}
+{% if not registry %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form id="form" enctype='multipart/form-data' action="{% url 'registry:registry_create' %}" method="POST">
+                    <span role="button" data-toggle="collapse" data-target="#registry" aria-expanded="false" aria-controls="registry" class="mont-serrat" style="font-size: 24px;">
+                        Registro <i class="fas fa-chevron-down"></i>
+                    </span>
+                    <hr>
+                    <div id="registry" class="collapse">
+                        {% csrf_token %}
+                        {% for field in registry_form %}
+                        <div class="form-group">
+                            <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{field}}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <span role="button" data-toggle="collapse" data-target="#cnpj_person" aria-expanded="false" aria-controls="cpf_person" class="mont-serrat" style="font-size: 24px;">
+                        Pessoa Jurídica <i class="fas fa-chevron-down"></i>
+                    </span>
+                    <hr>
+                    
+                    <div id="cnpj_person" class="collapse">
+                        {% csrf_token %}
+                        {% for field in registry_cpf_form %}
+                        <div class="form-group">
+                            <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{field}}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <span role="button" data-toggle="collapse" data-target="#cpf_person" aria-expanded="false" aria-controls="cpf_person" class="mont-serrat" style="font-size: 24px;">
+                        Pessoa Física <i class="fas fa-chevron-down"></i>
+                    </span>
+                    <hr>
+                    <div id="cpf_person" class="collapse">
+                        {% csrf_token %}
+                        {% for field in registry_cnpj_form %}
+                        <div class="form-group">
+                            <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{field}}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button id="submit_button" type="submit" class="btn btn-lg btn-success">
+                        {% if registry %}Salvar{% else %} Criar {% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form id="form" enctype='multipart/form-data' action="{% url 'registry:registry_create' %}" method="POST">
+                    <span role="button" data-toggle="collapse" data-target="#registry" aria-expanded="false" aria-controls="registry" class="mont-serrat" style="font-size: 24px;">
+                        Registro <i class="fas fa-chevron-down"></i>
+                    </span>
+                    <hr>
+                    <div id="registry" class="collapse">
+                        {% csrf_token %}
+                        {% for field in registry_form|form_instanced:registry %}
+                        <div class="form-group">
+                            <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{field}}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <span role="button" data-toggle="collapse" data-target="#cnpj_person" aria-expanded="false" aria-controls="cpf_person" class="mont-serrat" style="font-size: 24px;">
+                        Pessoa Jurídica <i class="fas fa-chevron-down"></i>
+                    </span>
+                    <hr>
+                    
+                    <div id="cnpj_person" class="collapse">
+                        {% csrf_token %}
+                        {% for field in registry_cpf_form|form_instanced:registry.registry_cpf %}
+                        <div class="form-group">
+                            <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{field}}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <span role="button" data-toggle="collapse" data-target="#cpf_person" aria-expanded="false" aria-controls="cpf_person" class="mont-serrat" style="font-size: 24px;">
+                        Pessoa Física <i class="fas fa-chevron-down"></i>
+                    </span>
+                    <hr>
+                    <div id="cpf_person" class="collapse">
+                        {% csrf_token %}
+                        {% for field in registry_cnpj_form|form_instanced:registry.registry_cnpj %}
+                        <div class="form-group">
+                            <label for="inputName" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{field}}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button id="submit_button" type="submit" class="btn btn-lg btn-success">
+                        {% if registry %}Salvar{% else %} Criar {% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

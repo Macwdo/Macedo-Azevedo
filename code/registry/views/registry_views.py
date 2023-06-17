@@ -5,43 +5,65 @@ from django.http import HttpRequest
 from django.contrib import messages
 from django.urls import reverse
 from registry.models import Registry, RegistryCnpj, RegistryCpf
-from registry.forms import RegistryForm, RegistryContactForm, RegistryAddressForm
+from registry.forms import RegistryCnpjForm, RegistryCpfForm, RegistryForm, RegistryContactForm, RegistryAddressForm
 from django.core.paginator import Paginator
 from processo.models import Processos
 from django.db.models import Q
+from django.db import transaction
+
 
 @login_required
 @require_http_methods(["GET", "POST"])
 def registry_create(request: HttpRequest):
     if request.method == "GET":
         registry_form = RegistryForm()
+        registry_cpf_form = RegistryCpfForm()
+        registry_cnpj_form = RegistryCnpjForm()
+        
+        registry_form_fields_id = [field.id_for_label for field in registry_form]
+        registry_cpf_form_fields_id = [field.id_for_label for field in registry_cpf_form]
+        registry_cnpj_form_fields_id = [field.id_for_label for field in registry_cnpj_form]
+        
         context = {
-            "form": registry_form
+            "registry_form": registry_form,
+            "registry_cpf_form": registry_cpf_form,
+            "registry_cnpj_form": registry_cnpj_form,
+            "forms_fields": {
+                "registry_form_fields_id": registry_form_fields_id,
+                "registry_cpf_form_fields_id": registry_cpf_form_fields_id,
+                "registry_cnpj_form_fields_id": registry_cnpj_form_fields_id
+            }
         }
-        return render(request, "registry_create.html", context)
+        return render(request, "registry_create_detail.html", context)
     
     if request.method == "POST":
         registry_form = RegistryForm(request.POST, request.FILES)
-        if registry_form.is_valid():
-            registry = registry_form.save()
-            
-            cpf = request.POST.get("registry_cpf", None)
-            cnpj = request.POST.get("registry_cnpj", None)
-            
-            if cpf:
-                registry.registry_cpf = RegistryCpf.objects.create(registry=registry, cpf=cpf)
-                
-            if cnpj:
-                registry.registry_cnpj = RegistryCnpj.objects.create(registry=registry, cnpj=cnpj)
-                
-            registry.save()
-            
-            messages.success(request, "Registro criado com sucesso")
-            return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry.pk}))
-        else:
-            messages.error(request, "Não foi possível realizar um novo registro")
-            return redirect(reverse("registry:registry_create"))
+        registry_cpf_form = RegistryCpfForm(request.POST)
+        registry_cnpj_form = RegistryCnpjForm(request.POST)
+        
+        try:
+            with transaction.atomic():
+                if registry_form.is_valid():
+                    registry = registry_form.save()
 
+                    if registry_cpf_form.is_valid():
+                        cpf = registry_cpf_form.cleaned_data.get("cpf", None)
+                        registry_cpf_form.cleaned_data["registry"] = registry
+                        if cpf:
+                            registry.registry_cpf = RegistryCpf.objects.create(**registry_cpf_form.cleaned_data)
+                            
+                    if registry_cnpj_form.is_valid():
+                        cnpj = registry_cnpj_form.cleaned_data.get("cnpj", None)
+                        registry_cnpj_form.cleaned_data["registry"] = registry
+                        if cnpj:
+                            registry.registry_cnpj = RegistryCnpj.objects.create(**registry_cnpj_form.cleaned_data)
+                
+                messages.success(request, "Registro criado com sucesso")
+                return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry.pk}))
+        except:
+            messages.error(request, "Não foi possível efetuar a criação do registro")
+            return redirect(reverse("registry:registry_create"))
+            
 @login_required
 @require_http_methods(["GET"])
 def registry_list(request: HttpRequest):
@@ -73,45 +95,61 @@ def registry_detail(request: HttpRequest, registry_id: int):
     registry_form = RegistryForm(instance=registry)
     registry_address_form = RegistryAddressForm()
     registry_contact_form = RegistryContactForm()
+    
+    registry_cpf_form = RegistryCpfForm(instance=registry.registry_cpf)
+    registry_cnpj_form = RegistryCnpjForm(instance=registry.registry_cnpj)
+    
+    registry_form_fields_id = [field.id_for_label for field in registry_form]
+    registry_cpf_form_fields_id = [field.id_for_label for field in registry_cpf_form]
+    registry_cnpj_form_fields_id = [field.id_for_label for field in registry_cnpj_form]
+    
 
     context = {
         "registry": registry,
         "lawsuits_envolved": len(lawsuits_envolved),
         "registry_form": registry_form,
+        "registry_cpf_form": registry_cpf_form,
+        "registry_cnpj_form": registry_cnpj_form,
+        
+        "forms_fields": {
+            "registry_form_fields_id": registry_form_fields_id,
+            "registry_cpf_form_fields_id": registry_cpf_form_fields_id,
+            "registry_cnpj_form_fields_id": registry_cnpj_form_fields_id,
+        },
+        
         "registry_address_form": registry_address_form,
-        "registry_contact_form": registry_contact_form
+        "registry_contact_form": registry_contact_form,
     }
-    return render(request, "registry_detail.html", context)
+    return render(request, "registry_create_detail.html", context)
 
 @login_required
 @require_http_methods(["POST"])
 def registry_edit(request: HttpRequest, registry_id: int):
     registry = get_object_or_404(Registry, pk=registry_id)
     registry_form = RegistryForm(request.POST, request.FILES, instance=registry)
-    if registry_form.is_valid():
-        registry = registry_form.save()
-        cpf = request.POST.get("registry_cpf", None)
-        cnpj = request.POST.get("registry_cnpj", None)
+    registry_cpf_form = RegistryCpfForm(request.POST, instance=registry)
+    registry_cnpj_form = RegistryCnpjForm(request.POST, instance=registry)
+        
+    try:
+        with transaction.atomic():
+            if registry_form.is_valid():
+                registry = registry_form.save()
 
-        if cpf:
-            try:
-                registry.registry_cpf.cpf = cpf
-                registry.registry_cpf.save()
-            except Registry.registry_cpf.RelatedObjectDoesNotExist:
-                registry.registry_cpf = RegistryCpf.objects.create(registry=registry, cpf=cpf)
-
-        if cnpj:
-            try:
-                registry.registry_cnpj.cnpj = cnpj
-                registry.registry_cnpj.save()
-            except Registry.registry_cnpj.RelatedObjectDoesNotExist:
-                registry.registry_cnpj = RegistryCnpj.objects.create(registry=registry, cnpj=cnpj)
+                if registry_cpf_form.is_valid():
+                    cpf = registry_cpf_form.cleaned_data.get("cpf", None)
+                    if cpf:
+                        registry.registry_cpf = cpf
+                        
+                if registry_cnpj_form.is_valid():
+                    cnpj = registry_cnpj_form.cleaned_data.get("cnpj", None)
+                    if cnpj:
+                        registry.registry_cnpj = cnpj
             
-        registry.save()
-        messages.success(request, f"Registro {registry.name} editado com sucesso")
-    else:
-        messages.error(request, f"Não foi possível realizar a edição do registro {registry.name}")
-    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
+            messages.success(request, "Registro editado com sucesso")
+            return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry.pk}))
+    except:
+        messages.error(request, "Não foi possível efetuar a edição do registro")
+        return redirect(reverse("registry:registry_create"))
 
 @login_required
 @require_http_methods(["POST"])

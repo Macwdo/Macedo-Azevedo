@@ -37,9 +37,7 @@
                         <div class="card bg-white d-flex flex-fill">
                             <div class="card-header bg-light">
                                 <div class="card-title">
-                                    <span><b>Registro</b>
-                                        {{registry.name}}
-                                    </span> 
+                                    <span><b>{{registry.name}}</b></span> 
                                 </div>
                                 <div class="float-right">
                                     {% if registry.is_client  %}
@@ -66,10 +64,25 @@
                             <div class="card-body pt-0">
                                 <div class="row">
                                     <div class="col-7 mt-2">
-                                        <span class="text-dark"><b>Profissão </b> {{registry.profession}} </span><br>
-                                        <span class="text-dark"><b>Estado Civil </b> {{registry.civil_state}} </span><br>
-                                        {% if registry.registry_cpf %}<span class="text-dark"><b>CPF</b> {{registry.registry_cpf}}</span><br>{% endif %}
-                                        {% if registry.registry_cnpj %}<span class="text-dark"><b>CNPJ</b> {{registry.registry_cnpj}}</span><br>{% endif %}
+                                        {% if registry.registry_cpf %}
+                                            {% if registry.registry_cpf.cpf %}
+                                                <span class="text-dark"><b>CPF </b> {{registry.registry_cpf.cpf}} </span><br>
+                                            {% endif %}
+                                            {% if registry.registry_cpf.profession %}
+                                                <span class="text-dark"><b>Profissão </b> {{registry.registry_cpf.profession}} </span><br>
+                                            {% endif %}
+                                            {% if registry.registry_cpf.civil_state %}
+                                                <span class="text-dark"><b>Estado Civil </b> {{registry.registry_cpf.civil_state}} </span><br>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if registry.registry_cnpj %}
+                                            {% if registry.registry_cnpj.cnpj %}
+                                                <span class="text-dark"><b>CNPJ</b> {{registry.registry_cnpj}}</span><br>
+                                            {% endif %}
+                                            {% if registry.registry_cnpj.interprise_type %}
+                                                <span class="text-dark"><b>Tipo da empresa</b> {{registry.registry_cnpj.interprise_type}}</span><br>
+                                            {% endif %}
+                                        {% endif %}
                                     </div>
                                     <div class="col-5 text-center">
                                         {% if registry.image %}

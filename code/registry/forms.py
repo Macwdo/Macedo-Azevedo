@@ -1,26 +1,22 @@
 from django import forms
-from registry.models import Registry, RegistryContact, RegistryAddress
+from registry.models import Registry, RegistryCnpj, RegistryContact, RegistryAddress, RegistryCpf
 
 class RegistryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(RegistryForm, self).__init__(*args, **kwargs)
         self.fields["name"].label = "Nome"
-        self.fields["civil_state"].label = "Estado civil"
-        self.fields["profession"].label = "Profissão"
         self.fields["client_of"].label = "Cliente de"
         for k, v in self.fields.items():
             if self.fields[k].required == False:
                 self.fields[k].label += " *"
 
-    field_order = ['name', 'civil_state', 'profession','client_of', 'cnpj', 'cpf', 'image']
+    field_order = ['name', 'client_of', 'image']
 
     class Meta:
         model = Registry
-        fields = ['name', 'civil_state', 'profession', 'image', 'client_of']
+        fields = ['name', 'image', 'client_of']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'civil_state': forms.TextInput(attrs={'class': 'form-control'}),
-            'profession': forms.TextInput(attrs={'class': 'form-control'}),
             'client_of': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%'}),
             'image': forms.FileInput(attrs={'class': 'custom-file'}),
         }
@@ -66,4 +62,39 @@ class RegistryAddressForm(forms.ModelForm):
             'complement': forms.TextInput(attrs={'class': 'form-control'}),
             'reference': forms.TextInput(attrs={'class': 'form-control'}),
             'cep': forms.TextInput(attrs={'class': 'form-control cep'}),
+        }
+
+class RegistryCpfForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RegistryCpfForm, self).__init__(*args, **kwargs)
+        self.fields["cpf"].label = "CPF"
+        self.fields["profession"].label = "Profissão"
+        self.fields["civil_state"].label = "Estado Civil"
+        for k, v in self.fields.items():
+            self.fields[k].required = False
+
+    class Meta:
+        model = RegistryCpf
+        fields = ["cpf", "profession", "civil_state"]
+        widgets = {
+            'cpf': forms.TextInput(attrs={'class': 'form-control cpf'}),
+            'profession': forms.TextInput(attrs={'class': 'form-control'}),
+            'civil_state': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class RegistryCnpjForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RegistryCnpjForm, self).__init__(*args, **kwargs)
+        self.fields["cnpj"].label = "CNPJ"
+        self.fields["interprise_type"].label = "Ramo da empresa"
+        for k, v in self.fields.items():
+            self.fields[k].required = False
+            
+    class Meta:
+        model = RegistryCnpj
+        fields = ["cnpj", "interprise_type"]
+        widgets = {
+            'cnpj': forms.TextInput(attrs={'class': 'form-control cnpj'}),
+            'interprise_type': forms.TextInput(attrs={'class': 'form-control'}),
         }

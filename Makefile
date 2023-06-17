@@ -19,12 +19,12 @@ build:
 	docker exec -i macedoazevedoapp sh -c 'python manage.py collectstatic --noinput --clear'
 
 run:
-	docker-compose -f docker-compose.yml down
-	docker-compose -f docker-compose.yml up
+	docker compose -f docker-compose.yml down
+	docker compose -f docker-compose.yml up
 
 run_prod:
-	docker-compose -f docker-compose-prod.yml down
-	docker-compose -f docker-compose-prod.yml up -d
+	docker compose -f docker-compose-prod.yml down
+	docker compose -f docker-compose-prod.yml up -d
 
 unit:
 	docker-compose -f docker-compose.yml run macedoazevedoapp python3 manage.py test
@@ -42,11 +42,11 @@ run_robot:
 	docker exec -it macedoazevedoapp python3 manage.py robot
 
 up:
-	docker-compose -f docker-compose.yml down
-	docker-compose -f docker-compose.yml up -d
+	docker compose -f docker-compose.yml down
+	docker compose -f docker-compose.yml up -d
 
 down:
-	docker-compose -f docker-compose.yml down
+	docker compose -f docker-compose.yml down
 
 coverage:
 	docker exec -i macedoazevedoapp sh -c 'coverage run manage.py test'
