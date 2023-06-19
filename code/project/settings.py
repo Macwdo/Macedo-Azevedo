@@ -198,13 +198,13 @@ AWS_REGION = os.environ.get('AWS_REGION')
 
 # AWS CLOUDWATCH
 
-boto3_logs_client = boto3.client(
-    "logs",
-    region_name=AWS_REGION,
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+# boto3_logs_client = boto3.client(
+#     "logs",
+#     region_name=AWS_REGION,
+#     aws_access_key_id=AWS_ACCESS_KEY_ID,
+#     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
 
-)
+# )
 
 # AWS S3
 
@@ -215,56 +215,56 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Logging
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "loggers": {
-        "processo": {
-            "handlers": ["cloud_watch"],
-            "level": "INFO"
-        },
-        "lawsuits_scraping": {
-            "handlers": ["cloud_watch"],
-            "level": "INFO"
-        },
-        "debug_handle": {
-            "handlers": ["debug_handle"],
-            "level": "DEBUG"
-        }
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "loggers": {
+#         "processo": {
+#             "handlers": ["cloud_watch"],
+#             "level": "INFO"
+#         },
+#         "lawsuits_scraping": {
+#             "handlers": ["cloud_watch"],
+#             "level": "INFO"
+#         },
+#         "debug_handle": {
+#             "handlers": ["debug_handle"],
+#             "level": "DEBUG"
+#         }
 
-    },
-    "handlers": {
-        "cloud_watch": {
-            "level": "INFO",
-            "class": "watchtower.CloudWatchLogHandler",
-            'boto3_client': boto3_logs_client,
-            "log_group": os.environ.get('AWS_LOG_GROUP'),
-            "stream_name": os.environ.get('AWS_LOG_STREAM_NAME'),
-            "formatter": "simple",
-        },
-        "debug_handle": {
-            "level": "DEBUG",
-            "class": "watchtower.CloudWatchLogHandler",
-            'boto3_client': boto3_logs_client,
-            "log_group": os.environ.get('AWS_LOG_GROUP'),
-            "stream_name": os.environ.get('AWS_LOG_STREAM_NAME'),
-            "formatter": "simple",
-        }
+#     },
+#     "handlers": {
+#         "cloud_watch": {
+#             "level": "INFO",
+#             "class": "watchtower.CloudWatchLogHandler",
+#             'boto3_client': boto3_logs_client,
+#             "log_group": os.environ.get('AWS_LOG_GROUP'),
+#             "stream_name": os.environ.get('AWS_LOG_STREAM_NAME'),
+#             "formatter": "simple",
+#         },
+#         "debug_handle": {
+#             "level": "DEBUG",
+#             "class": "watchtower.CloudWatchLogHandler",
+#             'boto3_client': boto3_logs_client,
+#             "log_group": os.environ.get('AWS_LOG_GROUP'),
+#             "stream_name": os.environ.get('AWS_LOG_STREAM_NAME'),
+#             "formatter": "simple",
+#         }
 
-    },
-    "formatters": {
-        "verbose": {
-            "format": "{levelname} {asctime} {name} {module} {funcName} {message}",
-            "datefmt": "[%d/%b/%Y %H:%M:%S]",
-            "style": "{",
-        },
-        "simple": {
-            "format": "{asctime} {levelname} {message}",
-            "datefmt": "[%d/%b/%Y %H:%M:%S]",
-            "style": "{",
-        },
-    },
-}
+#     },
+#     "formatters": {
+#         "verbose": {
+#             "format": "{levelname} {asctime} {name} {module} {funcName} {message}",
+#             "datefmt": "[%d/%b/%Y %H:%M:%S]",
+#             "style": "{",
+#         },
+#         "simple": {
+#             "format": "{asctime} {levelname} {message}",
+#             "datefmt": "[%d/%b/%Y %H:%M:%S]",
+#             "style": "{",
+#         },
+#     },
+# }
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

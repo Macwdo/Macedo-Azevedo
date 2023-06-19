@@ -4,6 +4,7 @@ from django.urls import path
 from .views import lawsuit_list, lawsuit_detail, lawsuit_delete, lawsuit_create, lawsuit_edit, lawsuit_finalize, lawsuit_revert_state
 from .views import lawsuit_value_create, lawsuit_value_delete, lawsuit_value_edit
 from .views import lawsuit_file_create, lawsuit_file_delete, lawsuit_file_edit
+from .views import lawsuit_board
 
 app_name = "lawsuit"
 
@@ -34,6 +35,8 @@ processo_router_nested.register(
 
 
 urlpatterns = [
+
+    path("board", lawsuit_board, name="lawsuit_board"),
     path("create", lawsuit_create, name="lawsuit_create"),
     path("", lawsuit_list, name="lawsuit_list"),
     path("<int:lawsuit_id>", lawsuit_detail, name="lawsuit_detail"),
