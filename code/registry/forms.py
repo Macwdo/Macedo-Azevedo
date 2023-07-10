@@ -28,8 +28,8 @@ class RegistryContactForm(forms.ModelForm):
         self.fields["email"].label = "Email"
         self.fields["phone_number"].label = "Celular"
         for k, v in self.fields.items():
-            if self.fields[k].required == False:
-                self.fields[k].label += " *"
+            self.fields[k].required = False
+            self.fields[k].label += " *"
 
     class Meta:
         model = RegistryContact

@@ -30,7 +30,6 @@ def lawyer_create(request: HttpRequest):
         else:
             messages.error(request, "Erro na criação do advogado")
             return render(request, "lawyer_create.html", context)
-
     return render(request, "lawyer_create.html", context)
     
 @login_required

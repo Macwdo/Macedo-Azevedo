@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.contrib import messages
 from django.urls import reverse
+from utils.send_email import send_email_with_template
 from registry.models import Registry, RegistryCnpj, RegistryCpf
 from registry.forms import RegistryCnpjForm, RegistryCpfForm, RegistryForm, RegistryContactForm, RegistryAddressForm
 from django.core.paginator import Paginator
@@ -137,27 +138,38 @@ def registry_edit(request: HttpRequest, registry_id: int):
     registry_cpf_form = RegistryCpfForm(request.POST, instance=registry)
     registry_cnpj_form = RegistryCnpjForm(request.POST, instance=registry)
         
-    try:
-        with transaction.atomic():
-            if registry_form.is_valid():
-                registry = registry_form.save()
+    #TODO
+    if registry_form.is_valid():
+        registry_form.save()
+        
+    if registry_cpf_form.is_valid():
+        cpf = registry_cpf_form.cleaned_data.get("cpf", None)
+        if cpf:
+            registry_cpf = RegistryCpf.objects.filter(registry=registry)
 
-                if registry_cpf_form.is_valid():
-                    cpf = registry_cpf_form.cleaned_data.get("cpf", None)
-                    if cpf:
-                        registry.registry_cpf = cpf
-                        
-                if registry_cnpj_form.is_valid():
-                    cnpj = registry_cnpj_form.cleaned_data.get("cnpj", None)
-                    if cnpj:
-                        registry.registry_cnpj = cnpj
+            if registry_cpf.exists():
+                registry_cpf.update(**registry_cpf_form.cleaned_data)
+            else:
+                registry_cpf_form.save(commit=False)
+                registry_cpf_form.cleaned_data["registry"] = registry
+                registry.registry_cpf = registry_cpf_form.save()
+                registry.registry_cpf.save()
+        
+    if registry_cnpj_form.is_valid():
+        cnpj = registry_cnpj_form.cleaned_data.get("cnpj", None)
+        if cnpj:
+            registry_cnpj = RegistryCnpj.objects.filter(registry=registry)
+            if registry_cnpj.exists():
+                registry_cnpj.update(**registry_cnpj_form.cleaned_data)
+            else:
+                registry_cnpj_form.save(commit=False)
+                registry_cnpj_form.cleaned_data["registry"] = registry
+                registry.registry_cnpj = registry_cnpj_form.save()
+                registry.registry_cnpj.save()
             
-            messages.success(request, "Registro editado com sucesso")
-            return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry.pk}))
-    except:
-        messages.error(request, "Não foi possível efetuar a edição do registro")
-        return redirect(reverse("registry:registry_create"))
-
+    messages.success(request, "Registro editado com sucesso")
+    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
+  
 @login_required
 @require_http_methods(["POST"])
 def registry_delete(request: HttpRequest, registry_id: int):
@@ -168,5 +180,31 @@ def registry_delete(request: HttpRequest, registry_id: int):
     except:
         messages.error(request, f"Não foi possível apagar o registro do {registry}")
     return redirect(reverse("registry:registry_list"))
+
+
+@login_required
+@require_http_methods(["POST"])
+def registry_send_email(request: HttpRequest, registry_id):
+    registry = get_object_or_404(Registry, pk=registry_id)
+
+    destiny = request.POST.get("email", None)
+    title = request.POST.get("title", None)
+    text = request.POST.get("text", None)
+
+    context = {
+        "name": registry.name,
+        "title": title,
+        "text": text
+    }
+
+    send_email_with_template(
+        registry_name=registry.name,
+        destiny=destiny,
+        context=context
+    )
+    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
+
+
+
 
 

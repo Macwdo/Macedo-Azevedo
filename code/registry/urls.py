@@ -1,5 +1,5 @@
 from django.urls import path
-from registry.views import registry_list, registry_create, registry_delete, registry_detail, registry_edit
+from registry.views import registry_list, registry_create, registry_delete, registry_detail, registry_edit, registry_send_email
 from registry.views import registry_address_create, registry_address_delete, registry_address_edit
 from registry.views import registry_contact_create, registry_contact_delete, registry_contact_edit
 
@@ -11,6 +11,7 @@ urlpatterns = [
     path("<int:registry_id>", registry_detail, name="registry_detail"),
     path("<int:registry_id>/edit", registry_edit, name="registry_edit"),
     path("<int:registry_id>/delete", registry_delete , name="registry_delete"),
+    path("<int:registry_id>/email", registry_send_email, name="registry_send_email"),
 
     path("<int:registry_id>/contact/create", registry_contact_create, name="registry_contact_create"),
     path("<int:registry_id>/contact/<int:contact_id>/edit", registry_contact_edit, name="registry_contact_edit"),

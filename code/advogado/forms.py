@@ -1,5 +1,4 @@
 from django import forms
-
 from advogado.models import Advogado
 from user.models import MAUser
 from django.core.exceptions import ValidationError

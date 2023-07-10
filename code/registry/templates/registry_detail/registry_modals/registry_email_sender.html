@@ -1,0 +1,45 @@
+<div class="modal fade" id="registry-email-sender-modal-{{registry.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" >
+                <h4 class="modal-title" >
+                    Você enviará um email para o registro <br>{{registry}}
+                </h4>
+            </div>
+            <form enctype="multipart/form-data" action="{% url 'registry:registry_send_email' registry.pk %}" method="POST">
+                {% csrf_token %}
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="content">Conteúdo do Email</label>
+                    <input class="form-control" type="text" name="content" id="content">
+
+                    <label for="email">Destinatário</label>
+                    <select class="form-control select2" name="email" required>
+                        {% for contact in registry.registry_contact.all %}
+                        <option value="{{contact.email}}">
+                            {{contact.email}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <hr>
+                    <label for="title">Título</label>
+                    <input class="form-control" type="text" name="title" id="title">
+
+                    <label for="text">Texto para ser enviado</label>
+                    <textarea class="form-control" id="text" rows="3"></textarea>
+                    <hr>
+                    <label for="file">Arquivos</label>
+                    <input type="file" name="files[]" multiple>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Fechar
+              </button>
+                  <button type="submit" class="btn btn-success">Enviar</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,7 @@
 {% load static %}
 {% load forms_tag %}
+{% include "registry_detail/registry_modals/registry_email_sender.html" %}
+
 {% if not registry %}
 <div class="row">
     <div class="col-md-12">
@@ -61,7 +63,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form id="form" enctype='multipart/form-data' action="{% url 'registry:registry_create' %}" method="POST">
+                <form id="form" enctype='multipart/form-data' action="{% url 'registry:registry_edit' registry.pk %}" method="POST">
                     <span role="button" data-toggle="collapse" data-target="#registry" aria-expanded="false" aria-controls="registry" class="mont-serrat" style="font-size: 24px;">
                         Registro <i class="fas fa-chevron-down"></i>
                     </span>
@@ -125,6 +127,10 @@
                     <button id="submit_button" type="submit" class="btn btn-lg btn-success">
                         {% if registry %}Salvar{% else %} Criar {% endif %}
                     </button>
+                    <a href="" class="btn btn-primary btn-lg float-right" data-toggle="modal" data-target="#registry-email-sender-modal-{{registry.pk}}">
+                        Enviar Email
+                    </a>
+
                 </form>
             </div>
         </div>
