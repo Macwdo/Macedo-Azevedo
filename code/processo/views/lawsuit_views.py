@@ -51,24 +51,30 @@ def lawsuit_list(request: HttpRequest):
             Q(colaborador__name__icontains=q) |
             Q(colaborador__oab__icontains=q) |
             Q(colaborador__cpf__icontains=q) |
-            
-            Q(parte_adversa__registry_cpf__cpf__icontains=q) |
-            Q(parte_adversa__registry_cnpj__cnpj__icontains=q) |
+                
+            #TODO Fix cpf/cnpj filters
             Q(parte_adversa__name__icontains=q) |
-            Q(parte_adversa__civil_state__icontains=q) |
-            Q(parte_adversa__profession__icontains=q) |
-            
-            Q(cliente__registry_cpf__cpf__icontains=q) |
-            Q(cliente__registry_cnpj__cnpj__icontains=q) |
+            Q(parte_adversa__client_of__name__icontains=q) |
+            # Q(parte_adversa_cpf__icontains=q) |
+            # Q(parte_adversa_cnpj__icontains=q) |
+            # Q(parte_adversa__civil_state__icontains=q) |
+            # Q(parte_adversa__profession__icontains=q) |
+                
+            #TODO Fix cpf/cnpj filters
             Q(cliente__name__icontains=q) |
-            Q(cliente__civil_state__icontains=q) |
-            Q(cliente__profession__icontains=q) |
-            
-            Q(indicado_por__registry_cpf__cpf__icontains=q) |
-            Q(indicado_por__registry_cnpj__cnpj__icontains=q) |
+            Q(cliente__client_of__name__icontains=q) |
+            # Q(cliente__registry__cpf_cpf__icontains=q) |
+            # Q(cliente__registry__cnpj_cnpj__icontains=q) |
+            # Q(cliente__civil_state__icontains=q) |
+            # Q(cliente__profession__icontains=q) |
+                        
+            #TODO Fix cpf/cnpj filters
             Q(indicado_por__name__icontains=q) |
-            Q(indicado_por__civil_state__icontains=q) |
-            Q(indicado_por__profession__icontains=q) |
+            Q(indicado_por__client_of__name__icontains=q) |
+            # Q(indicado_por__registry__cpf_cpf__icontains=q) |
+            # Q(indicado_por__registry__cnpj_cnpj__icontains=q) |
+            # Q(indicado_por__civil_state__icontains=q) |
+            # Q(indicado_por__profession__icontains=q) |
             
             Q(assunto__icontains=q) |
             Q(estado__icontains=q) |

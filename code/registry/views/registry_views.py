@@ -68,18 +68,18 @@ def registry_create(request: HttpRequest):
 @login_required
 @require_http_methods(["GET"])
 def registry_list(request: HttpRequest):
-    registrys = Registry.objects.all().order_by("-id")
+    registries = Registry.objects.all().order_by("-id")
     
     q = request.GET.get("q", None)
     if q:
-        registrys = registrys.filter(name__icontains=q)
+        registries = registries.filter(name__icontains=q)
 
-    paginator = Paginator(registrys, 9)
+    paginator = Paginator(registries, 9)
     page_num = request.GET.get('page')
     page = paginator.get_page(page_num)
 
     context = {
-        "registrys": registrys,
+        "registries": registries,
         "page": page
     }
     return render(request, "registry_list.html", context)
@@ -138,7 +138,6 @@ def registry_edit(request: HttpRequest, registry_id: int):
     registry_cpf_form = RegistryCpfForm(request.POST, instance=registry)
     registry_cnpj_form = RegistryCnpjForm(request.POST, instance=registry)
         
-    #TODO
     if registry_form.is_valid():
         registry_form.save()
         
@@ -150,21 +149,24 @@ def registry_edit(request: HttpRequest, registry_id: int):
             if registry_cpf.exists():
                 registry_cpf.update(**registry_cpf_form.cleaned_data)
             else:
-                registry_cpf_form.save(commit=False)
+                import ipdb; ipdb.set_trace();
                 registry_cpf_form.cleaned_data["registry"] = registry
-                registry.registry_cpf = registry_cpf_form.save()
+                new_registry_cpf = RegistryCpf.objects.create(**registry_cpf_form.cleaned_data)
+                registry.registry_cpf = new_registry_cpf
                 registry.registry_cpf.save()
         
     if registry_cnpj_form.is_valid():
         cnpj = registry_cnpj_form.cleaned_data.get("cnpj", None)
         if cnpj:
             registry_cnpj = RegistryCnpj.objects.filter(registry=registry)
+
             if registry_cnpj.exists():
                 registry_cnpj.update(**registry_cnpj_form.cleaned_data)
             else:
-                registry_cnpj_form.save(commit=False)
+                import ipdb; ipdb.set_trace();
                 registry_cnpj_form.cleaned_data["registry"] = registry
-                registry.registry_cnpj = registry_cnpj_form.save()
+                new_registry_cnpj = RegistryCnpj.objects.create(**registry_cnpj_form.cleaned_data)
+                registry.registry_cnpj = new_registry_cnpj
                 registry.registry_cnpj.save()
             
     messages.success(request, "Registro editado com sucesso")
