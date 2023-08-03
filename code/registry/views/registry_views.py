@@ -149,7 +149,6 @@ def registry_edit(request: HttpRequest, registry_id: int):
             if registry_cpf.exists():
                 registry_cpf.update(**registry_cpf_form.cleaned_data)
             else:
-                import ipdb; ipdb.set_trace();
                 registry_cpf_form.cleaned_data["registry"] = registry
                 new_registry_cpf = RegistryCpf.objects.create(**registry_cpf_form.cleaned_data)
                 registry.registry_cpf = new_registry_cpf
@@ -163,7 +162,6 @@ def registry_edit(request: HttpRequest, registry_id: int):
             if registry_cnpj.exists():
                 registry_cnpj.update(**registry_cnpj_form.cleaned_data)
             else:
-                import ipdb; ipdb.set_trace();
                 registry_cnpj_form.cleaned_data["registry"] = registry
                 new_registry_cnpj = RegistryCnpj.objects.create(**registry_cnpj_form.cleaned_data)
                 registry.registry_cnpj = new_registry_cnpj
