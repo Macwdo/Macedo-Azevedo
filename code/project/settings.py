@@ -16,7 +16,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = True if os.environ.get("DEBUG") == "1" else False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "*",
+    "smart-buzzard-quick.ngrok-free.app",
+    "https://smart-buzzard-quick.ngrok-free.app"
+    "https://smart-buzzard-quick.ngrok-free.app/"
+]
 CORS_ALLOWED_ORIGINS = loads(os.environ.get("CORS_ALLOWED_ORIGINS", "[]"))
 
 INSTALLED_APPS = [
