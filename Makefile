@@ -1,33 +1,45 @@
+build_image:
+	docker build -t macwdo/macedoazevedoapp:latest .
+
+attach:
+	docker attach macedoazevedoapp
+
 admin:
-	python manage.py createsuperuser --username admin
+	docker exec -it macedoazevedoapp sh -c 'python manage.py createsuperuser --username admin'
+
 migrations:
-	python manage.py makemigrations user registry processo advogado
+	docker exec -i macedoazevedoapp sh -c 'python manage.py makemigrations user registry processo advogado'
 
 migrate:
-	python manage.py migrate
+	docker exec -i macedoazevedoapp sh -c 'python manage.py migrate'
 
 build:
-	pip install -r requirements.txt
-	python manage.py migrate
-	python manage.py collectstatic --noinput --clear
+	docker exec -i macedoazevedoapp sh -c 'pip install -r requirements.txt'
+	docker exec -i macedoazevedoapp sh -c 'python manage.py migrate'
+	docker exec -i macedoazevedoapp sh -c 'python manage.py collectstatic --noinput --clear'
 
 run:
-	python manage.py runserver
+	docker compose -f docker-compose.yml down
+	docker compose -f docker-compose.yml up
 
-unit_django:
-	python manage.py test
+run_prod:
+	docker compose -f docker-compose-prod.yml down
+	docker compose -f docker-compose-prod.yml up -d
 
-unit_pytest:
-	python manage.py test
+unit:
+	docker-compose -f docker-compose.yml run macedoazevedoapp python3 manage.py test
+
+connect:
+	docker exec -it macedoazevedoapp /bin/bash
 
 celery_connect:
-	celery -A project worker --loglevel=INFO
+	docker exec -i macedoazevedoapp sh -c 'celery -A project worker --loglevel=INFO'
 
 load_data:
-	python manage.py loaddata */fixtures/*.json
+	docker exec -i macedoazevedoapp sh -c 'python manage.py loaddata */fixtures/*.json'
 
 run_robot:
-	python manage.py robot
+	docker exec -it macedoazevedoapp python3 manage.py robot
 
 up:
 	docker compose -f docker-compose.yml down
@@ -37,5 +49,9 @@ down:
 	docker compose -f docker-compose.yml down
 
 coverage:
-	coverage run manage.py test
-	coverage html
+	docker exec -i macedoazevedoapp sh -c 'coverage run manage.py test'
+	docker exec -i macedoazevedoapp sh -c 'coverage html'
+
+
+
+
