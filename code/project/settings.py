@@ -86,13 +86,13 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # Sentry
 
-if not DEBUG:
-    sentry_sdk.init(
-        dsn=os.environ.get("DSN"),
-        integrations=[
-            DjangoIntegration(),
-        ],
-    )
+sentry_sdk.init(
+    dsn=os.environ.get("DSN"),
+    integrations=[
+        DjangoIntegration(),
+    ],
+    enable_tracing=True
+)
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
