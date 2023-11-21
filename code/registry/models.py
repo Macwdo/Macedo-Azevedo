@@ -1,7 +1,6 @@
 from django.db import models
 from advogado.models import Advogado
 
-
 class Registry(models.Model):
     name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -28,7 +27,6 @@ class Registry(models.Model):
     def is_indicator(self) -> bool:
         return self.lawsuit_indicated_by.exists()
         
-
 class RegistryCpf(models.Model):
     registry = models.OneToOneField(Registry, on_delete=models.CASCADE, primary_key=True, related_name="registry_cpf")
     cpf = models.CharField(max_length=14)
@@ -37,7 +35,6 @@ class RegistryCpf(models.Model):
 
     def __str__(self) -> str:
         return self.cpf
-
     
 class RegistryCnpj(models.Model):
     registry = models.OneToOneField(Registry, on_delete=models.CASCADE, primary_key=True, related_name="registry_cnpj")
@@ -46,7 +43,6 @@ class RegistryCnpj(models.Model):
 
     def __str__(self) -> str:
         return self.cnpj
-
 
 class RegistryAddress(models.Model):
     registry = models.ForeignKey(Registry, models.CASCADE, related_name="registry_address")

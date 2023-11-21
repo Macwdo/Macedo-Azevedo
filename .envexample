@@ -31,10 +31,10 @@ EMAIL_HOST=SMTP.office365.com
 
 DATABASE_USER=postgres
 DATABASE_NAME=db_app
-DATABASE_HOST=db_macedoazevedoapp
+DATABASE_HOST=db_ma_app
 DATABASE_PORT=5432
 DATABASE_PASSWORD=12345
 
 # Celery
 
-CELERY_BROKER_URL=pyamqp://guest@rabbitmq_macedoazevedoapp//
+CELERY_BROKER_URL=pyamqp://guest@rmq_ma_app//

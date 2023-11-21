@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  macedoazevedoapp:
-    container_name: macedoazevedoapp
-    image: macwdo/macedoazevedoapp:latest
+  ma_app:
+    container_name: ma_app
+    image: macwdo/ma_app:latest
     ports:
       - "8000:8000"
     stdin_open: true 
@@ -13,10 +13,12 @@ services:
     volumes:
       - ./code:/home/app
     depends_on:
-      - db_macedoazevedoapp
+      - db_ma_app
+      - rmq_ma_app
+      - nginx_ma_app
 
-  nginx_macedoazevedoapp:
-    container_name: nginx_macedoazevedoapp
+  nginx_ma_app:
+    container_name: nginx_ma_app
     build:
       context: nginx/
       dockerfile: Dockerfile
@@ -24,11 +26,9 @@ services:
       - ./code/staticfiles:/home/app/staticfiles
     ports:
       - 80:80
-    depends_on:
-      - macedoazevedoapp
       
-  db_macedoazevedoapp:
-    container_name: db_macedoazevedoapp
+  db_ma_app:
+    container_name: db_ma_app
     image: postgres:latest
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -39,28 +39,28 @@ services:
     ports:
       - "5431:5432"
 
-  rabbitmq_macedoazevedoapp:
-   container_name: rabbitmq_macedoazevedoapp
+  rmq_ma_app:
+   container_name: rmq_ma_app
    image: rabbitmq:latest
    restart: always
    ports:
      - 5672:5672
      - 8080:15672
 
-  worker_macedoazevedoapp:
-   container_name: worker_macedoazevedoapp
-   image: macwdo/macedoazevedoapp:latest
+  worker_ma_app:
+   container_name: worker_ma_app
+   image: macwdo/ma_app:latest
    command: celery -A project worker --loglevel=INFO
    volumes:
      - ./code:/home/app
    env_file: .env
    restart: always
    depends_on:
-     - rabbitmq_macedoazevedoapp
+     - rmq_ma_app
 
-  celery_beat_macedoazevedoapp:
-   container_name: celery_beat_macedoazevedoapp
-   image: macwdo/macedoazevedoapp:latest
+  beat_ma_app:
+   container_name: beat_ma_app
+   image: macwdo/ma_app:latest
    command: celery -A project beat -l debug
    volumes:
      - ./code:/home/app
@@ -68,21 +68,24 @@ services:
    env_file: .env
    restart: always
    depends_on:
-     - rabbitmq_macedoazevedoapp
+     - worker_ma_app
+     - rmq_ma_app
 
-  celery_flower_macedoazevedoapp:
-   container_name: celery_flower_macedoazevedoapp
-   image: macwdo/macedoazevedoapp:latest
+  flower_ma_app:
+   container_name: flower_ma_app
+   image: macwdo/ma_app:latest
    command: celery -A project flower
    volumes:
-     - ./code:/home/app
+     - flower_data:/data
    ports:
      - "5555:5555"
    env_file: .env
    restart: always
    depends_on:
-     - rabbitmq_macedoazevedoapp
+     - rmq_ma_app
+     - worker_ma_app
+     - beat_ma_app
 
 volumes:
   postgres_data:
-  pgadmindata:
+  flower_data:

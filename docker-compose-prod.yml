@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  macedoazevedoapp:
-    container_name: macedoazevedoapp
-    image: macwdo/macedoazevedoapp:latest
+  ma_app:
+    container_name: ma_app
+    image: macwdo/ma_app:latest
     ports:
       - "80:8000"
     stdin_open: true 

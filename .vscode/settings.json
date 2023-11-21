@@ -2,5 +2,6 @@
     "yaml.schemas": {
         "https://json.schemastore.org/github-workflow.json": "file:///home/macwdo/codes/Macedo-Azevedo/.github/workflows/deploy.yml"
     },
-    "python.analysis.typeCheckingMode": "off"
+    "python.analysis.typeCheckingMode": "basic",
+    "liveServer.settings.port": 5501
 }

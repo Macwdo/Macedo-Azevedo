@@ -1,9 +1,11 @@
+from smtplib import SMTPAuthenticationError, SMTPSenderRefused
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest
 from django.contrib import messages
 from django.urls import reverse
+import sentry_sdk
 from utils.send_email import send_email_with_template
 from registry.models import Registry, RegistryCnpj, RegistryCpf
 from registry.forms import RegistryCnpjForm, RegistryCpfForm, RegistryForm, RegistryContactForm, RegistryAddressForm
@@ -64,7 +66,7 @@ def registry_create(request: HttpRequest):
         except:
             messages.error(request, "Não foi possível efetuar a criação do registro")
             return redirect(reverse("registry:registry_create"))
-            
+
 @login_required
 @require_http_methods(["GET"])
 def registry_list(request: HttpRequest):
@@ -190,19 +192,35 @@ def registry_send_email(request: HttpRequest, registry_id):
     destiny = request.POST.get("email", None)
     title = request.POST.get("title", None)
     text = request.POST.get("text", None)
+    files = request.FILES.getlist("files[]")
 
     context = {
         "name": registry.name,
         "title": title,
         "text": text
     }
+    
+    try:
+        send_email_with_template(
+            registry_name=registry.name,
+            destiny=destiny,
+            context=context,
+            files=files
+        )
+        messages.success(request, "Email enviado com sucesso.")
+        
+        return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
 
-    send_email_with_template(
-        registry_name=registry.name,
-        destiny=destiny,
-        context=context
-    )
-    return redirect(reverse("registry:registry_detail", kwargs={"registry_id": registry_id}))
+    except SMTPAuthenticationError as e:
+        sentry_sdk.capture_exception(e)
+        messages.error(request, "Houve um erro com a senha do email raiz, favor contatar administrador.")
+        
+    except SMTPSenderRefused as e:
+        sentry_sdk.capture_exception(e)
+        messages.error(request, "Houve um erro ao enviar o email, favor contatar administrador.")
+
+
+
 
 
 

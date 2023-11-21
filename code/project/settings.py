@@ -86,13 +86,15 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # Sentry
 
-sentry_sdk.init(
-    dsn=os.environ.get("DSN"),
-    integrations=[
-        DjangoIntegration(),
-    ],
-    enable_tracing=True
-)
+DSN = os.environ.get("DSN", None)
+if DSN:
+    sentry_sdk.init(
+        dsn=DSN,
+        integrations=[
+            DjangoIntegration(),
+        ],
+        enable_tracing=True
+    )
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -126,8 +128,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-TRACKED = ["8.19"]
 
 # Sentry
 
@@ -186,7 +186,7 @@ DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
-EMAIL_PORT = 587
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
 EMAIL_HOST = os.environ.get("EMAIL_HOST")
 
 # AWS CONFIG
@@ -195,116 +195,19 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
 AWS_REGION = os.environ.get('AWS_REGION')
 
-# AWS CLOUDWATCH
-
-# boto3_logs_client = boto3.client(
-#     "logs",
-#     region_name=AWS_REGION,
-#     aws_access_key_id=AWS_ACCESS_KEY_ID,
-#     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-
-# )
-
-# AWS S3
-
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME')
-AWS_S3_FILE_OVERWRITE = False
-AWS_S3_REGION_NAME = AWS_REGION
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-# Logging
-
-# LOGGING = {
-#     "version": 1,
-#     "disable_existing_loggers": False,
-#     "loggers": {
-#         "processo": {
-#             "handlers": ["cloud_watch"],
-#             "level": "INFO"
-#         },
-#         "lawsuits_scraping": {
-#             "handlers": ["cloud_watch"],
-#             "level": "INFO"
-#         },
-#         "debug_handle": {
-#             "handlers": ["debug_handle"],
-#             "level": "DEBUG"
-#         }
-
-#     },
-#     "handlers": {
-#         "cloud_watch": {
-#             "level": "INFO",
-#             "class": "watchtower.CloudWatchLogHandler",
-#             'boto3_client': boto3_logs_client,
-#             "log_group": os.environ.get('AWS_LOG_GROUP'),
-#             "stream_name": os.environ.get('AWS_LOG_STREAM_NAME'),
-#             "formatter": "simple",
-#         },
-#         "debug_handle": {
-#             "level": "DEBUG",
-#             "class": "watchtower.CloudWatchLogHandler",
-#             'boto3_client': boto3_logs_client,
-#             "log_group": os.environ.get('AWS_LOG_GROUP'),
-#             "stream_name": os.environ.get('AWS_LOG_STREAM_NAME'),
-#             "formatter": "simple",
-#         }
-
-#     },
-#     "formatters": {
-#         "verbose": {
-#             "format": "{levelname} {asctime} {name} {module} {funcName} {message}",
-#             "datefmt": "[%d/%b/%Y %H:%M:%S]",
-#             "style": "{",
-#         },
-#         "simple": {
-#             "format": "{asctime} {levelname} {message}",
-#             "datefmt": "[%d/%b/%Y %H:%M:%S]",
-#             "style": "{",
-#         },
-#     },
-# }
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-
 STATIC_URL = '/staticfiles/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+MEDIA_URL = "/files/"
+MEDIA_ROOT = "files/"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# SIMPLE JWT
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'BLACKLIST_AFTER_ROTATION': False,
-
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
-
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION'
-}
-
-
-# Api Swagger
-
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'basic': {
-            'type': 'basic'
-        }
-    }
-}
 
 # Celery
 

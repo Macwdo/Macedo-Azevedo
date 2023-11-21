@@ -20,7 +20,6 @@ class RegistryForm(forms.ModelForm):
             'client_of': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%'}),
             'image': forms.FileInput(attrs={'class': 'custom-file'}),
         }
-    
 
 class RegistryContactForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -39,7 +38,6 @@ class RegistryContactForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control phone'}),
         }
-
 
 class RegistryAddressForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -81,7 +79,6 @@ class RegistryCpfForm(forms.ModelForm):
             'profession': forms.TextInput(attrs={'class': 'form-control'}),
             'civil_state': forms.TextInput(attrs={'class': 'form-control'}),
         }
-
 
 class RegistryCnpjForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
