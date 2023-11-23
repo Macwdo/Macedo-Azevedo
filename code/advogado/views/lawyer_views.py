@@ -73,13 +73,14 @@ def lawyer_detail(request: HttpRequest, lawyer_id):
 @require_http_methods(["POST"])
 def lawyer_edit(request: HttpRequest, lawyer_id: int):
     lawyer = get_object_or_404(Advogado, pk=lawyer_id)
-    lawyer_form = LawyerForm(request.POST, request.FILES, instance=lawyer)
+    lawyer_form = LawyerForm(request.POST, request.FILES, instance=lawyer)  
 
     if lawyer_form.is_valid():
         lawyer = lawyer_form.save()
         messages.success(request, f"Advogado {lawyer.name} editado com sucesso")
     else:
-        messages.error(request, f"Não foi possível realizar a edição do advogado {lawyer.name}")
+        for error in lawyer_form.errors:
+            messages.error(request, f"{lawyer_form.errors[error]}")
 
     return redirect(reverse("lawyer:lawyer_detail", kwargs={"lawyer_id": lawyer_id}))
 
