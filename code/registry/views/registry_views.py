@@ -184,26 +184,27 @@ def registry_delete(request: HttpRequest, registry_id: int):
     return redirect(reverse("registry:registry_list"))
 
 
-@login_required
+@login_required()
 @require_http_methods(["POST"])
 def registry_send_email(request: HttpRequest, registry_id):
     registry = get_object_or_404(Registry, pk=registry_id)
 
-    destiny = request.POST.get("email", None)
-    title = request.POST.get("title", None)
-    text = request.POST.get("text", None)
+    receiver = request.POST["email"]
+    title = request.POST["title"]
+    text = request.POST["text"]
+    content = request.POST["content"]
     files = request.FILES.getlist("files[]")
 
     context = {
         "name": registry.name,
         "title": title,
-        "text": text
+        "text": text,
+        "content": content
     }
     
     try:
         send_email_with_template(
-            registry_name=registry.name,
-            destiny=destiny,
+            receivers=[receiver],
             context=context,
             files=files
         )

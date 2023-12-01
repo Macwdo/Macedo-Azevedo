@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="content">Conteúdo do Email</label>
-                    <input class="form-control" type="text" name="content" id="content">
+                    <input required class="form-control" type="text" name="content" id="content">
 
                     <label for="email">Destinatário</label>
                     <select class="form-control select2" name="email" required>
@@ -25,10 +25,10 @@
                     </select>
                     <hr>
                     <label for="title">Título</label>
-                    <input class="form-control" type="text" name="title" id="title">
+                    <input required class="form-control" type="text" name="title" id="title">
 
                     <label for="text">Texto para ser enviado</label>
-                    <textarea class="form-control" name="text" id="text" rows="3"></textarea>
+                    <textarea required class="form-control" name="text" id="text" rows="3"></textarea>
                     <hr>
                     <label for="file">Arquivos</label>
                     <input type="file" name="files[]" multiple>
