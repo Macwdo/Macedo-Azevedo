@@ -33,6 +33,6 @@ def send_email_with_template(registry_name, destiny, context, files):
             mimetype=content_type
         )
         
-        email.send()
+    email.send()
 
 
