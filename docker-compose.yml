@@ -12,6 +12,7 @@ services:
     env_file: .env
     volumes:
       - ./code:/home/app
+    restart: unless-stopped
     depends_on:
       - db_ma_app
       - rmq_ma_app
@@ -44,8 +45,8 @@ services:
    image: rabbitmq:latest
    restart: always
    ports:
-     - 5672:5672
-     - 8080:15672
+     - 5673:5673
+     - 8083:15673
 
   worker_ma_app:
    container_name: worker_ma_app
