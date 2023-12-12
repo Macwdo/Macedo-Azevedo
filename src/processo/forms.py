@@ -8,76 +8,111 @@ from processo.models import Processos, ProcessosAnexos, ProcessosHonorarios
 class LawsuitForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(LawsuitForm, self).__init__(*args, **kwargs)
-        self.fields["finalizado"].required = False
-        self.fields["observacoes"].required = False
+        self.fields['finalizado'].required = False
+        self.fields['observacoes'].required = False
         for k, v in self.fields.items():
             if self.fields[k].required == False:
-                self.fields[k].label += " *"
+                self.fields[k].label += ' *'
 
-    iniciado = forms.DateField(widget=forms.DateInput(attrs=
-        {
-            'class': 'form-control',
-            'data-inputmask-alias': "datetime",
-            'data-inputmask-inputformat': "dd/mm/yyyy",
-            'data-mask': 'data-mask',
-            'datepicker': 'datepicker',
-        }
-    ), label='Data de início')
-    
-    finalizado = forms.DateField(widget=forms.DateInput(attrs=
-        {
-            'class': 'form-control',
-            'data-inputmask-alias': "datetime",
-            'data-inputmask-inputformat': "dd/mm/yyyy",
-            'data-mask': 'data-mask',
-            'datepicker': 'datepicker',
-        }
-    ), label='Data de Fim')
+    iniciado = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'class': 'form-control',
+                'data-inputmask-alias': 'datetime',
+                'data-inputmask-inputformat': 'dd/mm/yyyy',
+                'data-mask': 'data-mask',
+                'datepicker': 'datepicker',
+            }
+        ),
+        label='Data de início',
+    )
+
+    finalizado = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                'class': 'form-control',
+                'data-inputmask-alias': 'datetime',
+                'data-inputmask-inputformat': 'dd/mm/yyyy',
+                'data-mask': 'data-mask',
+                'datepicker': 'datepicker',
+            }
+        ),
+        label='Data de Fim',
+    )
 
     field_order = [
-            'advogado_responsavel',
-            'parte_adversa',
-            'cliente',
-            'posicao',
-            'codigo_processo',
-            'indicado_por',
-            'cliente_de',
-            'colaborador',
-            'assunto',
-            'vara',
-            'estado',
-            'municipio',
-            'observacoes',
-            'iniciado',
-            'finalizado',
-        ]
+        'advogado_responsavel',
+        'parte_adversa',
+        'cliente',
+        'posicao',
+        'codigo_processo',
+        'indicado_por',
+        'cliente_de',
+        'colaborador',
+        'assunto',
+        'vara',
+        'estado',
+        'municipio',
+        'observacoes',
+        'iniciado',
+        'finalizado',
+    ]
+
     class Meta:
         model = Processos
-        fields = "__all__"
-        requireds = {
-            'finalizado': False
-        }
+        fields = '__all__'
+        requireds = {'finalizado': False}
         widgets = {
-            'codigo_processo': forms.TextInput(attrs={
-                'class': 'form-control lawsuitcode-mask',
-                'placeholder': 'NNNNNNN-DD.AAAA.J.TR.OOOO'
-            }),
-            'advogado_responsavel': forms.Select(attrs={'class': 'form-control select2bs4', 'style': 'width: 100%;'}),
-            'parte_adversa': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
-            'cliente': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
-            'indicado_por': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
-            'posicao': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
-            'colaborador': forms.Select(attrs={'class': 'form-control select2', 'style': 'width: 100%;'}),
+            'codigo_processo': forms.TextInput(
+                attrs={
+                    'class': 'form-control lawsuitcode-mask',
+                    'placeholder': 'NNNNNNN-DD.AAAA.J.TR.OOOO',
+                }
+            ),
+            'advogado_responsavel': forms.Select(
+                attrs={
+                    'class': 'form-control select2bs4',
+                    'style': 'width: 100%;',
+                }
+            ),
+            'parte_adversa': forms.Select(
+                attrs={
+                    'class': 'form-control select2',
+                    'style': 'width: 100%;',
+                }
+            ),
+            'cliente': forms.Select(
+                attrs={
+                    'class': 'form-control select2',
+                    'style': 'width: 100%;',
+                }
+            ),
+            'indicado_por': forms.Select(
+                attrs={
+                    'class': 'form-control select2',
+                    'style': 'width: 100%;',
+                }
+            ),
+            'posicao': forms.Select(
+                attrs={
+                    'class': 'form-control select2',
+                    'style': 'width: 100%;',
+                }
+            ),
+            'colaborador': forms.Select(
+                attrs={
+                    'class': 'form-control select2',
+                    'style': 'width: 100%;',
+                }
+            ),
             'estado': forms.TextInput(attrs={'class': 'form-control'}),
             'municipio': forms.TextInput(attrs={'class': 'form-control'}),
             'observacoes': forms.Textarea(attrs={'class': 'form-control'}),
             'vara': forms.TextInput(attrs={'class': 'form-control'}),
             'iniciado': forms.DateTimeInput(attrs={'class': 'form-control'}),
             'finalizado': forms.DateTimeInput(attrs={'class': 'form-control'}),
-            'assunto': forms.TextInput(attrs={'class': 'form-control'})
+            'assunto': forms.TextInput(attrs={'class': 'form-control'}),
         }
-        
-        
 
         help_texts = {
             'codigo_processo': 'Insira o codigo do processo.',
@@ -92,27 +127,32 @@ class LawsuitForm(ModelForm):
             'inicializado': 'Dia em que se iniciou o processo',
             'finalizado': 'Dia em que se finalizou o processo (Caso estiver em andamento deixar em branco).',
             'assunto': 'Indique o assunto do processo',
-            'indicado_por': 'Indique se esse processo foi indicação de alguem'
+            'indicado_por': 'Indique se esse processo foi indicação de alguem',
         }
-        
+
     def clean_colaborador(self):
         data = self.cleaned_data['colaborador']
-        if self.cleaned_data['colaborador'] == self.cleaned_data['advogado_responsavel']:
-            raise ValidationError("O colaborador não pode ser o advogado do caso.")
+        if (
+            self.cleaned_data['colaborador']
+            == self.cleaned_data['advogado_responsavel']
+        ):
+            raise ValidationError(
+                'O colaborador não pode ser o advogado do caso.'
+            )
         return data
 
     def clean_cliente(self):
         data = self.cleaned_data['cliente']
         if self.cleaned_data['cliente'] == self.cleaned_data['parte_adversa']:
-            raise ValidationError("O Cliente não pode ser a parte adversa")
+            raise ValidationError('O Cliente não pode ser a parte adversa')
         return data
 
 
 class LawsuitFileForm(ModelForm):
     class Meta:
         model = ProcessosAnexos
-        fields = "__all__"
-        exclude = ["processo"]
+        fields = '__all__'
+        exclude = ['processo']
 
         widgets = {
             'nome_do_anexo': forms.TextInput(attrs={'class': 'form-control'}),
@@ -123,14 +163,13 @@ class LawsuitFileForm(ModelForm):
 class LawsuitValuesForm(ModelForm):
     class Meta:
         model = ProcessosHonorarios
-        fields = "__all__"
-        exclude = ["processo", "ganho"]
+        fields = '__all__'
+        exclude = ['processo', 'ganho']
 
         widgets = {
             'referente': forms.TextInput(attrs={'class': 'form-control'}),
-            'advogado_responsavel': forms.Select(attrs={'class': 'form-control', 'style': 'width: 100%;'}),
+            'advogado_responsavel': forms.Select(
+                attrs={'class': 'form-control', 'style': 'width: 100%;'}
+            ),
             'valor': forms.TextInput(attrs={'class': 'form-control money'}),
-
         }
-
-

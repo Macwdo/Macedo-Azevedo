@@ -23,7 +23,7 @@ class AdvogadoViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
-@api_view(["GET"])
+@api_view(['GET'])
 def getCurrentUser(request: Request):
     if request.user.is_anonymous:
         raise NotAuthenticated()
@@ -32,7 +32,10 @@ def getCurrentUser(request: Request):
     try:
         advogadoData = Advogado.objects.get(usuario=user)
     except Advogado.DoesNotExist:
-        return Response(status=404, data={"detail": "Não existe advogado vinculado a esse usuario"})
+        return Response(
+            status=404,
+            data={'detail': 'Não existe advogado vinculado a esse usuario'},
+        )
 
     advogado_processos = Processos.objects.filter(
         advogado_responsavel=advogadoData.pk
@@ -45,9 +48,9 @@ def getCurrentUser(request: Request):
         honorarios = 0
 
     serializerData = {
-        "nome": advogadoData.nome,
-        "honorarios": honorarios,
-        "processos": len(advogado_processos)
+        'nome': advogadoData.nome,
+        'honorarios': honorarios,
+        'processos': len(advogado_processos),
     }
 
     serializer = AdvogadoCurrentSerializer(data=serializerData)

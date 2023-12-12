@@ -1,9 +1,6 @@
 import os
-from datetime import timedelta
 from json import loads
-from pathlib import Path
 
-import boto3
 import sentry_sdk
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
@@ -15,13 +12,11 @@ load_dotenv()
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = True if os.environ.get("DEBUG") == "1" else False
+DEBUG = True if os.environ.get('DEBUG') == '1' else False
 
-ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = [
-    "https://smart-buzzard-quick.ngrok-free.app"
-]
-CORS_ALLOWED_ORIGINS = loads(os.environ.get("CORS_ALLOWED_ORIGINS", "[]"))
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://smart-buzzard-quick.ngrok-free.app']
+CORS_ALLOWED_ORIGINS = loads(os.environ.get('CORS_ALLOWED_ORIGINS', '[]'))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -30,9 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'project',
-
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -42,12 +35,10 @@ INSTALLED_APPS = [
     'drf_yasg',
     'storages',
     'django_celery_beat',
-
     'processo',
     'registry',
     'advogado',
     'user',
-
 ]
 
 MIDDLEWARE = [
@@ -61,8 +52,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'easyaudit.middleware.easyaudit.EasyAuditMiddleware',
-    'django.middleware.locale.LocaleMiddleware'
-
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -87,14 +77,14 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # Sentry
 
-DSN = os.environ.get("DSN", None)
+DSN = os.environ.get('DSN', None)
 if DSN:
     sentry_sdk.init(
         dsn=DSN,
         integrations=[
             DjangoIntegration(),
         ],
-        enable_tracing=True
+        enable_tracing=True,
     )
 
 # Database
@@ -108,7 +98,7 @@ DATABASES = {
         'HOST': os.environ.get('DATABASE_HOST'),
         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
         'USER': os.environ.get('DATABASE_USER'),
-        'PORT': os.environ.get('DATABASE_PORT')
+        'PORT': os.environ.get('DATABASE_PORT'),
     }
 }
 
@@ -140,7 +130,7 @@ LANGUAGES = [
     ('pt-BR', _('Brazil')),
 ]
 
-DATE_FORMAT = "Y-m-d"
+DATE_FORMAT = 'Y-m-d'
 DATE_INPUT_FORMATS = ['%Y-%m-%d', '%d/%m/%Y']
 
 TIME_ZONE = 'America/Sao_Paulo'
@@ -160,35 +150,35 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 15,
-
 }
 if not DEBUG:
-    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = (
-        'rest_framework.renderers.JSONRenderer',)
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+        'rest_framework.renderers.JSONRenderer',
+    )
 
 # Login url
 
-LOGIN_URL = "/login/"
+LOGIN_URL = '/login/'
 
 # My User
 
-AUTH_USER_MODEL = "user.MAUser"
+AUTH_USER_MODEL = 'user.MAUser'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'user.authentication.EmailAuthBackend'
+    'user.authentication.EmailAuthBackend',
 ]
 
 # EMAIL
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
 
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
-EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
-EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
 
 # AWS CONFIG
 
@@ -197,13 +187,11 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY')
 AWS_REGION = os.environ.get('AWS_REGION')
 
 STATIC_URL = '/staticfiles/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
-MEDIA_URL = "/files/"
-MEDIA_ROOT = "files/"
+MEDIA_URL = '/files/'
+MEDIA_ROOT = 'files/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -217,5 +205,5 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_BROKER_URL = os.environ.get(
-    "CELERY_BROKER_URL", "pyamqp://guest@localhost//"
+    'CELERY_BROKER_URL', 'pyamqp://guest@localhost//'
 )

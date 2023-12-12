@@ -13,8 +13,16 @@ pythonpath = "./src"
 [tool.blue]
 extend-exclude = '(./**/migrations/**)'
 
+[mypy]
+exclude = [
+    '^src/(.*?)/migrations/',
+    'venv/',
+]
+
+
 [tool.taskipy.tasks]
-lint = 'ruff ./src/ && blue --check ./src/ --diff'
+lint = 'ruff ./src/ && blue --check ./src/ --diff --extend-exclude "migrations"'
 lint_fix = 'ruff ./src/ --fix && blue --check ./src/ --diff'
-checker = 'mypy src/manage.py --strict'
-format = 'blue ./src  && isort ./src'
+checker = "mypy ./src/ --strict"
+checker_strict = 'mypy src/manage.py --strict'
+format = 'blue ./src --extend-exclude "migrations"  && isort ./src'

@@ -1,5 +1,3 @@
-from django.contrib.auth.backends import BaseBackend
-
 from .models import MAUser
 
 
@@ -13,10 +11,9 @@ class EmailAuthBackend:
             return None
         except MAUser.DoesNotExist:
             return None
-        
+
     def get_user(self, user_id):
         try:
             return MAUser.objects.get(pk=user_id)
         except MAUser.DoesNotExist:
             return None
-        
