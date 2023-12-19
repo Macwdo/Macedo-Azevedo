@@ -11,7 +11,7 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     env_file: .env
     volumes:
-      - ./code:/home/app
+      - ./src:/home/app
     restart: unless-stopped
     depends_on:
       - db_ma_app
@@ -24,7 +24,7 @@ services:
       context: nginx/
       dockerfile: Dockerfile
     volumes:
-      - ./code/staticfiles:/home/app/staticfiles
+      - ./staticfiles:/home/app/staticfiles
     ports:
       - 80:80
       
@@ -53,7 +53,7 @@ services:
    image: macwdo/ma_app:latest
    command: celery -A project worker --loglevel=INFO
    volumes:
-     - ./code:/home/app
+     - ./src:/home/app
    env_file: .env
    restart: always
    depends_on:
@@ -64,7 +64,7 @@ services:
    image: macwdo/ma_app:latest
    command: celery -A project beat -l debug
    volumes:
-     - ./code:/home/app
+     - ./src:/home/app
 
    env_file: .env
    restart: always
