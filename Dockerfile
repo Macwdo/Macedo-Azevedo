@@ -15,7 +15,7 @@ ENV XDG_RUNTIME_DIR=/tmp
 RUN pip install --upgrade pip --user
 
 # Copia o código da aplicação para o diretório de trabalho
-COPY code /home/app
+COPY src /home/app
 
 # Instala as dependências do Python
 RUN pip install gunicorn
