@@ -5,7 +5,7 @@ services:
     container_name: ma_app
     image: macwdo/ma_app:latest
     ports:
-      - "8000:8000"
+      - "8080:8000"
     stdin_open: true 
     tty: true
     command: python manage.py runserver 0.0.0.0:8000
